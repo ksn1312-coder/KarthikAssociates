@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BonBon Chennai — Document Comparison Report</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal:     #1D9E75;
+  --teal-lt:  #E1F5EE;
+  --teal-mid: #5DCAA5;
+  --teal-dk:  #085041;
+  --blue:     #378ADD;
+  --blue-lt:  #E6F1FB;
+  --blue-dk:  #042C53;
+  --amber:    #EF9F27;
+  --amber-lt: #FAEEDA;
+  --amber-dk: #854F0B;
+  --red:      #E24B4A;
+  --red-lt:   #FCEBEB;
+  --red-dk:   #A32D2D;
+  --gray-lt:  #F1EFE8;
+  --gray-mid: #D3D1C7;
+  --gray:     #888780;
+  --ink:      #1C1C1A;
+  --muted:    #5F5E5A;
+  --bg:       #FAFAF8;
+  --white:    #ffffff;
+  --deep:     #0F1923;
+  --card-bg:  #ffffff;
+  --card-border: rgba(0,0,0,0.09);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--deep);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px; height: 52px;
+  border-bottom: 2px solid var(--teal);
+}
+.nav-brand { display: flex; align-items: center; gap: 10px; }
+.nav-logo {
+  width: 32px; height: 32px; border-radius: 6px;
+  background: var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: white; letter-spacing: 0.5px;
+}
+.nav-title { color: white; font-size: 13px; font-weight: 600; }
+.nav-sub { color: var(--teal-mid); font-size: 11px; }
+.hamburger { display: none; cursor: pointer; color: white; font-size: 20px; }
+.nav-links { display: flex; gap: 2px; }
+.nav-link {
+  color: rgba(255,255,255,0.6); font-size: 12px;
+  padding: 6px 10px; border-radius: 5px; cursor: pointer;
+  text-decoration: none; transition: all 0.15s;
+}
+.nav-link:hover, .nav-link.active { color: white; background: rgba(255,255,255,0.1); }
+
+/* ── HERO ── */
+.hero {
+  background: var(--deep);
+  padding: 36px 20px 40px;
+  text-align: center;
+}
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(24px, 5vw, 38px);
+  color: white; margin-bottom: 8px; line-height: 1.2;
+}
+.hero h1 span { color: var(--teal-mid); }
+.hero p { color: rgba(255,255,255,0.55); font-size: 13px; max-width: 480px; margin: 0 auto 24px; }
+.score-row {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 10px; max-width: 560px; margin: 0 auto;
+}
+.score-item {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; padding: 12px 8px; text-align: center;
+}
+.score-val { font-size: 22px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+.score-lbl { font-size: 10px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* ── LAYOUT ── */
+main { max-width: 900px; margin: 0 auto; padding: 0 16px 60px; }
+section { padding-top: 40px; }
+.section-header { margin-bottom: 20px; }
+.chip {
+  display: inline-block; background: var(--teal); color: white;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 4px 10px; border-radius: 4px;
+  margin-bottom: 8px;
+}
+.section-header h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(20px, 4vw, 28px); color: var(--ink); line-height: 1.25;
+}
+.section-header p { color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+/* ── DOC CARDS ── */
+.doc-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.doc-card {
+  border-radius: 12px; padding: 16px;
+  border: 1.5px solid; position: relative;
+}
+.doc-card.proposal { background: var(--teal-lt); border-color: var(--teal-mid); }
+.doc-card.deck { background: var(--blue-lt); border-color: var(--blue); }
+.doc-card h3 { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+.doc-card.proposal h3 { color: var(--teal-dk); }
+.doc-card.deck h3 { color: var(--blue-dk); }
+.doc-card p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.vs-badge {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  top: 50%; margin-top: -14px;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--amber); color: white;
+  font-size: 10px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 5; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* ── COMPARISON TABLE ── */
+.comp-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--card-border); margin-bottom: 20px; }
+.comp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.comp-table th {
+  font-size: 11px; font-weight: 600; padding: 10px 14px;
+  text-align: left; border-bottom: 1px solid var(--card-border);
+  white-space: nowrap;
+}
+.th-dim { background: var(--gray-lt); color: var(--muted); width: 120px; }
+.th-p { background: var(--teal-lt); color: var(--teal-dk); }
+.th-d { background: var(--blue-lt); color: var(--blue-dk); }
+.comp-table td {
+  padding: 10px 14px; vertical-align: top;
+  border-bottom: 1px solid var(--card-border);
+  font-size: 12.5px; color: var(--ink); line-height: 1.55;
+}
+.comp-table tr:last-child td { border-bottom: none; }
+.comp-table tr:nth-child(even) td { background: rgba(0,0,0,0.02); }
+.dim-cell { color: var(--muted); font-weight: 600; font-size: 11.5px; background: var(--gray-lt) !important; }
+.tag { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px; margin-bottom: 4px; }
+.tag-teal { background: var(--teal-lt); color: var(--teal-dk); }
+.tag-blue { background: var(--blue-lt); color: var(--blue-dk); }
+.tag-amber { background: var(--amber-lt); color: var(--amber-dk); }
+.tag-red { background: var(--red-lt); color: var(--red-dk); }
+.tag-gray { background: var(--gray-lt); color: var(--muted); }
+
+/* ── INSIGHT BOX ── */
+.insight {
+  border-radius: 8px; padding: 14px 16px;
+  border-left: 3px solid; margin-bottom: 16px;
+  font-size: 13px; line-height: 1.6;
+}
+.insight.amber { background: var(--amber-lt); border-color: var(--amber); color: var(--amber-dk); }
+.insight.teal { background: var(--teal-lt); border-color: var(--teal); color: var(--teal-dk); }
+.insight.blue { background: var(--blue-lt); border-color: var(--blue); color: var(--blue-dk); }
+.insight.red { background: var(--red-lt); border-color: var(--red); color: var(--red-dk); }
+.insight strong { font-weight: 700; }
+
+/* ── GAP CARDS ── */
+.gap-card {
+  border-radius: 10px; padding: 16px;
+  border-left: 4px solid; margin-bottom: 12px;
+  background: var(--card-bg);
+  border-top: 1px solid var(--card-border);
+  border-right: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--card-border);
+}
+.gap-card-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+.gap-badge {
+  font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 4px;
+  text-transform: uppercase; white-space: nowrap; margin-top: 1px;
+}
+.gap-title { font-size: 14px; font-weight: 600; line-height: 1.3; }
+.gap-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; margin-bottom: 8px; }
+.gap-action { font-size: 12px; color: var(--teal-dk); line-height: 1.5; }
+.gap-action strong { color: var(--teal); }
+
+/* ── ALIGN CARDS ── */
+.align-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-left: 4px solid var(--teal-mid);
+  border-radius: 10px; padding: 16px; margin-bottom: 12px;
+}
+.align-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.align-tick {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--teal); color: white;
+  font-size: 13px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.align-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.align-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+.bullet-list { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; }
+.bullet-item { font-size: 11.5px; color: var(--teal-dk); display: flex; gap: 6px; align-items: flex-start; }
+.bullet-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--teal); margin-top: 5px; flex-shrink: 0; }
+
+/* ── ACTION CARDS ── */
+.action-grid { display: flex; flex-direction: column; gap: 10px; }
+.action-card {
+  background: var(--card-bg); border-radius: 10px;
+  border: 1px solid var(--card-border);
+  border-left: 4px solid; padding: 16px;
+  display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start;
+}
+.action-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; color: white;
+}
+.action-content {}
+.action-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+.action-type { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
+.action-title { font-size: 13.5px; font-weight: 600; }
+.action-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+
+/* ── DIVIDER ── */
+.page-divider { height: 1px; background: var(--gray-mid); margin: 40px 0; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--deep); color: rgba(255,255,255,0.4);
+  text-align: center; font-size: 11px; padding: 20px;
+  line-height: 1.8;
+}
+footer a { color: var(--teal-mid); text-decoration: none; }
+
+/* ── MOBILE DRAWER ── */
+.mobile-menu {
+  display: none; position: fixed; top: 52px; left: 0; right: 0;
+  background: var(--deep); z-index: 99;
+  padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.mobile-menu.open { display: block; }
+.mobile-menu a {
+  display: block; color: rgba(255,255,255,0.7); font-size: 13px;
+  padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+  text-decoration: none;
+}
+.mobile-menu a:last-child { border-bottom: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .hamburger { display: block; }
+  .score-row { grid-template-columns: repeat(2, 1fr); }
+  .doc-pair { grid-template-columns: 1fr; }
+  .vs-badge { display: none; }
+  .comp-table th, .comp-table td { font-size: 11.5px; padding: 8px 10px; }
+  .th-dim, .dim-cell { display: none; }
+  .bullet-list { grid-template-columns: 1fr; }
+  .action-card { grid-template-columns: 36px 1fr; gap: 10px; }
+  .action-num { width: 28px; height: 28px; font-size: 11px; }
+  h2 { font-size: 20px !important; }
+}
+@media (max-width: 400px) {
+  .score-row { grid-template-columns: repeat(2, 1fr); }
+  .score-val { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo">BB</div>
+    <div>
+      <div class="nav-title">BonBon Chennai</div>
+      <div class="nav-sub">Document Comparison · March 2026</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a class="nav-link" href="#scope">Scope</a>
+    <a class="nav-link" href="#financials">Financials</a>
+    <a class="nav-link" href="#gaps">Gaps</a>
+    <a class="nav-link" href="#alignment">Alignment</a>
+    <a class="nav-link" href="#actions">Actions</a>
+  </div>
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#scope" onclick="toggleMenu()">Scope &amp; Scale</a>
+  <a href="#financials" onclick="toggleMenu()">Financials</a>
+  <a href="#gaps" onclick="toggleMenu()">Conflicts &amp; Gaps</a>
+  <a href="#alignment" onclick="toggleMenu()">Alignment Points</a>
+  <a href="#actions" onclick="toggleMenu()">Recommended Actions</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Franchise Proposal<br><span>vs Pitch Deck</span></h1>
+  <p>A structured comparison of both key documents — scope, financials, conflicts, gaps, and what to fix before your next investor meeting.</p>
+  <div class="score-row">
+    <div class="score-item">
+      <div class="score-val" style="color:var(--teal-mid)">7.1</div>
+      <div class="score-lbl">Viability Score</div>
+    </div>
+    <div class="score-item">
+      <div class="score-val" style="color:var(--blue)">2</div>
+      <div class="score-lbl">Docs Compared</div>
+    </div>
+    <div class="score-item">
+      <div class="score-val" style="color:var(--red)">2</div>
+      <div class="score-lbl">Conflicts</div>
+    </div>
+    <div class="score-item">
+      <div class="score-val" style="color:var(--amber)">6</div>
+      <div class="score-lbl">Gaps Found</div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- SECTION 1: SCOPE -->
+<section id="scope">
+  <div class="section-header">
+    <div class="chip">Scope &amp; Scale</div>
+    <h2>What Each Document Covers</h2>
+    <p>Two documents, two audiences, two phases of the same business.</p>
+  </div>
+
+  <div class="doc-pair" style="position:relative">
+    <div class="doc-card proposal">
+      <h3>Franchise Proposal — Palsun &amp; Co</h3>
+      <p>Single mini outlet · Pudupakkam only<br>₹25.96L investment · 1,500 sq ft<br>Franchisor's technical justification<br><strong>Audience: Karthik (franchisee)</strong></p>
+    </div>
+    <div class="vs-badge">VS</div>
+    <div class="doc-card deck">
+      <h3>HappyZone Pitch Deck — 14 Slides</h3>
+      <p>All-Chennai distribution · 7 zones<br>5-concept venue (ice cream + café + gaming + co-work + boutique)<br><strong>Audience: Investors / Partners / Banks</strong></p>
+    </div>
+  </div>
+
+  <div class="comp-table-wrap">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th class="th-dim">Dimension</th>
+          <th class="th-p">Franchise Proposal</th>
+          <th class="th-d">Pitch Deck</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="dim-cell">Geography</td>
+          <td><div class="tag tag-teal">1 outlet</div><br>Pudupakkam only · 10 km delivery radius · local Swiggy/Zomato zone</td>
+          <td><div class="tag tag-blue">7 zones</div><br>All of Chennai — N-OMR, S-OMR, Tambaram, Velachery, Anna Nagar, T.Nagar, ECR</td>
+        </tr>
+        <tr>
+          <td class="dim-cell">Business model</td>
+          <td>Single outlet + B2B arm (hostels, weddings, hotels) from one stock point behind shop</td>
+          <td>Master Distributor + HappyZone 5-concept venue. BonBon is one of five revenue streams.</td>
+        </tr>
+        <tr>
+          <td class="dim-cell">Venue concept</td>
+          <td><div class="tag tag-amber">Not mentioned</div><br>Pure BonBon ice cream parlour only. No café, gaming, co-working, or boutique.</td>
+          <td><div class="tag tag-blue">Core asset</div><br>HappyZone is the primary brand. BonBon is 1 of 5 revenue streams in a multi-concept hub.</td>
+        </tr>
+        <tr>
+          <td class="dim-cell">Outlet size</td>
+          <td>1,500 sq ft total (10×15 ft serving area + storage + stock point)</td>
+          <td>1,200–1,800 sq ft with allocation: BonBon 200 · Café 300 · Co-work 250 · Gaming 250 · Boutique 300 · Cold 150</td>
+        </tr>
+        <tr>
+          <td class="dim-cell">B2B scope</td>
+          <td>Hostels, hotels, weddings within 10–25 km. One delivery vehicle (auto/EV ₹5L).</td>
+          <td>Sub-distributors per zone · IT canteens · apartment complexes across all 7 Chennai zones</td>
+        </tr>
+        <tr>
+          <td class="dim-cell">Staff model</td>
+          <td>4 staff: 2 counter (₹21K ea) · 1 cleaning (₹18K) · 1 marketing/B2B (₹30K) → Total ₹90K/mo</td>
+          <td>6–7 staff: barista · counter · gaming attendant · stylist · 2× billing · owner on floor → ₹72K–₹1.26L/mo</td>
+        </tr>
+        <tr>
+          <td class="dim-cell">Brand identity</td>
+          <td>BonBon-branded outlet. Franchisor provides full brand kit, signage, interior specs, Coimbatore training.</td>
+          <td>HappyZone is primary identity. BonBon is sub-brand. Operated by Kiruthika Creations.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="insight teal">
+    <strong>Key insight:</strong> These documents describe two phases of one business. The Proposal is Phase 1 (the outlet); the Pitch Deck is the full vision. They are complementary — not contradictory. But an investor reading both without context will be confused. A single "Phase 1 vs Full Vision" slide in the Deck fixes this immediately.
+  </div>
+</section>
+
+<div class="page-divider"></div>
+
+<!-- SECTION 2: FINANCIALS -->
+<section id="financials">
+  <div class="section-header">
+    <div class="chip">Financials</div>
+    <h2>How the Numbers Compare</h2>
+    <p>Where the projections align — and where they conflict.</p>
+  </div>
+
+  <div class="comp-table-wrap">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th class="th-dim">Metric</th>
+          <th class="th-p">Franchise Proposal</th>
+          <th class="th-d">Pitch Deck</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="dim-cell">Total investment</td>
+          <td><strong>₹25.96L</strong> (fully itemised)<br>Equipment ₹5.65L · Interiors ₹3.22L<br>Stock point ₹9.89L · Vehicle ₹5L<br>Stock + WC ₹2.2L</td>
+          <td><div class="tag tag-red">Not stated</div><br>Capex table in companion Excel (low/high). Venue startup implied ₹20–40L. Franchise fee not disclosed.</td>
+        </tr>
+        <tr>
+          <td class="dim-cell">Monthly revenue (stabilised)</td>
+          <td><strong>₹2.55L – ₹12.34L/mo</strong><br>Conservative / Moderate / Optimistic<br>Outlet + B2B only (single location)</td>
+          <td><strong>₹4.5L – ₹7.5L/mo</strong><br>Month 4+ stabilised range<br>All 5 revenue streams included<br>Distribution adds ₹80K–₹2.1L from M7</td>
+        </tr>
+        <tr>
+          <td class="dim-cell">Monthly OpEx</td>
+          <td><strong>₹1.70L – ₹1.78L</strong><br>Rent ₹27K · Staff ₹90K · EB ₹40K · Misc ₹8–13K</td>
+          <td><strong>₹2.5L – ₹3.5L</strong> (excl. salaries)<br>Higher due to 5-stream operations<br>Gaming hardware, AC for co-working<br>7.5–10 KVA genset diesel ₹8–12K/mo</td>
+        </tr>
+        <tr>
+          <td class="dim-cell">Net profit (stabilised)</td>
+          <td><strong>₹33K – ₹2.02L/mo</strong><br>Moderate to Optimistic<br>Post month 6 ramp-up</td>
+          <td><strong>₹74K – ₹1.74L/mo</strong><br>Month 4+ stabilised<br>Distribution adds further upside from M7</td>
+        </tr>
+        <tr>
+          <td class="dim-cell">Payback period</td>
+          <td><strong>13 – 28 months</strong><br>Optimistic: 13 mo · Blended: ~28 mo<br>Full capex recovery</td>
+          <td><div class="tag tag-amber">⚠ Ambiguous</div><br><strong>6 – 9 months</strong> (framed as breakeven)<br>Refers to operating breakeven only<br>Investors may assume full payback</td>
+        </tr>
+        <tr>
+          <td class="dim-cell">Gross margin</td>
+          <td><strong>Retail: 40% gross</strong><br>B2B: 15% markup on tubs<br>Scoops: 10–17% raw material cost<br>Detailed item-level proof provided</td>
+          <td><strong>25% blended margin</strong> (Slide 1 KPI)<br>Not broken down by revenue stream<br>Scoop-level economics not shown in deck</td>
+        </tr>
+        <tr>
+          <td class="dim-cell">Power backup</td>
+          <td><div class="tag tag-red">⚠ Conflict</div><br><strong>30 KVA generator · ₹5.64L</strong><br>For 10 deep freezers + stock point<br>Running 24/7 for B2B cold chain</td>
+          <td><div class="tag tag-red">⚠ Conflict</div><br><strong>7.5–10 KVA DG set</strong><br>₹8–12K/month diesel<br>Same location — specs directly conflict</td>
+        </tr>
+        <tr>
+          <td class="dim-cell">Working capital</td>
+          <td><strong>₹1.0L allocated</strong><br>~5–6 weeks coverage<br>Insufficient for 4-month ramp (₹88K/mo loss)<br>Recommend ₹2.5–3L</td>
+          <td>Not stated<br>Breakeven framed as 6–9 months<br>Multi-stream revenue may offset burn</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="insight red">
+    <strong>Conflict:</strong> Generator spec — 30 KVA (Proposal) vs 7.5–10 KVA (Deck) for the same physical location. This is the first thing a sharp investor or banker will catch. Resolve before any presentation.
+  </div>
+  <div class="insight amber">
+    <strong>Watch:</strong> The Deck's "6–9 months breakeven" sounds like full ROI recovery to an investor. The Proposal shows full payback is 13–28 months. Clarify the definition in the Deck.
+  </div>
+</section>
+
+<div class="page-divider"></div>
+
+<!-- SECTION 3: GAPS -->
+<section id="gaps">
+  <div class="section-header">
+    <div class="chip">Conflicts &amp; Gaps</div>
+    <h2>What Needs to Be Fixed</h2>
+    <p>Direct contradictions and missing information across both documents.</p>
+  </div>
+
+  <h3 style="font-size:13px;font-weight:700;color:var(--red-dk);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px">Direct Conflicts</h3>
+
+  <div class="gap-card" style="border-left-color:var(--red)">
+    <div class="gap-card-header">
+      <span class="gap-badge" style="background:var(--red-lt);color:var(--red-dk)">Conflict</span>
+      <div class="gap-title">Generator Specification Mismatch</div>
+    </div>
+    <div class="gap-desc">The Franchise Proposal specifies a 30 KVA generator (₹5.64L) to run 10 deep freezers 24/7 for B2B cold chain. The Pitch Deck calls for a 7.5–10 KVA unit for outlet + gaming + cold storage. These describe the same physical location with fundamentally different power infrastructure — one cannot be right without making the other wrong.</div>
+    <div class="gap-action"><strong>Action:</strong> Decide the final spec. B2B hub = 30 KVA (₹5.64L). Outlet-first = 10 KVA (~₹1.5L). If phased, show Phase 1 and Phase 2 capex separately in the Excel and both documents.</div>
+  </div>
+
+  <div class="gap-card" style="border-left-color:var(--red)">
+    <div class="gap-card-header">
+      <span class="gap-badge" style="background:var(--red-lt);color:var(--red-dk)">Conflict</span>
+      <div class="gap-title">Multi-Concept vs Single-Brand Outlet</div>
+    </div>
+    <div class="gap-desc">The Proposal describes a pure BonBon ice cream parlour with a back-room stock point. The Pitch Deck describes HappyZone — a 5-concept lifestyle venue where BonBon is one of five revenue streams. These are materially different setups with different floor plans, licensing, staff skills, and brand arrangements.</div>
+    <div class="gap-action"><strong>Action:</strong> Confirm whether BonBon Coimbatore has sanctioned the multi-concept layout. The franchise agreement may restrict branding or space usage. Add a clarification note or slide to the Deck.</div>
+  </div>
+
+  <h3 style="font-size:13px;font-weight:700;color:var(--amber-dk);text-transform:uppercase;letter-spacing:0.06em;margin:20px 0 12px">Information Gaps</h3>
+
+  <div class="gap-card" style="border-left-color:var(--amber)">
+    <div class="gap-card-header">
+      <span class="gap-badge" style="background:var(--amber-lt);color:var(--amber-dk)">Gap</span>
+      <div class="gap-title">Franchise Fee Not Disclosed</div>
+    </div>
+    <div class="gap-desc">Neither document states the one-time franchise fee payable to BonBon Coimbatore. This is a material capex line item — every investor and banker will ask for it.</div>
+    <div class="gap-action"><strong>Action:</strong> Obtain from the franchise agreement. Add to the Excel Capex sheet and the Pitch Deck investment slide. Include in the ₹25.96L total or as a separate line.</div>
+  </div>
+
+  <div class="gap-card" style="border-left-color:var(--amber)">
+    <div class="gap-card-header">
+      <span class="gap-badge" style="background:var(--amber-lt);color:var(--amber-dk)">Gap</span>
+      <div class="gap-title">No Launch Marketing Budget</div>
+    </div>
+    <div class="gap-desc">Both documents are silent on what it costs to acquire the first walk-in customers — Swiggy/Zomato onboarding, opening promotions, social media setup, apartment flyers. Walk-in ramp depends on awareness.</div>
+    <div class="gap-action"><strong>Action:</strong> Add ₹50K–₹75K as a one-time launch budget. Include in capex (Excel) and in the OpEx section of the Proposal and Operations slide of the Deck.</div>
+  </div>
+
+  <div class="gap-card" style="border-left-color:var(--blue)">
+    <div class="gap-card-header">
+      <span class="gap-badge" style="background:var(--blue-lt);color:var(--blue-dk)">Gap — Deck</span>
+      <div class="gap-title">Competitor Analysis Missing from Pitch Deck</div>
+    </div>
+    <div class="gap-desc">The detailed Google Maps competitor survey (ibaco 5 km away, no Polar Bear or Giani in the micro-market, Baskin Robbins at premium pricing) exists in the Proposal but not in the Deck. It is your strongest defensible market claim.</div>
+    <div class="gap-action"><strong>Action:</strong> Add 4–5 key data points to Slide 2 (Market Opportunity). "Zero dedicated ice cream parlour in Pudupakkam" is a single line that investors will remember.</div>
+  </div>
+
+  <div class="gap-card" style="border-left-color:var(--blue)">
+    <div class="gap-card-header">
+      <span class="gap-badge" style="background:var(--blue-lt);color:var(--blue-dk)">Gap — Deck</span>
+      <div class="gap-title">7-Zone Rollout Has No Unit Economics</div>
+    </div>
+    <div class="gap-desc">The Deck promises 7-zone coverage but doesn't show how each zone's economics stack. The Proposal shows the Pudupakkam model clearly. The Deck should summarise it.</div>
+    <div class="gap-action"><strong>Action:</strong> Add a 'Zone Economics Summary' table to the Revenue Model slide: avg units/zone, revenue/zone, contribution margin. The Excel has this data — surface it in the deck.</div>
+  </div>
+
+  <div class="gap-card" style="border-left-color:var(--gray)">
+    <div class="gap-card-header">
+      <span class="gap-badge" style="background:var(--gray-lt);color:var(--muted)">Gap — Both</span>
+      <div class="gap-title">Working Capital Buffer Understated</div>
+    </div>
+    <div class="gap-desc">The Proposal allocates ₹1L working capital — enough for ~5 weeks during a 4-month loss period of ₹88K/month. This is a 3.4-month shortfall that could stall the business before it reaches breakeven.</div>
+    <div class="gap-action"><strong>Action:</strong> Increase working capital provision to ₹2.5–3L. Update the Proposal capex table, Excel Capex sheet. Total investment rises to ~₹27.5–28.5L.</div>
+  </div>
+</section>
+
+<div class="page-divider"></div>
+
+<!-- SECTION 4: ALIGNMENT -->
+<section id="alignment">
+  <div class="section-header">
+    <div class="chip">Alignment Points</div>
+    <h2>Where Both Documents Agree</h2>
+    <p>Six areas of strong consistency that form the backbone of your investor narrative.</p>
+  </div>
+
+  <div class="align-card">
+    <div class="align-header">
+      <div class="align-tick">✓</div>
+      <div class="align-title">Location &amp; Catchment Analysis</div>
+    </div>
+    <div class="align-desc">Both documents reference Isha Mia Villas, Pudupakkam OMR, 15,000+ households, and the IT professional demographic. The market narrative is coherent across both — a consistent story investors can trust.</div>
+    <div class="bullet-list">
+      <div class="bullet-item"><div class="bullet-dot"></div>15,000+ households · 10 km delivery radius</div>
+      <div class="bullet-item"><div class="bullet-dot"></div>IT engineers 60–70% of residents</div>
+      <div class="bullet-item"><div class="bullet-dot"></div>₹8–15 LPA dominant income band</div>
+      <div class="bullet-item"><div class="bullet-dot"></div>Adjacent to SIPCOT IT Park (Asia's largest)</div>
+    </div>
+  </div>
+
+  <div class="align-card">
+    <div class="align-header">
+      <div class="align-tick">✓</div>
+      <div class="align-title">B2B Channel Strategy</div>
+    </div>
+    <div class="align-desc">Both documents identify the same three B2B channels: university hostels, wedding halls, and hotels. The Proposal has granular economics; the Deck has city-wide ambition. Together they tell a complete story.</div>
+    <div class="bullet-list">
+      <div class="bullet-item"><div class="bullet-dot"></div>29,400+ hostel beds · 8 universities within 25 km</div>
+      <div class="bullet-item"><div class="bullet-dot"></div>19 wedding halls within 15 km</div>
+      <div class="bullet-item"><div class="bullet-dot"></div>Hotels/restaurants along OMR corridor</div>
+      <div class="bullet-item"><div class="bullet-dot"></div>15% markup model on frozen dessert tubs</div>
+    </div>
+  </div>
+
+  <div class="align-card">
+    <div class="align-header">
+      <div class="align-tick">✓</div>
+      <div class="align-title">Phase-Based Execution</div>
+    </div>
+    <div class="align-desc">Both documents structure growth in phases. The Proposal's 12-month Gantt (Foundation → Soft Launch → Expansion → Full Scale) mirrors the Deck's phased rollout. The vocabulary differs but the logic is identical.</div>
+    <div class="bullet-list">
+      <div class="bullet-item"><div class="bullet-dot"></div>Phase 1: Setup &amp; FSSAI licensing</div>
+      <div class="bullet-item"><div class="bullet-dot"></div>Phase 2: Outlet launch + platforms live</div>
+      <div class="bullet-item"><div class="bullet-dot"></div>Phase 3: Hostel &amp; B2B contracts signed</div>
+      <div class="bullet-item"><div class="bullet-dot"></div>Phase 4: Full zone coverage</div>
+    </div>
+  </div>
+
+  <div class="align-card">
+    <div class="align-header">
+      <div class="align-tick">✓</div>
+      <div class="align-title">Swiggy/Zomato as Core Channel</div>
+    </div>
+    <div class="align-desc">Both documents treat online delivery as a primary revenue driver from Day 1 — not an afterthought. The Proposal models 8–30 online orders/day at ₹220 average. The Deck flags Zomato/Swiggy listing as Day 1 priority in Operations.</div>
+    <div class="bullet-list">
+      <div class="bullet-item"><div class="bullet-dot"></div>8–30 online orders/day across scenarios</div>
+      <div class="bullet-item"><div class="bullet-dot"></div>₹220 average Swiggy/Zomato order value</div>
+      <div class="bullet-item"><div class="bullet-dot"></div>10 km radius = 15,000+ reachable households</div>
+      <div class="bullet-item"><div class="bullet-dot"></div>Listed on Day 1 per Deck operations plan</div>
+    </div>
+  </div>
+
+  <div class="align-card">
+    <div class="align-header">
+      <div class="align-tick">✓</div>
+      <div class="align-title">Realistic Risk Acknowledgement</div>
+    </div>
+    <div class="align-desc">Both documents acknowledge the slow ramp-up and the importance of B2B sales as a revenue accelerator. Neither oversells — both are honest about the 3–4 month build phase before operating profitability.</div>
+    <div class="bullet-list">
+      <div class="bullet-item"><div class="bullet-dot"></div>Conservative scenario models ₹88K/mo loss (M1–M4)</div>
+      <div class="bullet-item"><div class="bullet-dot"></div>B2B sales person (₹30K/mo) flagged as critical hire</div>
+      <div class="bullet-item"><div class="bullet-dot"></div>Cold chain reliability identified as key risk</div>
+      <div class="bullet-item"><div class="bullet-dot"></div>Brand recognition in Chennai acknowledged</div>
+    </div>
+  </div>
+
+  <div class="align-card">
+    <div class="align-header">
+      <div class="align-tick">✓</div>
+      <div class="align-title">Pudupakkam as Strategic Asset</div>
+    </div>
+    <div class="align-desc">Both documents treat the location as a strategic asset — not just an address. Proximity to residential developments, IT corridor, and lifestyle demographics is central to both the market analysis and the HQ Advantage slide.</div>
+    <div class="bullet-list">
+      <div class="bullet-item"><div class="bullet-dot"></div>Adjacent to Isha Mia Villas (10-acre premium community)</div>
+      <div class="bullet-item"><div class="bullet-dot"></div>Provident Cosmo City (2,174 flats) within 1 km</div>
+      <div class="bullet-item"><div class="bullet-dot"></div>OMR corridor: IT parks, highways, residential growth</div>
+      <div class="bullet-item"><div class="bullet-dot"></div>Zero dedicated ice cream parlour in Pudupakkam</div>
+    </div>
+  </div>
+</section>
+
+<div class="page-divider"></div>
+
+<!-- SECTION 5: ACTIONS -->
+<section id="actions">
+  <div class="section-header">
+    <div class="chip">Recommended Actions</div>
+    <h2>What to Fix — In Order</h2>
+    <p>Eight specific steps to reconcile, strengthen, and align both documents before investor outreach.</p>
+  </div>
+
+  <div class="action-grid">
+
+    <div class="action-card" style="border-left-color:var(--red)">
+      <div class="action-num" style="background:var(--red)">01</div>
+      <div class="action-content">
+        <div class="action-header">
+          <span class="action-type" style="background:var(--red-lt);color:var(--red-dk)">Reconcile</span>
+          <span class="action-title">Fix the Generator Specification</span>
+        </div>
+        <div class="action-desc">Decide before any investor meeting. B2B hub = 30 KVA (₹5.64L). Outlet-first = 10 KVA (~₹1.5L). If phased, show Phase 1 and Phase 2 capex separately. Update both the Proposal's capex table and the Pitch Deck's Operations slide and Excel Capex sheet.</div>
+      </div>
+    </div>
+
+    <div class="action-card" style="border-left-color:var(--red)">
+      <div class="action-num" style="background:var(--red)">02</div>
+      <div class="action-content">
+        <div class="action-header">
+          <span class="action-type" style="background:var(--red-lt);color:var(--red-dk)">Reconcile</span>
+          <span class="action-title">Clarify Breakeven vs Payback Language</span>
+        </div>
+        <div class="action-desc">Change the Pitch Deck from "6–9 months breakeven" to "6–9 months to operating breakeven (monthly OpEx covered); 20–28 months for full capex recovery." This is honest, consistent with the Proposal's projections, and still compelling.</div>
+      </div>
+    </div>
+
+    <div class="action-card" style="border-left-color:var(--teal)">
+      <div class="action-num" style="background:var(--teal)">03</div>
+      <div class="action-content">
+        <div class="action-header">
+          <span class="action-type" style="background:var(--teal-lt);color:var(--teal-dk)">Add to Deck</span>
+          <span class="action-title">Add a "Phase 1 vs Full Vision" Slide</span>
+        </div>
+        <div class="action-desc">Investors need to understand that Phase 1 is the Pudupakkam mini outlet (₹25.96L, proven Proposal model) and Phase 2 is the 7-zone Master Franchise rollout. A single slide showing this progression removes all confusion between the two documents.</div>
+      </div>
+    </div>
+
+    <div class="action-card" style="border-left-color:var(--teal)">
+      <div class="action-num" style="background:var(--teal)">04</div>
+      <div class="action-content">
+        <div class="action-header">
+          <span class="action-type" style="background:var(--teal-lt);color:var(--teal-dk)">Add to Deck</span>
+          <span class="action-title">Add Competitor Gap Evidence to Slide 2</span>
+        </div>
+        <div class="action-desc">The Google Maps survey (zero ice cream parlour in Pudupakkam, ibaco 5 km away, no Polar Bear or Giani in the corridor) is your strongest defensible market claim. It exists in the Proposal — add 4–5 key data points to the Market Opportunity slide in the Deck.</div>
+      </div>
+    </div>
+
+    <div class="action-card" style="border-left-color:var(--amber)">
+      <div class="action-num" style="background:var(--amber)">05</div>
+      <div class="action-content">
+        <div class="action-header">
+          <span class="action-type" style="background:var(--amber-lt);color:var(--amber-dk)">Update</span>
+          <span class="action-title">Add Franchise Fee to Investment Table</span>
+        </div>
+        <div class="action-desc">Obtain the one-time BonBon franchise fee from the agreement with BonBon Coimbatore. Add it to the ₹25.96L total in the Proposal's capex summary and Excel Capex sheet. Presenting an incomplete investment figure to investors is a credibility risk.</div>
+      </div>
+    </div>
+
+    <div class="action-card" style="border-left-color:var(--amber)">
+      <div class="action-num" style="background:var(--amber)">06</div>
+      <div class="action-content">
+        <div class="action-header">
+          <span class="action-type" style="background:var(--amber-lt);color:var(--amber-dk)">Update</span>
+          <span class="action-title">Increase Working Capital Provision</span>
+        </div>
+        <div class="action-desc">Raise working capital from ₹1L to ₹2.5–3L. Conservative scenario shows ₹88K/mo loss for months 1–4. Three months of buffer = ₹2.64L minimum. Update the Proposal capex table and Excel. Total investment rises to ~₹27.5–28.5L.</div>
+      </div>
+    </div>
+
+    <div class="action-card" style="border-left-color:var(--teal)">
+      <div class="action-num" style="background:var(--teal)">07</div>
+      <div class="action-content">
+        <div class="action-header">
+          <span class="action-type" style="background:var(--teal-lt);color:var(--teal-dk)">Add to Deck</span>
+          <span class="action-title">Add Scoop-Level Margin Proof to Revenue Slide</span>
+        </div>
+        <div class="action-desc">Add 2–3 lines to the Revenue Model slide: ₹325/tub → 35 scoops → ₹84/scoop → 10–17% raw material cost → 40% gross margin. Investors who ask "how do you make money on ice cream?" deserve a concrete, memorable answer. The numbers are already in the Proposal.</div>
+      </div>
+    </div>
+
+    <div class="action-card" style="border-left-color:var(--blue)">
+      <div class="action-num" style="background:var(--blue)">08</div>
+      <div class="action-content">
+        <div class="action-header">
+          <span class="action-type" style="background:var(--blue-lt);color:var(--blue-dk)">Add to Both</span>
+          <span class="action-title">Add Launch Marketing Budget Line</span>
+        </div>
+        <div class="action-desc">Add ₹50K–₹75K as a one-time launch budget covering: Swiggy/Zomato onboarding support, opening week offers, apartment complex flyers, Instagram/GMB setup. Add to capex in the Excel and the OpEx section of the Proposal and Operations slide of the Deck.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div>BonBon Ice Creams · HappyZone · Kiruthika Creations</div>
+  <div>In front of Isha Mia Villas, Pudupakkam, Chennai — OMR Corridor</div>
+  <div style="margin-top:8px">Confidential · For Internal Use Only · March 2026</div>
+</footer>
+
+<script>
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+document.querySelectorAll('.nav-link, .mobile-menu a').forEach(link => {
+  link.addEventListener('click', function() {
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+// Highlight active nav on scroll
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) current = s.id;
+  });
+  document.querySelectorAll('.nav-link').forEach(l => {
+    l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+</body>
+</html>
