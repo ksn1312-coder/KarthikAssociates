@@ -1,0 +1,1575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0">
+<meta name="theme-color" content="#0A0F1E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Sacred Voices · Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0A0F1E;
+  --bg2:       #0F1628;
+  --card:      #141C35;
+  --card2:     #1A2444;
+  --gold:      #D4A843;
+  --gold2:     #F0C866;
+  --gold3:     #8B6914;
+  --goldGlow:  rgba(212,168,67,0.18);
+  --cyan:      #38BDF8;
+  --cyanGlow:  rgba(56,189,248,0.15);
+  --green:     #34D399;
+  --greenGlow: rgba(52,211,153,0.15);
+  --rose:      #F87171;
+  --purple:    #A78BFA;
+  --white:     #FFFFFF;
+  --offW:      #CBD5E1;
+  --muted:     #64748B;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.12);
+  --serif:     'Playfair Display', Georgia, serif;
+  --sans:      'DM Sans', system-ui, sans-serif;
+  --safe-top:  env(safe-area-inset-top, 0px);
+  --safe-bot:  env(safe-area-inset-bottom, 0px);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--offW);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+/* ── PHONE SHELL ── */
+#app {
+  position: fixed; inset: 0;
+  display: flex; flex-direction: column;
+  max-width: 430px; margin: 0 auto;
+  background: var(--bg);
+  box-shadow: 0 0 80px rgba(0,0,0,.8);
+  overflow: hidden;
+}
+
+/* ── STATUS BAR ── */
+#status-bar {
+  background: var(--bg);
+  padding: calc(var(--safe-top) + 12px) 20px 8px;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-shrink: 0;
+}
+.sb-time { font-size: 14px; font-weight: 600; color: var(--white); }
+.sb-icons { display: flex; gap: 5px; align-items: center; }
+.sb-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--white); opacity: .7; }
+.sb-bar { width: 3px; border-radius: 2px; background: var(--white); }
+
+/* ── SCREEN CONTAINER ── */
+#screens {
+  flex: 1; overflow: hidden; position: relative;
+}
+.screen {
+  position: absolute; inset: 0;
+  overflow-y: auto; overflow-x: hidden;
+  display: none; flex-direction: column;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.screen::-webkit-scrollbar { display: none; }
+.screen.active { display: flex; }
+
+/* ── BOTTOM NAV ── */
+#bottom-nav {
+  background: rgba(14,20,40,0.96);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  padding: 8px 0 calc(var(--safe-bot) + 8px);
+  display: flex; justify-content: space-around;
+  flex-shrink: 0;
+}
+.nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 4px 16px; cursor: pointer; transition: all .2s;
+  border-radius: 12px;
+}
+.nav-item.active .nav-icon { color: var(--gold2); }
+.nav-item.active .nav-label { color: var(--gold2); }
+.nav-icon { font-size: 20px; color: var(--muted); transition: color .2s; }
+.nav-label { font-size: 10px; color: var(--muted); font-weight: 500; transition: color .2s; }
+
+/* ═══════════════════════════════════════
+   SCREEN 1: HOME / EXPLORE
+═══════════════════════════════════════ */
+#s-home {
+  background: linear-gradient(180deg, #0A0F1E 0%, #0F1628 100%);
+}
+
+.home-header {
+  padding: 16px 20px 12px;
+  display: flex; justify-content: space-between; align-items: flex-start;
+}
+.home-greeting { font-size: 13px; color: var(--muted); }
+.home-title {
+  font-family: var(--serif); font-size: 24px; font-weight: 700;
+  color: var(--white); margin-top: 2px;
+}
+.home-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold3), var(--gold));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; color: var(--bg); flex-shrink: 0;
+}
+
+/* Faith filter pills */
+.faith-filters {
+  display: flex; gap: 8px; padding: 0 20px 16px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.faith-filters::-webkit-scrollbar { display: none; }
+.faith-pill {
+  flex-shrink: 0; padding: 6px 14px; border-radius: 20px;
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  border: 1.5px solid var(--border2); color: var(--muted);
+  background: var(--card); transition: all .2s;
+  display: flex; align-items: center; gap: 5px;
+}
+.faith-pill.active {
+  background: var(--goldGlow); border-color: var(--gold);
+  color: var(--gold2);
+}
+
+/* Featured card */
+.featured-card {
+  margin: 0 20px 16px;
+  background: linear-gradient(135deg, #1A2444 0%, #0F1628 60%);
+  border: 1px solid rgba(212,168,67,0.25);
+  border-radius: 20px; padding: 20px;
+  position: relative; overflow: hidden; cursor: pointer;
+  transition: transform .2s;
+  min-height: 180px;
+}
+.featured-card:active { transform: scale(0.98); }
+.fc-glow {
+  position: absolute; top: -40px; right: -40px;
+  width: 180px; height: 180px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,168,67,.2) 0%, transparent 70%);
+}
+.fc-symbol { font-size: 48px; margin-bottom: 10px; }
+.fc-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  color: var(--gold); text-transform: uppercase; margin-bottom: 6px;
+}
+.fc-name {
+  font-family: var(--serif); font-size: 22px; font-weight: 700;
+  color: var(--white); line-height: 1.2; margin-bottom: 6px;
+}
+.fc-meta { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+.fc-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--gold); color: var(--bg);
+  padding: 8px 16px; border-radius: 20px;
+  font-size: 12px; font-weight: 700; cursor: pointer;
+}
+.fc-langs {
+  position: absolute; bottom: 20px; right: 20px;
+  display: flex; gap: 4px;
+}
+.fc-lang-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold); opacity: .5;
+}
+.fc-lang-dot:first-child { opacity: 1; }
+
+/* Section heading */
+.sec-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 20px 12px;
+}
+.sec-title {
+  font-size: 15px; font-weight: 700; color: var(--white);
+}
+.sec-more { font-size: 12px; color: var(--gold); cursor: pointer; }
+
+/* Site cards scroll row */
+.cards-scroll {
+  display: flex; gap: 12px; padding: 0 20px 20px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.cards-scroll::-webkit-scrollbar { display: none; }
+.site-card {
+  flex-shrink: 0; width: 140px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 14px 12px;
+  cursor: pointer; transition: all .2s;
+}
+.site-card:active { transform: scale(0.96); }
+.sc-icon { font-size: 28px; margin-bottom: 8px; }
+.sc-name {
+  font-size: 12px; font-weight: 600; color: var(--white);
+  margin-bottom: 4px; line-height: 1.3;
+}
+.sc-loc { font-size: 10px; color: var(--muted); margin-bottom: 8px; }
+.sc-langs {
+  font-size: 10px; color: var(--gold);
+  background: var(--goldGlow); padding: 3px 8px;
+  border-radius: 10px; display: inline-block;
+}
+
+/* Recently played */
+.recent-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 20px; cursor: pointer;
+  transition: background .15s; border-radius: 12px; margin: 0 8px;
+}
+.recent-item:active { background: var(--card); }
+.ri-icon {
+  width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 22px;
+}
+.ri-info { flex: 1; min-width: 0; }
+.ri-name { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ri-meta { font-size: 11px; color: var(--muted); }
+.ri-play {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--card2); display: flex; align-items: center;
+  justify-content: center; font-size: 12px; flex-shrink: 0;
+  border: 1px solid var(--border2);
+}
+
+/* ═══════════════════════════════════════
+   SCREEN 2: PLAYER (SITE DETAIL)
+═══════════════════════════════════════ */
+#s-player {
+  background: linear-gradient(180deg, #131B38 0%, #0A0F1E 100%);
+}
+
+.player-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 20px; flex-shrink: 0;
+}
+.back-btn {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--card); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px; flex-shrink: 0;
+  transition: background .15s;
+}
+.back-btn:active { background: var(--card2); }
+.ph-title { font-size: 15px; font-weight: 600; color: var(--white); }
+.ph-opts {
+  margin-left: auto; width: 36px; height: 36px; border-radius: 10px;
+  background: var(--card); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 18px; flex-shrink: 0;
+}
+
+/* Hero art */
+.player-art {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 20px 20px 16px;
+}
+.art-circle {
+  width: 180px; height: 180px; border-radius: 50%;
+  background: linear-gradient(135deg, #1E2D5A 0%, #0F1628 100%);
+  border: 2px solid rgba(212,168,67,.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 72px; position: relative; margin-bottom: 20px;
+  box-shadow: 0 0 60px rgba(212,168,67,.15);
+}
+.art-ring {
+  position: absolute; inset: -10px; border-radius: 50%;
+  border: 1px solid rgba(212,168,67,.1);
+}
+.art-ring2 {
+  position: absolute; inset: -20px; border-radius: 50%;
+  border: 1px solid rgba(212,168,67,.05);
+}
+
+/* Waveform */
+#waveform {
+  display: flex; align-items: center; gap: 2px;
+  height: 40px; margin-bottom: 4px;
+}
+.wave-bar {
+  width: 3px; border-radius: 2px;
+  background: linear-gradient(180deg, var(--gold2), var(--gold3));
+  opacity: .5; transition: height .1s ease, opacity .2s;
+}
+.wave-bar.active { opacity: 1; }
+
+/* Site info */
+.site-info { text-align: center; padding: 0 20px 16px; }
+.si-faith {
+  font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+  color: var(--gold); text-transform: uppercase; margin-bottom: 4px;
+}
+.si-name {
+  font-family: var(--serif); font-size: 26px; font-weight: 700;
+  color: var(--white); margin-bottom: 4px;
+}
+.si-loc { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+
+/* Mode tabs */
+.mode-tabs {
+  display: flex; gap: 8px; justify-content: center; margin-bottom: 16px;
+}
+.mode-tab {
+  padding: 6px 14px; border-radius: 20px;
+  font-size: 11px; font-weight: 600; cursor: pointer;
+  background: var(--card); border: 1.5px solid var(--border);
+  color: var(--muted); transition: all .2s;
+}
+.mode-tab.active {
+  background: var(--goldGlow); border-color: var(--gold);
+  color: var(--gold2);
+}
+
+/* Language selector */
+.lang-strip {
+  display: flex; gap: 8px; padding: 0 20px 16px;
+  overflow-x: auto; scrollbar-width: none; justify-content: center; flex-wrap: wrap;
+}
+.lang-btn {
+  padding: 6px 12px; border-radius: 20px;
+  font-size: 11px; font-weight: 600; cursor: pointer;
+  background: var(--card); border: 1px solid var(--border);
+  color: var(--muted); transition: all .2s; flex-shrink: 0;
+}
+.lang-btn.active {
+  background: rgba(56,189,248,.12); border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+/* Progress bar */
+.progress-area { padding: 0 20px 8px; }
+.time-bar { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 11px; color: var(--muted); }
+.seek-bar {
+  height: 4px; background: var(--card2); border-radius: 2px;
+  position: relative; cursor: pointer;
+}
+.seek-fill {
+  height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, var(--gold3), var(--gold2));
+  transition: width .5s linear;
+}
+.seek-thumb {
+  position: absolute; top: 50%; right: 0; transform: translate(50%, -50%);
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--gold2); border: 2px solid var(--bg);
+  box-shadow: 0 0 8px rgba(212,168,67,.5);
+}
+
+/* Player controls */
+.player-controls {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 4px 24px 16px;
+}
+.ctrl-btn {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 20px; transition: all .15s;
+  color: var(--muted);
+}
+.ctrl-btn:active { transform: scale(0.88); color: var(--offW); }
+.play-btn {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--gold); display: flex; align-items: center;
+  justify-content: center; cursor: pointer;
+  font-size: 26px; transition: all .15s;
+  box-shadow: 0 4px 20px rgba(212,168,67,.35);
+}
+.play-btn:active { transform: scale(0.92); }
+.play-btn .icon-play { margin-left: 3px; }
+
+/* Info tabs */
+.info-tabs {
+  display: flex; border-top: 1px solid var(--border);
+}
+.info-tab {
+  flex: 1; padding: 10px 0; text-align: center;
+  font-size: 12px; font-weight: 600; color: var(--muted);
+  cursor: pointer; transition: color .2s;
+  border-bottom: 2px solid transparent;
+}
+.info-tab.active { color: var(--gold2); border-bottom-color: var(--gold); }
+
+.info-panel { padding: 16px 20px; flex: 1; }
+.info-para { font-size: 13px; color: var(--offW); line-height: 1.7; margin-bottom: 12px; }
+.info-fact {
+  display: flex; gap: 10px; padding: 10px 12px;
+  background: var(--card); border-radius: 12px; margin-bottom: 8px;
+  border: 1px solid var(--border);
+}
+.fact-icon { font-size: 18px; flex-shrink: 0; }
+.fact-text { font-size: 12px; color: var(--offW); line-height: 1.5; }
+.fact-label { font-size: 10px; color: var(--gold); font-weight: 600; margin-bottom: 2px; }
+
+/* ═══════════════════════════════════════
+   SCREEN 3: QR SCANNER SIMULATION
+═══════════════════════════════════════ */
+#s-scan {
+  background: #000;
+  display: flex; flex-direction: column; align-items: center;
+}
+
+.scan-header {
+  width: 100%; padding: 16px 20px 12px;
+  display: flex; align-items: center; gap: 12px;
+  background: linear-gradient(180deg, rgba(0,0,0,.8), transparent);
+  position: absolute; top: 0; z-index: 10;
+}
+.scan-title { font-size: 16px; font-weight: 600; color: var(--white); }
+
+/* Camera viewfinder */
+.viewfinder {
+  width: 100%; flex: 1; background: #111;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; position: relative; overflow: hidden;
+  min-height: 300px;
+}
+
+/* Animated scan pattern */
+.vf-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 60%, rgba(212,168,67,.05), transparent 70%);
+}
+.vf-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(212,168,67,.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(212,168,67,.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+.qr-frame {
+  width: 220px; height: 220px; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2;
+}
+.qr-corner {
+  position: absolute; width: 28px; height: 28px;
+  border-color: var(--gold2);
+  border-style: solid;
+}
+.qr-corner:nth-child(1) { top: 0; left: 0; border-width: 3px 0 0 3px; border-radius: 4px 0 0 0; }
+.qr-corner:nth-child(2) { top: 0; right: 0; border-width: 3px 3px 0 0; border-radius: 0 4px 0 0; }
+.qr-corner:nth-child(3) { bottom: 0; left: 0; border-width: 0 0 3px 3px; border-radius: 0 0 0 4px; }
+.qr-corner:nth-child(4) { bottom: 0; right: 0; border-width: 0 3px 3px 0; border-radius: 0 0 4px 0; }
+
+.scan-line {
+  position: absolute; left: 8px; right: 8px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold2), transparent);
+  animation: scan-anim 2s ease-in-out infinite;
+  box-shadow: 0 0 8px var(--gold);
+}
+@keyframes scan-anim {
+  0% { top: 10px; opacity: 1; }
+  50% { top: 200px; opacity: .8; }
+  100% { top: 10px; opacity: 1; }
+}
+
+/* Site icons floating in viewfinder */
+.vf-site-hint {
+  position: absolute; background: rgba(0,0,0,.7);
+  border: 1px solid rgba(212,168,67,.4); border-radius: 12px;
+  padding: 6px 10px; font-size: 11px; color: var(--gold2);
+  display: flex; align-items: center; gap: 6px; z-index: 3;
+  animation: float-hint 3s ease-in-out infinite;
+}
+@keyframes float-hint {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.scan-bottom {
+  width: 100%; padding: 20px; background: var(--bg);
+  z-index: 10;
+}
+.scan-hint {
+  text-align: center; font-size: 13px; color: var(--muted);
+  margin-bottom: 16px; line-height: 1.5;
+}
+.scan-demo-sites {
+  display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px;
+}
+.sds-btn {
+  padding: 8px 14px; border-radius: 12px;
+  background: var(--card); border: 1px solid var(--border2);
+  font-size: 12px; font-weight: 600; color: var(--offW);
+  cursor: pointer; transition: all .2s;
+  display: flex; align-items: center; gap: 6px;
+}
+.sds-btn:active { background: var(--card2); border-color: var(--gold); transform: scale(0.96); }
+
+/* Scan success overlay */
+#scan-success {
+  position: fixed; inset: 0; background: rgba(10,15,30,.95);
+  display: none; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 200; padding: 32px;
+}
+#scan-success.show { display: flex; }
+.ss-check {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: rgba(52,211,153,.15); border: 2px solid var(--green);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; margin-bottom: 20px;
+  animation: pop-in .4s cubic-bezier(.17,.67,.35,1.3);
+}
+@keyframes pop-in { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.ss-title { font-family: var(--serif); font-size: 22px; color: var(--white); margin-bottom: 6px; text-align: center; }
+.ss-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; text-align: center; }
+.ss-site {
+  background: var(--card); border: 1px solid rgba(212,168,67,.3);
+  border-radius: 16px; padding: 16px 20px; width: 100%; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 14px;
+}
+.ss-icon { font-size: 36px; }
+.ss-name { font-family: var(--serif); font-size: 18px; color: var(--white); }
+.ss-loc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.ss-go {
+  width: 100%; padding: 14px; border-radius: 14px;
+  background: var(--gold); color: var(--bg);
+  font-size: 15px; font-weight: 700; text-align: center; cursor: pointer;
+  transition: opacity .2s;
+}
+.ss-go:active { opacity: .85; }
+
+/* ═══════════════════════════════════════
+   SCREEN 4: LANGUAGE SELECTOR
+═══════════════════════════════════════ */
+#s-lang {
+  background: var(--bg2);
+}
+.lang-header {
+  padding: 16px 20px 12px;
+  display: flex; align-items: center; gap: 12px;
+}
+.lang-page-title { font-size: 18px; font-weight: 700; color: var(--white); }
+.lang-sub { font-size: 13px; color: var(--muted); padding: 0 20px 16px; }
+
+.lang-search {
+  margin: 0 20px 16px;
+  background: var(--card); border: 1px solid var(--border2);
+  border-radius: 12px; padding: 10px 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.ls-icon { font-size: 16px; color: var(--muted); }
+.ls-input {
+  flex: 1; background: none; border: none; outline: none;
+  font-family: var(--sans); font-size: 14px; color: var(--offW);
+}
+.ls-input::placeholder { color: var(--muted); }
+
+.lang-group-title {
+  font-size: 11px; font-weight: 600; letter-spacing: 1px;
+  color: var(--muted); text-transform: uppercase;
+  padding: 8px 20px 6px;
+}
+.lang-option {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 20px; cursor: pointer; transition: background .15s;
+  border-bottom: 1px solid var(--border);
+}
+.lang-option:active { background: var(--card); }
+.lo-flag { font-size: 22px; flex-shrink: 0; }
+.lo-info { flex: 1; }
+.lo-name { font-size: 14px; font-weight: 600; color: var(--white); }
+.lo-native { font-size: 12px; color: var(--muted); margin-top: 1px; }
+.lo-sites { font-size: 11px; color: var(--gold); margin-top: 2px; }
+.lo-check {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 1.5px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; flex-shrink: 0;
+}
+.lo-check.selected { background: var(--gold); border-color: var(--gold); color: var(--bg); }
+
+.lang-apply {
+  position: sticky; bottom: 0; padding: 12px 20px;
+  background: var(--bg2); border-top: 1px solid var(--border);
+}
+.la-btn {
+  width: 100%; padding: 14px; border-radius: 14px;
+  background: var(--gold); color: var(--bg);
+  font-size: 15px; font-weight: 700; text-align: center; cursor: pointer;
+}
+.la-btn:active { opacity: .85; }
+
+/* ═══════════════════════════════════════
+   SCREEN 5: DOWNLOADS / OFFLINE
+═══════════════════════════════════════ */
+#s-offline {
+  background: var(--bg2);
+}
+.offline-header {
+  padding: 16px 20px 12px;
+}
+.oh-title { font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+.oh-sub { font-size: 13px; color: var(--muted); }
+
+.storage-card {
+  margin: 0 20px 20px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 16px;
+}
+.sc-top { display: flex; justify-content: space-between; margin-bottom: 10px; }
+.sc-label { font-size: 12px; color: var(--muted); }
+.sc-val { font-size: 12px; color: var(--offW); font-weight: 600; }
+.storage-bar { height: 6px; background: var(--card2); border-radius: 3px; overflow: hidden; }
+.storage-fill {
+  height: 100%; border-radius: 3px;
+  background: linear-gradient(90deg, var(--gold3), var(--gold2));
+  width: 34%;
+}
+
+.dl-item {
+  margin: 0 20px 10px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 14px 16px;
+  display: flex; align-items: center; gap: 12px;
+  cursor: pointer; transition: border-color .2s;
+}
+.dl-item:active { border-color: var(--border2); }
+.dli-icon {
+  width: 46px; height: 46px; border-radius: 12px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 22px;
+}
+.dli-info { flex: 1; min-width: 0; }
+.dli-name { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dli-meta { font-size: 11px; color: var(--muted); }
+.dli-size { font-size: 11px; color: var(--gold); margin-top: 2px; }
+
+.dl-btn {
+  width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+  background: var(--card2); border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; cursor: pointer; transition: all .2s;
+}
+.dl-btn.downloaded { background: rgba(52,211,153,.15); border-color: var(--green); color: var(--green); }
+.dl-btn:active { transform: scale(0.9); }
+
+/* ═══════════════════════════════════════
+   UTILITIES / SHARED
+═══════════════════════════════════════ */
+.btn-primary {
+  display: block; width: 100%; padding: 14px;
+  background: var(--gold); color: var(--bg);
+  border-radius: 14px; font-size: 15px; font-weight: 700;
+  text-align: center; cursor: pointer; border: none;
+  transition: opacity .2s; font-family: var(--sans);
+}
+.btn-primary:active { opacity: .85; }
+
+/* Animations */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeSlideUp .35s ease both; }
+.d1 { animation-delay: .05s; } .d2 { animation-delay: .12s; }
+.d3 { animation-delay: .2s; }  .d4 { animation-delay: .28s; }
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: .6; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* Ripple */
+.ripple { position: relative; overflow: hidden; }
+.ripple::after {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  width: 0; height: 0; border-radius: 50%;
+  background: rgba(255,255,255,.15);
+  transform: translate(-50%, -50%);
+  transition: width .4s ease, height .4s ease, opacity .4s ease;
+  opacity: 0;
+}
+.ripple:active::after { width: 200px; height: 200px; opacity: 1; transition: none; }
+
+/* Toast */
+#toast {
+  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+  background: var(--card2); border: 1px solid var(--border2);
+  color: var(--white); padding: 10px 20px; border-radius: 20px;
+  font-size: 13px; font-weight: 600; z-index: 300;
+  opacity: 0; transition: opacity .3s; white-space: nowrap;
+  pointer-events: none;
+}
+#toast.show { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- STATUS BAR -->
+  <div id="status-bar">
+    <span class="sb-time" id="clock">9:41</span>
+    <div class="sb-icons">
+      <div class="sb-bar" style="height:8px;"></div>
+      <div class="sb-bar" style="height:6px;"></div>
+      <div class="sb-bar" style="height:4px;"></div>
+      <div class="sb-dot"></div>
+      <div class="sb-dot" style="opacity:.4;"></div>
+      <div class="sb-dot" style="opacity:.4;"></div>
+    </div>
+  </div>
+
+  <!-- SCREENS -->
+  <div id="screens">
+
+    <!-- ══ S1: HOME ══ -->
+    <div class="screen active" id="s-home">
+
+      <div class="home-header fade-up d1">
+        <div>
+          <div class="home-greeting">Namaste 🙏</div>
+          <div class="home-title">Sacred Voices</div>
+        </div>
+        <div class="home-avatar">KS</div>
+      </div>
+
+      <!-- Faith filter pills -->
+      <div class="faith-filters fade-up d2">
+        <div class="faith-pill active" onclick="filterFaith('all')">🌟 All</div>
+        <div class="faith-pill" onclick="filterFaith('hindu')">🛕 Hindu</div>
+        <div class="faith-pill" onclick="filterFaith('mosque')">🕌 Mosque</div>
+        <div class="faith-pill" onclick="filterFaith('church')">⛪ Church</div>
+        <div class="faith-pill" onclick="filterFaith('gurudwara')">🙏 Gurudwara</div>
+        <div class="faith-pill" onclick="filterFaith('buddhist')">☸️ Buddhist</div>
+      </div>
+
+      <!-- Featured -->
+      <div class="featured-card fade-up d2 ripple" onclick="openSite('kashi')">
+        <div class="fc-glow"></div>
+        <div class="fc-symbol">🛕</div>
+        <div class="fc-tag">Featured · Varanasi</div>
+        <div class="fc-name">Kashi<br>Vishwanath</div>
+        <div class="fc-meta">800-year history · Jyotirlinga · 12 languages</div>
+        <div class="fc-btn">▶ Listen Now</div>
+        <div class="fc-langs">
+          <div class="fc-lang-dot"></div>
+          <div class="fc-lang-dot"></div>
+          <div class="fc-lang-dot"></div>
+          <div class="fc-lang-dot"></div>
+          <div class="fc-lang-dot"></div>
+        </div>
+      </div>
+
+      <!-- Near You -->
+      <div class="sec-head fade-up d3">
+        <div class="sec-title">Near You · Chennai</div>
+        <div class="sec-more">See all</div>
+      </div>
+      <div class="cards-scroll fade-up d3">
+        <div class="site-card ripple" onclick="openSite('kapaleeshwarar')">
+          <div class="sc-icon">🛕</div>
+          <div class="sc-name">Kapaleeshwarar Temple</div>
+          <div class="sc-loc">📍 Mylapore, Chennai</div>
+          <div class="sc-langs">8 languages</div>
+        </div>
+        <div class="site-card ripple" onclick="openSite('velankanni')">
+          <div class="sc-icon">⛪</div>
+          <div class="sc-name">Basilica of Velankanni</div>
+          <div class="sc-loc">📍 Nagapattinam</div>
+          <div class="sc-langs">6 languages</div>
+        </div>
+        <div class="site-card ripple" onclick="openSite('ajmer')">
+          <div class="sc-icon">🕌</div>
+          <div class="sc-name">Ajmer Dargah Sharif</div>
+          <div class="sc-loc">📍 Ajmer, Rajasthan</div>
+          <div class="sc-langs">9 languages</div>
+        </div>
+        <div class="site-card ripple" onclick="openSite('golden')">
+          <div class="sc-icon">🙏</div>
+          <div class="sc-name">Golden Temple</div>
+          <div class="sc-loc">📍 Amritsar, Punjab</div>
+          <div class="sc-langs">7 languages</div>
+        </div>
+        <div class="site-card ripple" onclick="openSite('bodh')">
+          <div class="sc-icon">☸️</div>
+          <div class="sc-name">Bodh Gaya Mahabodhi</div>
+          <div class="sc-loc">📍 Gaya, Bihar</div>
+          <div class="sc-langs">10 languages</div>
+        </div>
+      </div>
+
+      <!-- Recently Played -->
+      <div class="sec-head fade-up d4">
+        <div class="sec-title">Continue Listening</div>
+        <div class="sec-more">History</div>
+      </div>
+
+      <div class="recent-item ripple fade-up d4" onclick="openSite('meenakshi')">
+        <div class="ri-icon" style="background:rgba(212,168,67,.12);">🛕</div>
+        <div class="ri-info">
+          <div class="ri-name">Meenakshi Amman Temple</div>
+          <div class="ri-meta">Tamil · Scholar · 14:32 remaining</div>
+        </div>
+        <div class="ri-play">▶</div>
+      </div>
+      <div class="recent-item ripple" onclick="openSite('golden')">
+        <div class="ri-icon" style="background:rgba(56,189,248,.1);">🙏</div>
+        <div class="ri-info">
+          <div class="ri-name">Golden Temple</div>
+          <div class="ri-meta">Punjabi · General · Completed</div>
+        </div>
+        <div class="ri-play" style="color:var(--green);">✓</div>
+      </div>
+      <div class="recent-item ripple" onclick="openSite('velankanni')">
+        <div class="ri-icon" style="background:rgba(167,139,250,.1);">⛪</div>
+        <div class="ri-info">
+          <div class="ri-name">Basilica of Velankanni</div>
+          <div class="ri-meta">English · Kids · 6:18 remaining</div>
+        </div>
+        <div class="ri-play">▶</div>
+      </div>
+
+      <div style="height:20px;"></div>
+    </div><!-- end s-home -->
+
+    <!-- ══ S2: PLAYER ══ -->
+    <div class="screen" id="s-player">
+
+      <div class="player-header">
+        <div class="back-btn" onclick="goHome()">←</div>
+        <div class="ph-title" id="player-site-name">Kashi Vishwanath</div>
+        <div class="ph-opts">⋯</div>
+      </div>
+
+      <div class="player-art">
+        <div class="art-circle" id="player-icon">
+          <div class="art-ring"></div>
+          <div class="art-ring2"></div>
+          <span id="player-symbol">🛕</span>
+        </div>
+
+        <div id="waveform">
+          <!-- Generated by JS -->
+        </div>
+      </div>
+
+      <div class="site-info">
+        <div class="si-faith" id="player-faith">HINDU TEMPLE</div>
+        <div class="si-name" id="player-name">Kashi Vishwanath</div>
+        <div class="si-loc" id="player-loc">📍 Varanasi, Uttar Pradesh</div>
+
+        <div class="mode-tabs">
+          <div class="mode-tab" onclick="setMode('kids', this)">🧒 Kids</div>
+          <div class="mode-tab active" onclick="setMode('general', this)">👤 General</div>
+          <div class="mode-tab" onclick="setMode('scholar', this)">🎓 Scholar</div>
+        </div>
+      </div>
+
+      <!-- Language strip -->
+      <div class="lang-strip" id="lang-strip">
+        <div class="lang-btn active" onclick="setLang('hi', this)">हि Hindi</div>
+        <div class="lang-btn" onclick="setLang('ta', this)">த Tamil</div>
+        <div class="lang-btn" onclick="setLang('en', this)">En English</div>
+        <div class="lang-btn" onclick="setLang('te', this)">తె Telugu</div>
+        <div class="lang-btn" onclick="setLang('ur', this)">اردو Urdu</div>
+        <div class="lang-btn" onclick="goScreen('s-lang')">+ More</div>
+      </div>
+
+      <!-- Progress -->
+      <div class="progress-area">
+        <div class="time-bar">
+          <span id="cur-time">0:00</span>
+          <span id="tot-time">18:45</span>
+        </div>
+        <div class="seek-bar" onclick="seek(event)">
+          <div class="seek-fill" id="seek-fill" style="width:0%">
+            <div class="seek-thumb"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="player-controls">
+        <div class="ctrl-btn" onclick="showToast('Shuffle on')">⇄</div>
+        <div class="ctrl-btn" onclick="skipBack()">⏮</div>
+        <div class="play-btn ripple" id="play-btn" onclick="togglePlay()">
+          <span id="play-icon" class="icon-play">▶</span>
+        </div>
+        <div class="ctrl-btn" onclick="skipFwd()">⏭</div>
+        <div class="ctrl-btn" onclick="showToast('Bookmarked')">♡</div>
+      </div>
+
+      <!-- Info tabs -->
+      <div class="info-tabs">
+        <div class="info-tab active" onclick="showInfo('about', this)">About</div>
+        <div class="info-tab" onclick="showInfo('facts', this)">Facts</div>
+        <div class="info-tab" onclick="showInfo('prayer', this)">Prayer Times</div>
+      </div>
+
+      <div class="info-panel" id="info-panel">
+        <p class="info-para" id="info-text">The Kashi Vishwanath Temple is one of the most famous Hindu temples dedicated to Lord Shiva. Located in Varanasi, Uttar Pradesh — one of the oldest living cities in the world — the temple stands on the western bank of the holy Ganga.</p>
+        <p class="info-para">The main deity, Lord Vishwanath (Shiva), is one of the twelve Jyotirlingas, the holiest of Shiva shrines. The temple has been destroyed and reconstructed several times throughout history.</p>
+      </div>
+
+    </div><!-- end s-player -->
+
+    <!-- ══ S3: SCAN ══ -->
+    <div class="screen" id="s-scan">
+
+      <div class="scan-header">
+        <div class="back-btn" onclick="goHome()" style="background:rgba(0,0,0,.5);">←</div>
+        <div class="scan-title">Scan QR Code</div>
+      </div>
+
+      <div class="viewfinder">
+        <div class="vf-bg"></div>
+        <div class="vf-grid"></div>
+
+        <!-- Floating site hints -->
+        <div class="vf-site-hint" style="top:60px;left:20px;">🛕 Kashi Vishwanath</div>
+        <div class="vf-site-hint" style="bottom:80px;right:18px;animation-delay:.8s;">⛪ Velankanni</div>
+
+        <div class="qr-frame">
+          <div class="qr-corner"></div>
+          <div class="qr-corner"></div>
+          <div class="qr-corner"></div>
+          <div class="qr-corner"></div>
+          <div class="scan-line"></div>
+          <div style="font-size:11px;color:rgba(255,255,255,.3);text-align:center;padding:0 12px;z-index:1;">Point at QR code at<br>any faith site entrance</div>
+        </div>
+      </div>
+
+      <div class="scan-bottom">
+        <div class="scan-hint">
+          Or tap a demo site below to simulate scanning a QR code
+        </div>
+        <div class="scan-demo-sites">
+          <div class="sds-btn ripple" onclick="simulateScan('kashi')">🛕 Kashi</div>
+          <div class="sds-btn ripple" onclick="simulateScan('velankanni')">⛪ Velankanni</div>
+          <div class="sds-btn ripple" onclick="simulateScan('ajmer')">🕌 Ajmer</div>
+          <div class="sds-btn ripple" onclick="simulateScan('golden')">🙏 Golden Temple</div>
+          <div class="sds-btn ripple" onclick="simulateScan('bodh')">☸️ Bodh Gaya</div>
+        </div>
+      </div>
+
+    </div><!-- end s-scan -->
+
+    <!-- ══ S4: LANGUAGE ══ -->
+    <div class="screen" id="s-lang">
+
+      <div class="lang-header">
+        <div class="back-btn" onclick="goBack()">←</div>
+        <div class="lang-page-title">Choose Language</div>
+      </div>
+      <div class="lang-sub">Select your preferred language for narration</div>
+
+      <div class="lang-search">
+        <span class="ls-icon">🔍</span>
+        <input class="ls-input" placeholder="Search languages..." oninput="filterLangs(this.value)">
+      </div>
+
+      <div id="lang-list">
+        <div class="lang-group-title">Recommended · Your Region</div>
+
+        <div class="lang-option ripple" onclick="selectLang('ta', this)">
+          <span class="lo-flag">🇮🇳</span>
+          <div class="lo-info">
+            <div class="lo-name">Tamil</div>
+            <div class="lo-native">தமிழ்</div>
+            <div class="lo-sites">Available at 4,200+ sites</div>
+          </div>
+          <div class="lo-check selected">✓</div>
+        </div>
+
+        <div class="lang-option ripple" onclick="selectLang('en', this)">
+          <span class="lo-flag">🇬🇧</span>
+          <div class="lo-info">
+            <div class="lo-name">English</div>
+            <div class="lo-native">English</div>
+            <div class="lo-sites">Available at all 50,000+ sites</div>
+          </div>
+          <div class="lo-check">✓</div>
+        </div>
+
+        <div class="lang-group-title">All 22 Languages</div>
+
+        <div class="lang-option ripple" onclick="selectLang('hi', this)">
+          <span class="lo-flag">🇮🇳</span>
+          <div class="lo-info">
+            <div class="lo-name">Hindi</div>
+            <div class="lo-native">हिन्दी</div>
+            <div class="lo-sites">Available at 50,000+ sites</div>
+          </div>
+          <div class="lo-check">✓</div>
+        </div>
+
+        <div class="lang-option ripple" onclick="selectLang('te', this)">
+          <span class="lo-flag">🇮🇳</span>
+          <div class="lo-info">
+            <div class="lo-name">Telugu</div>
+            <div class="lo-native">తెలుగు</div>
+            <div class="lo-sites">Available at 3,800+ sites</div>
+          </div>
+          <div class="lo-check">✓</div>
+        </div>
+
+        <div class="lang-option ripple" onclick="selectLang('ml', this)">
+          <span class="lo-flag">🇮🇳</span>
+          <div class="lo-info">
+            <div class="lo-name">Malayalam</div>
+            <div class="lo-native">മലയാളം</div>
+            <div class="lo-sites">Available at 2,100+ sites</div>
+          </div>
+          <div class="lo-check">✓</div>
+        </div>
+
+        <div class="lang-option ripple" onclick="selectLang('kn', this)">
+          <span class="lo-flag">🇮🇳</span>
+          <div class="lo-info">
+            <div class="lo-name">Kannada</div>
+            <div class="lo-native">ಕನ್ನಡ</div>
+            <div class="lo-sites">Available at 2,900+ sites</div>
+          </div>
+          <div class="lo-check">✓</div>
+        </div>
+
+        <div class="lang-option ripple" onclick="selectLang('bn', this)">
+          <span class="lo-flag">🇮🇳</span>
+          <div class="lo-info">
+            <div class="lo-name">Bengali</div>
+            <div class="lo-native">বাংলা</div>
+            <div class="lo-sites">Available at 3,100+ sites</div>
+          </div>
+          <div class="lo-check">✓</div>
+        </div>
+
+        <div class="lang-option ripple" onclick="selectLang('ur', this)">
+          <span class="lo-flag">🇮🇳</span>
+          <div class="lo-info">
+            <div class="lo-name">Urdu</div>
+            <div class="lo-native">اردو</div>
+            <div class="lo-sites">Available at 4,500+ sites</div>
+          </div>
+          <div class="lo-check">✓</div>
+        </div>
+
+        <div class="lang-option ripple" onclick="selectLang('pa', this)">
+          <span class="lo-flag">🇮🇳</span>
+          <div class="lo-info">
+            <div class="lo-name">Punjabi</div>
+            <div class="lo-native">ਪੰਜਾਬੀ</div>
+            <div class="lo-sites">Available at 1,800+ sites</div>
+          </div>
+          <div class="lo-check">✓</div>
+        </div>
+
+        <div class="lang-option ripple" onclick="selectLang('gu', this)">
+          <span class="lo-flag">🇮🇳</span>
+          <div class="lo-info">
+            <div class="lo-name">Gujarati</div>
+            <div class="lo-native">ગુજરાતી</div>
+            <div class="lo-sites">Available at 2,400+ sites</div>
+          </div>
+          <div class="lo-check">✓</div>
+        </div>
+
+        <div class="lang-option ripple" onclick="selectLang('ar', this)">
+          <span class="lo-flag">🌍</span>
+          <div class="lo-info">
+            <div class="lo-name">Arabic</div>
+            <div class="lo-native">العربية</div>
+            <div class="lo-sites">Available at mosque sites</div>
+          </div>
+          <div class="lo-check">✓</div>
+        </div>
+
+        <div style="height:80px;"></div>
+      </div>
+
+      <div class="lang-apply">
+        <div class="la-btn" onclick="applyLang()">Apply Language</div>
+      </div>
+
+    </div><!-- end s-lang -->
+
+    <!-- ══ S5: OFFLINE ══ -->
+    <div class="screen" id="s-offline">
+
+      <div class="offline-header">
+        <div class="oh-title">📥 Offline Packs</div>
+        <div class="oh-sub">Download pilgrimage routes for offline listening</div>
+      </div>
+
+      <div class="storage-card">
+        <div class="sc-top">
+          <span class="sc-label">Storage used</span>
+          <span class="sc-val">134 MB of 2 GB</span>
+        </div>
+        <div class="storage-bar"><div class="storage-fill"></div></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:6px;">3 sites downloaded · 22 available</div>
+      </div>
+
+      <div class="sec-head">
+        <div class="sec-title">Downloaded</div>
+        <div class="sec-more">Manage</div>
+      </div>
+
+      <div class="dl-item ripple" onclick="openSite('kashi')">
+        <div class="dli-icon" style="background:rgba(212,168,67,.12);">🛕</div>
+        <div class="dli-info">
+          <div class="dli-name">Kashi Vishwanath</div>
+          <div class="dli-meta">Hindi · Tamil · English</div>
+          <div class="dli-size">45.2 MB · Updated 2d ago</div>
+        </div>
+        <div class="dl-btn downloaded">✓</div>
+      </div>
+
+      <div class="dl-item ripple" onclick="openSite('golden')">
+        <div class="dli-icon" style="background:rgba(56,189,248,.1);">🙏</div>
+        <div class="dli-info">
+          <div class="dli-name">Golden Temple</div>
+          <div class="dli-meta">Punjabi · Hindi · English</div>
+          <div class="dli-size">38.7 MB · Updated 5d ago</div>
+        </div>
+        <div class="dl-btn downloaded">✓</div>
+      </div>
+
+      <div class="dl-item ripple" onclick="openSite('velankanni')">
+        <div class="dli-icon" style="background:rgba(167,139,250,.1);">⛪</div>
+        <div class="dli-info">
+          <div class="dli-name">Basilica of Velankanni</div>
+          <div class="dli-meta">Tamil · English · Malayalam</div>
+          <div class="dli-size">50.1 MB · Updated today</div>
+        </div>
+        <div class="dl-btn downloaded">✓</div>
+      </div>
+
+      <div class="sec-head" style="margin-top:8px;">
+        <div class="sec-title">Download More</div>
+      </div>
+
+      <div class="dl-item ripple">
+        <div class="dli-icon" style="background:rgba(52,211,153,.1);">🕌</div>
+        <div class="dli-info">
+          <div class="dli-name">Ajmer Dargah Sharif</div>
+          <div class="dli-meta">Urdu · Hindi · English</div>
+          <div class="dli-size">52.4 MB</div>
+        </div>
+        <div class="dl-btn" onclick="downloadSite(this)">↓</div>
+      </div>
+
+      <div class="dl-item ripple">
+        <div class="dli-icon" style="background:rgba(248,113,113,.1);">☸️</div>
+        <div class="dli-info">
+          <div class="dli-name">Bodh Gaya Mahabodhi</div>
+          <div class="dli-meta">Pali · Hindi · English</div>
+          <div class="dli-size">41.8 MB</div>
+        </div>
+        <div class="dl-btn" onclick="downloadSite(this)">↓</div>
+      </div>
+
+      <div class="dl-item ripple">
+        <div class="dli-icon" style="background:rgba(212,168,67,.08);">🛕</div>
+        <div class="dli-info">
+          <div class="dli-name">Meenakshi Amman · Madurai</div>
+          <div class="dli-meta">Tamil · Telugu · English</div>
+          <div class="dli-size">Char Dham pack · 280 MB</div>
+        </div>
+        <div class="dl-btn" onclick="downloadSite(this)">↓</div>
+      </div>
+
+      <div style="height:20px;"></div>
+
+    </div><!-- end s-offline -->
+
+  </div><!-- end screens -->
+
+  <!-- BOTTOM NAV -->
+  <div id="bottom-nav">
+    <div class="nav-item active" onclick="goScreen('s-home'); setNav(this)">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Home</span>
+    </div>
+    <div class="nav-item" onclick="goScreen('s-scan'); setNav(this)">
+      <span class="nav-icon">⬜</span>
+      <span class="nav-label">Scan</span>
+    </div>
+    <div class="nav-item" onclick="goScreen('s-player'); setNav(this)">
+      <span class="nav-icon">🎧</span>
+      <span class="nav-label">Now Playing</span>
+    </div>
+    <div class="nav-item" onclick="goScreen('s-offline'); setNav(this)">
+      <span class="nav-icon">📥</span>
+      <span class="nav-label">Offline</span>
+    </div>
+  </div>
+
+</div><!-- end app -->
+
+<!-- SCAN SUCCESS OVERLAY -->
+<div id="scan-success">
+  <div class="ss-check">✓</div>
+  <div class="ss-title" id="ss-title">Site Found!</div>
+  <div class="ss-sub" id="ss-sub">QR code recognised · Loading audio guide</div>
+  <div class="ss-site">
+    <div class="ss-icon" id="ss-icon">🛕</div>
+    <div>
+      <div class="ss-name" id="ss-name">Kashi Vishwanath</div>
+      <div class="ss-loc" id="ss-loc">📍 Varanasi, UP · 12 languages</div>
+    </div>
+  </div>
+  <div class="ss-go" onclick="openFromScan()">▶ Open Audio Guide</div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+// ── Site data ──────────────────────────────────────────────────
+const SITES = {
+  kashi: {
+    name: 'Kashi Vishwanath', nameShort: 'Kashi Vishwanath',
+    faith: 'HINDU TEMPLE', loc: '📍 Varanasi, Uttar Pradesh',
+    icon: '🛕', duration: '18:45',
+    about: 'The Kashi Vishwanath Temple is one of the most famous Hindu temples dedicated to Lord Shiva. Located in Varanasi, Uttar Pradesh — one of the oldest living cities in the world — the temple stands on the western bank of the holy Ganga.',
+    facts: ['Built c. 1780 CE · Ahilyabai Holkar', '800 kg of gold donated by Maharaja Ranjit Singh', 'One of 12 Jyotirlingas · holiest Shiva shrines', '3,000+ years of unbroken worship tradition'],
+    prayer: ['Morning Aarti: 3:00 AM', 'Bhog Aarti: 11:15 AM', 'Sandhya Aarti: 7:00 PM', 'Shayan Aarti: 10:30 PM'],
+  },
+  velankanni: {
+    name: 'Basilica of Velankanni', nameShort: 'Velankanni Basilica',
+    faith: 'ROMAN CATHOLIC', loc: '📍 Nagapattinam, Tamil Nadu',
+    icon: '⛪', duration: '12:30',
+    about: 'The Basilica of Our Lady of Good Health, Vailankanni, is a Catholic Church dedicated to Mary, the Mother of Jesus. It is one of the most visited Catholic pilgrimage sites in Asia, attracting millions from all faiths annually.',
+    facts: ['One of only 3 Basilicas in South India', 'Attracts 2+ million pilgrims annually', 'Multi-faith pilgrimage — Hindus visit too', 'Annual feast: September 8–15'],
+    prayer: ['Morning Mass: 5:30 AM', 'Mid-day Mass: 12:00 PM', 'Evening Mass: 6:00 PM', 'Rosary: 7:30 PM'],
+  },
+  ajmer: {
+    name: 'Ajmer Dargah Sharif', nameShort: 'Ajmer Dargah',
+    faith: 'SUFI DARGAH', loc: '📍 Ajmer, Rajasthan',
+    icon: '🕌', duration: '14:15',
+    about: 'The Dargah Sharif of Hazrat Khwaja Moinuddin Hasan Chishti, a 12th-century Sufi saint, is one of the most important pilgrimage sites in the world for Muslims. People of all faiths visit to seek blessings.',
+    facts: ['Founded in 12th century CE', 'Visited by Mughal Emperor Akbar on foot', '1 lakh+ pilgrims daily during Urs festival', 'Largest Qawwali tradition in India'],
+    prayer: ['Fajr: 5:15 AM', 'Zuhr: 1:30 PM', 'Asr: 4:45 PM', 'Maghrib: At sunset', 'Isha: 9:00 PM'],
+  },
+  golden: {
+    name: 'Sri Harmandir Sahib', nameShort: 'Golden Temple',
+    faith: 'GURUDWARA · SIKH', loc: '📍 Amritsar, Punjab',
+    icon: '🙏', duration: '16:20',
+    about: 'Harmandir Sahib, known as the Golden Temple, is the holiest gurdwara of Sikhism. Built in the 16th century, it sits in the middle of a sacred lake (Amrit Sarovar) and its upper floors are covered in 750 kg of pure gold.',
+    facts: ['750 kg gold donated by Maharaja Ranjit Singh', 'Langar feeds 100,000 people daily — free', 'Open to all faiths, castes, creeds', 'Sacred book Guru Granth Sahib — read 24/7'],
+    prayer: ['Amrit Vela: 2:00 AM', 'Morning Nitnem: 4:30 AM', 'Ardas: 6:00 AM', 'Evening Rehras: 6:00 PM', 'Kirtan Sohila: 10:00 PM'],
+  },
+  bodh: {
+    name: 'Mahabodhi Temple', nameShort: 'Mahabodhi',
+    faith: 'BUDDHIST · UNESCO', loc: '📍 Bodh Gaya, Bihar',
+    icon: '☸️', duration: '11:50',
+    about: 'The Mahabodhi Temple is the site where Siddhartha Gautama attained enlightenment and became the Buddha, approximately 2,500 years ago. This UNESCO World Heritage Site is one of the four holy sites of Buddhism.',
+    facts: ['UNESCO World Heritage Site 2002', 'Buddha attained enlightenment here ~528 BCE', 'Bodhi Tree — direct descendant of original', 'Visited by pilgrims from 100+ countries'],
+    prayer: ['Morning meditation: 5:00 AM', 'Puja: 6:30 AM', 'Evening prayers: 5:30 PM', 'Night meditation: 8:00 PM'],
+  },
+  kapaleeshwarar: {
+    name: 'Kapaleeshwarar Temple', nameShort: 'Kapaleeshwarar',
+    faith: 'HINDU TEMPLE', loc: '📍 Mylapore, Chennai',
+    icon: '🛕', duration: '10:25',
+    about: 'The Kapaleeshwarar Temple in Mylapore is a Shiva temple of Dravidian architecture, believed to be around 1,300 years old. Its 37-metre gopuram (temple tower) is adorned with thousands of colourful sculptures.',
+    facts: ['37m gopuram with 1,000+ sculptures', 'Built c. 7th century CE', 'Home to 63 Nayanmars\' bronze idols', 'Brahmotsavam festival: April each year'],
+    prayer: ['Thiruvanandal: 5:30 AM', 'Kalasanthi: 8:00 AM', 'Uchikalam: 12:00 PM', 'Sayarakshai: 6:00 PM', 'Irandamkalam: 8:00 PM'],
+  },
+  meenakshi: {
+    name: 'Meenakshi Amman Temple', nameShort: 'Meenakshi Temple',
+    faith: 'HINDU TEMPLE', loc: '📍 Madurai, Tamil Nadu',
+    icon: '🛕', duration: '22:10',
+    about: 'The Meenakshi Amman Temple is a historic Hindu temple dedicated to Goddess Meenakshi (Parvati) and Lord Sundareswarar (Shiva). It is one of the most significant ancient temples in Tamil Nadu, with 14 gopurams and 33,000 sculptures.',
+    facts: ['14 gopurams — tallest 51.9m', '33,000 sculptures across the complex', '2,500+ years of history', '15,000+ visitors daily'],
+    prayer: ['Morning Puja: 5:00 AM', 'Noon Puja: 12:00 PM', 'Evening Puja: 5:00 PM', 'Night Puja: 9:00 PM'],
+  },
+};
+
+let currentSite = 'kashi';
+let prevScreen = 's-home';
+let isPlaying = false;
+let progress = 0;
+let playInterval = null;
+let scanTarget = null;
+let currentLang = 'ta';
+let currentMode = 'general';
+let currentInfoTab = 'about';
+
+// ── Navigation ──────────────────────────────────────────────────
+function goScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById(id);
+  if(target) { target.classList.add('active'); target.scrollTop = 0; }
+}
+
+function setNav(el) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function goHome() {
+  goScreen('s-home');
+  document.querySelectorAll('.nav-item')[0].click();
+}
+
+function goBack() {
+  goScreen(prevScreen);
+}
+
+// ── Open site ────────────────────────────────────────────────────
+function openSite(siteId) {
+  currentSite = siteId;
+  const site = SITES[siteId];
+  if(!site) return;
+
+  document.getElementById('player-site-name').textContent = site.nameShort;
+  document.getElementById('player-symbol').textContent = site.icon;
+  document.getElementById('player-faith').textContent = site.faith;
+  document.getElementById('player-name').textContent = site.name;
+  document.getElementById('player-loc').textContent = site.loc;
+  document.getElementById('tot-time').textContent = site.duration;
+  document.getElementById('cur-time').textContent = '0:00';
+  document.getElementById('seek-fill').style.width = '0%';
+
+  // Reset play state
+  progress = 0;
+  if(playInterval) { clearInterval(playInterval); playInterval = null; }
+  isPlaying = false;
+  document.getElementById('play-icon').textContent = '▶';
+
+  showInfoTab(currentInfoTab);
+
+  prevScreen = 's-home';
+  goScreen('s-player');
+  document.querySelectorAll('.nav-item')[2].classList.add('active');
+  document.querySelectorAll('.nav-item').forEach((n,i) => { if(i!==2) n.classList.remove('active'); });
+
+  // Start waveform
+  animateWaveform(false);
+}
+
+// ── Player controls ──────────────────────────────────────────────
+function togglePlay() {
+  isPlaying = !isPlaying;
+  document.getElementById('play-icon').textContent = isPlaying ? '⏸' : '▶';
+  if(isPlaying) {
+    playInterval = setInterval(() => {
+      progress = Math.min(progress + 0.3, 100);
+      document.getElementById('seek-fill').style.width = progress + '%';
+      const site = SITES[currentSite];
+      const [m,s] = site.duration.split(':').map(Number);
+      const total = m*60+s;
+      const elapsed = Math.round(total * progress / 100);
+      document.getElementById('cur-time').textContent = `${Math.floor(elapsed/60)}:${String(elapsed%60).padStart(2,'0')}`;
+      if(progress >= 100) { clearInterval(playInterval); isPlaying = false; document.getElementById('play-icon').textContent = '▶'; showToast('Completed ✓'); }
+    }, 300);
+  } else {
+    clearInterval(playInterval); playInterval = null;
+  }
+  animateWaveform(isPlaying);
+}
+
+function skipBack() {
+  progress = Math.max(0, progress - 10);
+  document.getElementById('seek-fill').style.width = progress + '%';
+  showToast('⏮ 30s back');
+}
+
+function skipFwd() {
+  progress = Math.min(100, progress + 10);
+  document.getElementById('seek-fill').style.width = progress + '%';
+  showToast('⏭ 30s forward');
+}
+
+function seek(e) {
+  const bar = e.currentTarget;
+  const rect = bar.getBoundingClientRect();
+  progress = Math.max(0, Math.min(100, (e.clientX - rect.left) / rect.width * 100));
+  document.getElementById('seek-fill').style.width = progress + '%';
+}
+
+// ── Waveform ─────────────────────────────────────────────────────
+const BARS = 40;
+let waveIntervalId = null;
+function buildWaveform() {
+  const wf = document.getElementById('waveform');
+  wf.innerHTML = '';
+  for(let i = 0; i < BARS; i++) {
+    const b = document.createElement('div');
+    b.className = 'wave-bar';
+    b.style.height = (8 + Math.random() * 24) + 'px';
+    wf.appendChild(b);
+  }
+}
+
+function animateWaveform(playing) {
+  if(waveIntervalId) clearInterval(waveIntervalId);
+  const bars = document.querySelectorAll('.wave-bar');
+  if(!playing) {
+    bars.forEach(b => { b.classList.remove('active'); b.style.height = (8 + Math.random()*12)+'px'; });
+    return;
+  }
+  let frame = 0;
+  waveIntervalId = setInterval(() => {
+    frame++;
+    bars.forEach((b, i) => {
+      const wave = Math.sin((i/BARS)*Math.PI*2 + frame*0.25) * 0.5 + 0.5;
+      const h = 6 + wave * 30 + Math.random() * 8;
+      b.style.height = h + 'px';
+      b.classList.toggle('active', h > 22);
+    });
+  }, 80);
+}
+
+// ── Modes & Languages ────────────────────────────────────────────
+function setMode(mode, el) {
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  currentMode = mode;
+  showToast('Mode: ' + el.textContent.replace(/[^\w\s]/g,'').trim());
+}
+
+function setLang(lang, el) {
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  currentLang = lang;
+  showToast('Language changed');
+}
+
+// ── Info tabs ─────────────────────────────────────────────────────
+function showInfo(tab, el) {
+  document.querySelectorAll('.info-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  currentInfoTab = tab;
+  showInfoTab(tab);
+}
+
+function showInfoTab(tab) {
+  const site = SITES[currentSite];
+  const panel = document.getElementById('info-panel');
+  if(tab === 'about') {
+    panel.innerHTML = `<p class="info-para">${site.about}</p>`;
+  } else if(tab === 'facts') {
+    panel.innerHTML = site.facts.map(f => `
+      <div class="info-fact">
+        <span class="fact-icon">✦</span>
+        <div class="fact-text">${f}</div>
+      </div>`).join('');
+  } else if(tab === 'prayer') {
+    panel.innerHTML = `<div class="fact-label" style="padding-bottom:8px;">Prayer & Puja Timings</div>` +
+      site.prayer.map(p => `
+        <div class="info-fact">
+          <span class="fact-icon">🕐</span>
+          <div class="fact-text">${p}</div>
+        </div>`).join('');
+  }
+}
+
+// ── Scan simulation ──────────────────────────────────────────────
+function simulateScan(siteId) {
+  scanTarget = siteId;
+  const site = SITES[siteId];
+  document.getElementById('ss-icon').textContent = site.icon;
+  document.getElementById('ss-name').textContent = site.name;
+  document.getElementById('ss-loc').textContent = site.loc;
+  document.getElementById('ss-title').textContent = 'Site Found!';
+  document.getElementById('ss-sub').textContent = 'QR code recognised · Loading audio guide';
+  document.getElementById('scan-success').classList.add('show');
+}
+
+function openFromScan() {
+  document.getElementById('scan-success').classList.remove('show');
+  if(scanTarget) openSite(scanTarget);
+}
+
+// ── Faith filter ──────────────────────────────────────────────────
+function filterFaith(type) {
+  document.querySelectorAll('.faith-pill').forEach(p => p.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  showToast(type === 'all' ? 'Showing all sites' : 'Filtered: ' + type);
+}
+
+// ── Language screen ───────────────────────────────────────────────
+let selectedLangs = ['ta'];
+function selectLang(code, el) {
+  const check = el.querySelector('.lo-check');
+  if(selectedLangs.includes(code)) {
+    selectedLangs = selectedLangs.filter(l => l !== code);
+    check.classList.remove('selected');
+  } else {
+    selectedLangs.push(code);
+    check.classList.add('selected');
+  }
+}
+
+function filterLangs(val) {
+  document.querySelectorAll('.lang-option').forEach(opt => {
+    const name = opt.querySelector('.lo-name').textContent.toLowerCase();
+    const native = opt.querySelector('.lo-native').textContent.toLowerCase();
+    opt.style.display = (name.includes(val.toLowerCase()) || native.includes(val.toLowerCase())) ? '' : 'none';
+  });
+}
+
+function applyLang() {
+  showToast(`✓ ${selectedLangs.length} language${selectedLangs.length > 1 ? 's' : ''} selected`);
+  goBack();
+}
+
+// ── Download sim ──────────────────────────────────────────────────
+function downloadSite(btn) {
+  btn.textContent = '⟳';
+  btn.style.animation = 'none';
+  let pct = 0;
+  const dl = setInterval(() => {
+    pct += 12;
+    btn.textContent = pct < 100 ? pct+'%' : '✓';
+    if(pct >= 100) {
+      clearInterval(dl);
+      btn.classList.add('downloaded');
+      showToast('Download complete ✓');
+    }
+  }, 200);
+}
+
+// ── Toast ──────────────────────────────────────────────────────────
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  if(toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── Clock ──────────────────────────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent =
+    `${now.getHours() % 12 || 12}:${String(now.getMinutes()).padStart(2,'0')}`;
+}
+updateClock();
+setInterval(updateClock, 10000);
+
+// ── Close scan success on backdrop tap ───────────────────────────
+document.getElementById('scan-success').addEventListener('click', function(e) {
+  if(e.target === this) this.classList.remove('show');
+});
+
+// ── Keyboard nav ──────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') document.getElementById('scan-success').classList.remove('show');
+  if(e.key === ' ' && document.getElementById('s-player').classList.contains('active')) {
+    e.preventDefault(); togglePlay();
+  }
+});
+
+// ── Init ──────────────────────────────────────────────────────────
+buildWaveform();
+openSite('kashi'); // pre-load player
+goScreen('s-home'); // but start on home
+document.querySelectorAll('.nav-item')[0].classList.add('active');
+document.querySelectorAll('.nav-item').forEach((n,i) => { if(i!==0) n.classList.remove('active'); });
+</script>
+</body>
+</html>
