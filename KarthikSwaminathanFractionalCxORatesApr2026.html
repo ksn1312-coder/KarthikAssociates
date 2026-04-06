@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karthik Swaminathan — Fractional CXO | Hourly Bill Rates</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Source+Sans+3:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --emerald: #1A7A42; --emerald-dark: #145A32; --emerald-deep: #0D3B21;
+    --emerald-light: #22A95B; --mint: #E8F5EE; --mint-soft: #F2FAF6;
+    --gold: #C9A227; --gold-light: #F5E6A3; --white: #FFFFFF;
+    --text: #1A2E23; --text-mid: #3A5A48; --text-muted: #6B8F7A;
+    --border: #C8E0D2; --shadow: 0 4px 24px rgba(26,122,66,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Source Sans 3', sans-serif; color: var(--text);
+    background: linear-gradient(170deg, var(--mint-soft) 0%, #fff 30%, var(--mint-soft) 70%, #fff 100%);
+    -webkit-font-smoothing: antialiased; line-height: 1.6;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(145deg, var(--emerald-deep) 0%, var(--emerald) 50%, var(--emerald-light) 100%);
+    color: white; padding: 44px 24px 36px; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -60px; right: -60px;
+    width: 220px; height: 220px; border-radius: 50%; background: rgba(255,255,255,0.05);
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom: -40px; left: -40px;
+    width: 180px; height: 180px; border-radius: 50%; background: rgba(255,255,255,0.04);
+  }
+  .hero-badge {
+    display: inline-block; background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25); border-radius: 20px;
+    padding: 4px 14px; font-size: 10px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 7vw, 44px); line-height: 1.1;
+    margin-bottom: 6px; letter-spacing: -0.5px;
+  }
+  .hero .tagline {
+    font-size: 14px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; opacity: 0.8; margin-bottom: 10px;
+  }
+  .hero p { font-size: 14px; opacity: 0.8; max-width: 560px; line-height: 1.5; }
+
+  .container { max-width: 700px; margin: 0 auto; padding: 0 16px; }
+
+  /* ── PROFILE CARD ── */
+  .profile-card {
+    background: var(--white); border-radius: 18px; border: 1px solid var(--border);
+    padding: 28px 24px; margin: -28px 16px 24px; position: relative; z-index: 10;
+    box-shadow: 0 8px 40px rgba(26,122,66,0.12); max-width: 700px;
+    margin-left: auto; margin-right: auto;
+  }
+  .profile-top {
+    display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .profile-avatar {
+    width: 64px; height: 64px; border-radius: 16px;
+    background: linear-gradient(135deg, var(--emerald-deep), var(--emerald-light));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; color: white; font-family: 'DM Serif Display', serif;
+    font-weight: 700; flex-shrink: 0;
+    box-shadow: 0 4px 16px rgba(26,122,66,0.25);
+  }
+  .profile-info { flex: 1; min-width: 200px; }
+  .profile-name {
+    font-family: 'DM Serif Display', serif; font-size: 22px;
+    color: var(--emerald-dark); line-height: 1.15;
+  }
+  .profile-title {
+    font-size: 13px; font-weight: 700; color: var(--emerald);
+    text-transform: uppercase; letter-spacing: 1px; margin-top: 2px;
+  }
+  .profile-edu {
+    font-size: 12px; color: var(--text-muted); margin-top: 3px;
+  }
+
+  .contact-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 8px; margin: 16px 0 0;
+  }
+  .contact-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12.5px; color: var(--text-mid);
+  }
+  .contact-item .ci-icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: var(--mint); display: flex; align-items: center;
+    justify-content: center; font-size: 13px; flex-shrink: 0;
+  }
+  .contact-item a { color: var(--emerald); text-decoration: none; font-weight: 600; }
+
+  /* ── VENTURES & CREDS ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
+  @media (max-width: 520px) { .two-col { grid-template-columns: 1fr; } }
+
+  .mini-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 14px; padding: 18px; box-shadow: 0 2px 10px rgba(26,122,66,0.06);
+  }
+  .mini-card h4 {
+    font-family: 'DM Serif Display', serif; font-size: 15px;
+    color: var(--emerald-dark); margin-bottom: 12px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  }
+  .venture-item { margin-bottom: 10px; }
+  .venture-name {
+    font-weight: 700; font-size: 13px; color: var(--emerald-dark);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .venture-name .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--emerald); flex-shrink: 0;
+  }
+  .venture-role { font-size: 11.5px; color: var(--text-muted); margin-left: 14px; }
+  .cred-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--text-mid); padding: 4px 0;
+  }
+  .cred-dot {
+    width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+  }
+  .cred-dot.green { background: var(--emerald); }
+  .cred-dot.gold { background: var(--gold); }
+
+  /* ── SECTIONS ── */
+  .section { margin: 28px 0; }
+  .section-label {
+    font-size: 10px; font-weight: 800; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--emerald);
+    margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .section h2 {
+    font-family: 'DM Serif Display', serif; font-size: 22px;
+    color: var(--emerald-dark); margin-bottom: 14px; line-height: 1.2;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--white); border-radius: 16px; border: 1px solid var(--border);
+    padding: 22px; margin-bottom: 16px; box-shadow: var(--shadow);
+  }
+  .card-highlight { border-left: 4px solid var(--emerald); }
+  .card-gold {
+    background: linear-gradient(135deg, #FFFEF5, #FFF9E0);
+    border-color: var(--gold-light); border-left: 4px solid var(--gold);
+  }
+
+  /* ── STAT GRID ── */
+  .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 18px 0; }
+  .stat-box {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 14px; padding: 16px 14px; text-align: center;
+    box-shadow: 0 2px 10px rgba(26,122,66,0.06);
+  }
+  .stat-val {
+    font-family: 'DM Serif Display', serif; font-size: 20px;
+    color: var(--emerald); line-height: 1; margin-bottom: 3px;
+  }
+  .stat-label {
+    font-size: 10px; color: var(--text-muted); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.8px;
+  }
+  .stat-sub { font-size: 11px; color: var(--text-mid); margin-top: 3px; }
+
+  /* ── TABLES ── */
+  .table-wrap {
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    margin: 14px 0; border-radius: 14px;
+    border: 1px solid var(--border); box-shadow: var(--shadow);
+  }
+  table {
+    width: 100%; border-collapse: collapse; min-width: 420px;
+    font-size: 13px; background: var(--white);
+  }
+  thead {
+    background: linear-gradient(135deg, var(--emerald-deep), var(--emerald)); color: white;
+  }
+  th {
+    padding: 12px 12px; text-align: left; font-weight: 700;
+    font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; white-space: nowrap;
+  }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tbody tr:nth-child(even) { background: var(--mint-soft); }
+  .amt { font-weight: 700; color: var(--emerald-dark); white-space: nowrap; }
+  .highlight-row { background: var(--mint) !important; }
+
+  /* ── INFO ROWS ── */
+  .info-row {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 12px 0; border-bottom: 1px solid var(--border);
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-icon {
+    width: 34px; height: 34px; border-radius: 10px;
+    background: var(--mint); display: flex;
+    align-items: center; justify-content: center;
+    font-size: 15px; flex-shrink: 0;
+  }
+  .info-label { font-weight: 700; font-size: 13px; color: var(--emerald-dark); }
+  .info-desc { font-size: 12.5px; color: var(--text-mid); line-height: 1.5; }
+
+  /* ── CHIPS ── */
+  .chip-row { display: flex; flex-wrap: wrap; gap: 7px; margin: 10px 0; }
+  .chip {
+    background: var(--mint); border: 1px solid var(--border);
+    border-radius: 20px; padding: 4px 12px; font-size: 11px;
+    font-weight: 600; color: var(--emerald-dark); white-space: nowrap;
+  }
+  .chip-gold { background: var(--gold-light); border-color: var(--gold); color: #7A6313; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: linear-gradient(135deg, var(--emerald), var(--emerald-light));
+    color: white; border-radius: 16px; padding: 26px 22px;
+    margin: 24px 0; position: relative; overflow: hidden;
+  }
+  .callout::before {
+    content: '💡'; position: absolute; top: -10px; right: 12px; font-size: 60px; opacity: 0.12;
+  }
+  .callout h3 { font-family: 'DM Serif Display', serif; font-size: 18px; margin-bottom: 8px; }
+  .callout p { font-size: 13px; opacity: 0.9; line-height: 1.5; }
+  .rate-box {
+    background: rgba(255,255,255,0.15); border-radius: 12px;
+    padding: 14px 16px; flex: 1; min-width: 150px;
+  }
+  .rate-box .lb { font-size: 10px; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; }
+  .rate-box .vl { font-family: 'DM Serif Display', serif; font-size: 20px; margin-top: 3px; }
+  .rate-box .sb { font-size: 12px; opacity: 0.8; margin-top: 2px; }
+
+  .note {
+    font-size: 11.5px; color: var(--text-muted); margin-top: 6px;
+    padding-left: 10px; border-left: 2px solid var(--border); line-height: 1.45;
+  }
+
+  /* ── MOTTO ── */
+  .motto {
+    text-align: center; padding: 20px; margin: 20px 0;
+    font-family: 'DM Serif Display', serif; font-style: italic;
+    font-size: 16px; color: var(--emerald-dark); line-height: 1.4;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center; padding: 28px 20px;
+    border-top: 1px solid var(--border); margin-top: 24px;
+    color: var(--text-muted); font-size: 11.5px;
+  }
+  .footer-brand {
+    font-family: 'DM Serif Display', serif; font-size: 15px;
+    color: var(--emerald); margin-bottom: 4px;
+  }
+  .footer a { color: var(--emerald); text-decoration: none; font-weight: 600; }
+
+  @media (max-width: 480px) {
+    .hero { padding: 32px 18px 28px; }
+    .profile-card { padding: 20px 16px; margin-top: -24px; }
+    .card { padding: 16px; }
+    .stat-grid { gap: 8px; }
+    .stat-box { padding: 12px 10px; }
+    .stat-val { font-size: 17px; }
+    .profile-avatar { width: 52px; height: 52px; font-size: 22px; border-radius: 14px; }
+  }
+  @media print {
+    body { background: white; }
+    .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .card, .mini-card, .profile-card { box-shadow: none; break-inside: avoid; }
+    .table-wrap { box-shadow: none; }
+  }
+
+  /* ── PDF DOWNLOAD ── */
+  .pdf-download-bar {
+    background: linear-gradient(135deg, var(--emerald-deep), var(--emerald));
+    border-radius: 14px; padding: 18px 22px; margin: 20px 0;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 14px; flex-wrap: wrap; box-shadow: 0 4px 20px rgba(26,122,66,0.18);
+  }
+  .pdf-download-bar .pdf-info {
+    display: flex; align-items: center; gap: 12px; color: white;
+  }
+  .pdf-download-bar .pdf-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: rgba(255,255,255,0.15); display: flex;
+    align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .pdf-download-bar .pdf-label {
+    font-weight: 700; font-size: 14px;
+  }
+  .pdf-download-bar .pdf-sub {
+    font-size: 12px; opacity: 0.75;
+  }
+  .pdf-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: white; color: var(--emerald-dark);
+    padding: 12px 24px; border-radius: 12px;
+    font-size: 14px; font-weight: 700; text-decoration: none;
+    border: none; cursor: pointer; font-family: inherit;
+    transition: all 0.2s; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  .pdf-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+  @media print { .pdf-download-bar { display: none; } }
+
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-badge">Profile & Hourly Rate Card · April 2026</div>
+    <h1>Karthik<br>Swaminathan</h1>
+    <div class="tagline">Independent Fractional CxO</div>
+    <p>26+ years of experience spanning BFSI, GenAI, Cloud Architecture, and Management Consulting. Fractional CXO hourly bill rates for India & Chennai market.</p>
+  </div>
+</div>
+
+
+<!-- ══ PDF DOWNLOAD ══ -->
+<div class="container">
+  <div class="pdf-download-bar">
+    <div class="pdf-info">
+      <div class="pdf-icon">📄</div>
+      <div>
+        <div class="pdf-label">Download PDF Version</div>
+        <div class="pdf-sub">KarthikSwaminathanFractionalCxORates.pdf · Profile + Hourly Rate Card</div>
+      </div>
+    </div>
+    <a class="pdf-btn" href="data:application/pdf;base64,JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUiAvRjMgNCAwIFIgL0Y0IDYgMCBSCj4+CmVuZG9iagoyIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMSAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjMgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EtQm9sZCAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjIgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iago0IDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLUJvbGRPYmxpcXVlIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMyAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL0NvbnRlbnRzIDE0IDAgUiAvTWVkaWFCb3ggWyAwIDAgNTk1LjI3NTYgODQxLjg4OTggXSAvUGFyZW50IDEzIDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago2IDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLU9ibGlxdWUgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0Y0IC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNyAwIG9iago8PAovQ29udGVudHMgMTUgMCBSIC9NZWRpYUJveCBbIDAgMCA1OTUuMjc1NiA4NDEuODg5OCBdIC9QYXJlbnQgMTMgMCBSIC9SZXNvdXJjZXMgPDwKL0ZvbnQgMSAwIFIgL1Byb2NTZXQgWyAvUERGIC9UZXh0IC9JbWFnZUIgL0ltYWdlQyAvSW1hZ2VJIF0KPj4gL1JvdGF0ZSAwIC9UcmFucyA8PAoKPj4gCiAgL1R5cGUgL1BhZ2UKPj4KZW5kb2JqCjggMCBvYmoKPDwKL0NvbnRlbnRzIDE2IDAgUiAvTWVkaWFCb3ggWyAwIDAgNTk1LjI3NTYgODQxLjg4OTggXSAvUGFyZW50IDEzIDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago5IDAgb2JqCjw8Ci9Db250ZW50cyAxNyAwIFIgL01lZGlhQm94IFsgMCAwIDU5NS4yNzU2IDg0MS44ODk4IF0gL1BhcmVudCAxMyAwIFIgL1Jlc291cmNlcyA8PAovRm9udCAxIDAgUiAvUHJvY1NldCBbIC9QREYgL1RleHQgL0ltYWdlQiAvSW1hZ2VDIC9JbWFnZUkgXQo+PiAvUm90YXRlIDAgL1RyYW5zIDw8Cgo+PiAKICAvVHlwZSAvUGFnZQo+PgplbmRvYmoKMTAgMCBvYmoKPDwKL0NvbnRlbnRzIDE4IDAgUiAvTWVkaWFCb3ggWyAwIDAgNTk1LjI3NTYgODQxLjg4OTggXSAvUGFyZW50IDEzIDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iagoxMSAwIG9iago8PAovUGFnZU1vZGUgL1VzZU5vbmUgL1BhZ2VzIDEzIDAgUiAvVHlwZSAvQ2F0YWxvZwo+PgplbmRvYmoKMTIgMCBvYmoKPDwKL0F1dGhvciAoXChhbm9ueW1vdXNcKSkgL0NyZWF0aW9uRGF0ZSAoRDoyMDI2MDQwNjIxNDk0NiswMCcwMCcpIC9DcmVhdG9yIChcKHVuc3BlY2lmaWVkXCkpIC9LZXl3b3JkcyAoKSAvTW9kRGF0ZSAoRDoyMDI2MDQwNjIxNDk0NiswMCcwMCcpIC9Qcm9kdWNlciAoUmVwb3J0TGFiIFBERiBMaWJyYXJ5IC0gXChvcGVuc291cmNlXCkpIAogIC9TdWJqZWN0IChcKHVuc3BlY2lmaWVkXCkpIC9UaXRsZSAoXChhbm9ueW1vdXNcKSkgL1RyYXBwZWQgL0ZhbHNlCj4+CmVuZG9iagoxMyAwIG9iago8PAovQ291bnQgNSAvS2lkcyBbIDUgMCBSIDcgMCBSIDggMCBSIDkgMCBSIDEwIDAgUiBdIC9UeXBlIC9QYWdlcwo+PgplbmRvYmoKMTQgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggMjc0OQo+PgpzdHJlYW0KR2F0bT0+QkFRLSZxOVNZZl1mMkVnZFlsXU85RVk2Yi1MQnRlQC8lRGtAPm5tMEVrW15HdTcvVVdGc007bWZGMVA4ZXNrOWslJXA/PUNBbl9tVUdeZzcpNmBqNy9tWylKNVtPUlNKKitbci1LUXBAPXMlOUEsa2NdLEsiVXNjTlNyKWA4Vk9MS1IsTy9iOHVaVmghOG9vMzFhbzxqI0k+KiVLamo5SzZrSWY5WiRiMzd1IzhvZ0VPL2JFRiE9M0BIKUlpbE1YNTMwblwsMyIqWWM8R2coZWIxWnBNJDJkODBvUDhfWVZpKSsqMlcjP1k1Iyw3XjY5UTRPc1xCVWMpQiRQRjopczs9PFcxTCFJSnRwU1xXVjJfcWU9KWJhcWo+VmRHa0ZhTDwjSlwzRDljJC5IP20qWyNYLEo6Mi02QW1DSV08UjFYVC0vRTgqL3QobFdMaStqKk5oU3VlXkswU0FWckVSLUlIYFgpPm8qOGFNMGM2bnJncF5fYmRxKGZZXSRJYlw1TD0nc2QjNFJVLSVQWVBkOitoKmRQbDFbXz9mOnNhJkBFTW1qLyEwaExkQlhZP2t1IWgwYEwvcFZRR0UhKEtuIUsrKD1rS2AqampJS2gsUDgtYDBZPDhpdTttZDItMyNsWzEyLmdCTTsxX19lcCVpP20vaGo0YzxmXEcibS8zWlJzWlMqVCNaTjtnQkA3NCRrQTpzV05mby5EPG5gbSlyMVZkbTYiIT9OZyQ2bzlHQWAhPyclXyFUK29qRCJbWU1zSGljSEBpR2BuNVk+c0xbZFQlUj4hQyZBPmBdPElFYWtqbTZ1KV0pMzkmMC80K2k1TGRgLXU2JktrZVR1Jzwpa1Y6T0NKWVYiOGJoRGNJYyMkb0ZPKTNTQCckLksuNiowXiEnSUpsXSpbVjZTO2pfcjkiMFdHPCFnQSFUaSRvSDFCLEYnSCEsJV0jX241Xm9LJjkhQkBbUEZHRTRfUkJRSyVGM2A5PUlbOUcuclMkIXEvI1FyXytsNT8qJ1lvYDdHP1hwXXFWL0ktM2QvaGRiaTlQUTtebnJwUWQmKjZwdVYoVW0+QXRhb1taRSxmc21rVmRYcm9KbD1gU0pPPTFVMjcrblIjQG0qS084TShqRSFcPVxFcSlmNGdEbGpcayohVWsmJjEiQFxcKSwjV1xnYixZWDFfOTlAUWwoLCZkIkdnNGNGIkN0WVkkOkU9SmFAV2RoU1JsN0U+WzdIJys4W2hVVVsjSSJLSypLbFxnJWZZOiknW0w/bTVrIkVtRl1wJk4uLm5eTzIkOklbXW9sIjQlNDdRNENNP2BrZFVmLkJAdTlXO09iMiwuZFRkMTZSbW1PJCImUXU2SmNsXGhMaGZSMlFwX15kQ0xrQC8mJWhvcylEPl03SkdmO1tERUlVIlVeVitXSkpJVSchTDQ0UjVMRTY1WmtdM0ZzO09VMkdQai03KW40SGBoWmhJRENAYWRoZnE3blU+TjNSaG5gOUIxOF5LWixgWmAwSDtNQTxubWNBVFBWYzJjblJsS0BYL3VbUGApY0ZYRzJYNE08RSsyRzxMTVQnTyM+QVJEUycyTnItak1WIzpSQz0uO1JBTCtLSEElPFhMWDFTPDtkM04yNzBXQj9yY2JgP1s3QEo/OjwzLE9mT1ZdYk89My1SLklqTGdLRSRpUE0/OS83YDQjLSZMVnEyU0FjKjE2KGlsLitnSmAxLlFyJCJpVywpS1Z0PSorIyNMbU1kXSM/Sk5gKHAyZGNRJFJnKWRHJkBQaFspLUkoIkcjaDwxMU9AIWplXjM2NG5vc2Q9R0Q8b0xDXGM7OzNlJz0hYmIrRV1rPT5XI2FRQjsvW0c4MkAyNTFMVnFOPCVFZz5JKilPNFFFRWpzKjovQTRnOy5fTE09NjZ1W1ZxR3JXV2ZtM2NyO1RqYT48MEM0UU9eYV0iWjUpYyJaOzZIVkY+KXE/dUFdLk5KMz88L1cqTC5ETWlDOE1tMURgNzYlQTs9QyVDPyoqKzhiVGFfPGcuS05TcUwmYWAvITZcaz5KPjVfZUZnKiUpOyg4MTVMP1xjOzZlLWhTOmsuaUc/K2JXdThIIWAhP1tyU15qKUhtLEpQZmpcbltHNTdndGdwLi0+Ny9pbC5pO2taKS1fLzBsO1BeNDo5QllpVjk8LCkyMWwtLGEvSy47YWAtTV8hKj4tayVhNnFYMVUuRTtANVNiKllvLkU+aExtV1Y9QEtMM1tgWWg/VHVqMCkzP0I8Ym8nSi1XSmlwI0QwN2JJVW1YcW9xUVdRTVk5PG9DQk0qb01QYDReS2tlZHJhL3IrXD5nVztzRk5QLTlcQ09FQDVZcis1ZV5mXkRwcDNvYjw9bkUsJDsrUicjQFtTbXRVNzI4dGpPaileRzNHRWkrMGBjPjpBOyUvNj9jSmhuMjhfNDFcXkBsanQtRkliM2JMI2dXWk1Fbm5uKGVHMigmc0JAWiVETVEtPTReLTpnSSMkbz1wJFxSJCcmS0MwSlQnW08ocVNLWkI6a29zSmk1TCgqXm1RYVhUdV9GI0M6O1tiJzZgLWIoUVlYIkxDSDRjUzlFLDZYbSo7MTBlXyNFME1eZCIjc04iayVLI1xbW3BRXztmR2pgRjJrMG9XOVxqVVIlSXUhPVQrbXVGVmhvSV05bUIuWS1NT3FCZ1AtaUFaRHRGS2dQNCY1X3I7LENuJ00yWTRGKmRkSFVNLlxwQWxjRFcjUyRQLFJiRyRqc2RhZWFfcDYiU2FWWjM5X15BKUtDUmoibjQ/Iz1cXCE6SCl0NClFLClROmFcQzlqOWhFWlBtJSgsPSNWRG1HVCVsZnJmXWdbMm5TcmdlTG48Q2lkLlouIiEwUStYLFtBLygqNV5WM0JKKnFLJU8uXnIqTF44U2gwQ1ZLRSdOcGZBMi1JTyRuI185IlcqVztYOCw0RmJuUzEjVyJgKChKcnViKCNAYVRYQ0NIcVFJbDk/clBCPT4jWWNaXlJYPC1dTF1vMClrNWNzMTlvZW5lZ2ZgOVM+Q2BtVS5nQ0ouZiVuIVtdSzsyTXVnWGtqN1YnPVZUJmAjSD5UL1dtXlljbEZnT18nNTFMVkxxNDojPkpeLWMtIkR0ayxLPjk8al07OktZJylsaFM2ajc6Im9PJWV0TVU7YVVDcjdPLjQ8b29GUkM3WU4sJlNtTkpgJHAqXj1EN09hKnMvQFZYV0o1YytZOiVIWmU5Lywwbz1SOSYkIlFRJjQ2bFRdJTlfPFxqbkM/UmxLQyFnU15EaVE7Oz5YI0ZARnFFazA2ajhrM1tTLVNNamRdQkQ8TGVJbkIhZnJqRG9tTzA4JiplMV5oYW5ZLk9DTiRVKTRFYnFEVDREYFZDWSw7S2xMPjdqbmBHOCw8WyYhUFRwTC02SUVfPC4zJSZbc2lySTxuIkw3JXVrMkt0UEpwK1dtOVxFJkYkbWktcHM4MUQvYylsOlpVYFVEXDxrNDdJWVdNIU0iZ0piLD4vcFAmVV9uVDtpaGhBdTFELiNuXU8rTDVCMEozXE5qNUNhLTAkbXUtKlVrZzFXaWRHcChuU0tKVF9lQT1sckgpWGFyPm9HPygsazBgQV5WdWxlX2A0c25UWXBOOWlcMlovWigtTHJOQ0s9Mi0+YzBPb2UvUiFlaD8mOkJ+PmVuZHN0cmVhbQplbmRvYmoKMTUgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggMzAyMgo+PgpzdHJlYW0KR2IhbCE+PnM5SyZxOSJGb0UyTERjQT0sMDJkSUs1QztDYlYidSViWVJvSks8WW5hI0k9YFBjTCQhJGxfW3FCZ1M5cFBqdVdORnVRIUdRRllYMXQ2dG1abi1HcGQ8UiJhVzA1VCRtdWhvI19oZGIrUGJtL140dVhea2hENS4kSWEuNVRTdFJvSk8tNlhFRUZ0WE1LI2AmVz9HTiVLNWNOMUQuKklRPl9CVkA2L29lSzVFNi5pNC5IblEwLSNhZjBNSiEzKiZbYztaN0xXSUBZPSVSSz1JM1RvO14nPyhmIlpfLzxfITxAdEA5KV9vOEg8Ol9YSm1XRUxXPVNEdUZxaDVaR3AzNmVtR1s4Pk9TX0ctJmoySC5tVykzY1hTKjlVSltXcG4vc2FcYTNcZmkxKy1aLV9wZjlvYCRwXFowTUdCcj1xOytZNDlhImJ0OS1QQ2Q0P1JnVUZqS10+WUxRRVVjajRlKGktTDE9P2hgY0xxQkREXSFDPmtkMnFFJkUiWz8lN09UbCpxODtlJ1Uxay1ZaDw3Vmcib1AyLEtLP15WZmhCKSNrYGtQb0xNNlAoR0FzY3MuM2ohaVFARC5uPnQzIVBlO2pqXltjcG1YS0tRK1MoaFo/Rjc9LjBwUDxGWDVjNWZsMmhBQVwjOFM8bGVuLklSJjk3I1xBQFFYcy9xRXREVD9dTjNwaG4zX3FXWFVra3VLPVVDcU1rVywjTV1kazJwTm8jO0MvPVdfUFojc01OSG5cUGUuIyVOMTUiNUkxUiVyT0VeXEBgaEdXITciTUpXSU8zVXNULlBuPDpZSy1AVl5wI0JhbW8lYSdeaDhobiZXJlJnQGxAbEYoNWQkVmJdQi1mJT9fMUFiI1JPNlw+Y2RsOFttckZtMmRyTlItKjRuSEc3ZzMlYFFHWGpBbDsqJSdAW21TSzhJaDdEOUYyLVU3aDlKPSYpSVAia11QZkcxI1ZdcUY7O1lzMEQrQlxSV2RWLDItaGZIWUAidCdDQCc/Lyt0bkkhREljNDFbTzAzW2whS1spNVxjaEU7KWpkSGdqUj5dI1wnMGM9XUYqJkU8bmFtYjckdWBabD9BPUwwSEcpMTpfUVs2Vi4xMEwvW1RlZEZNImA/M1VBPjJxbF0pSlYoTzVqaXFQQTQ1M01fQl4uNnVyIlVnQiw0UiMnK0hGKjJnMHJRPjRLdUVNalw3VU5kOGlVR0FWTUx1ZlRiXklTLCM9WVsoLF1VKjFcLSpkR1tqX2IpLDwoUSlgc0A9L3M1XyQ4NS85aGJwZGQ4b3EsI2VnXFlMay9JdF5GUkopQ0NlTTtLbmZlJDoqJ0lbYWJIYy1HaEteJnVvOXF0IyhLVVxMMDQoL2FSbmZwMShTMypXVlA4S0MmTCFyPWMnOU5bMVpPV2s/LExUbyVtcTJRVHRlRl0zWU8sOWI5bDtcbGVoTEU+ZkVgSDUsJGpRSUpVVm0jPl5mVF1SO2ZlX3U5QlMrTk1MXiUsI2tQZC8+NHJDb2JgWWRyOi5kN1ZtaE4xOiY6dFhIO1M1bzhjQkcncXVhKkdIZiNNJT5fUi80YD8oNz5cUVNJViQ/RDByUzdYaUZRSSdpS2M5S0JcVyt0VmtsLiVYZUhnTF5eNENCb0dZPFBbZTpHciYoWkInXiU7KkVoLkA7Rk9PNidsUjQ7X2FvPTVeZExiZSNjPFV0VmhOLV9fWEtnPkokL1UuRGF0T0tLJmJJPzoyIzQidVQtcWFvaldmUnEsXz84O1wmcUU3QzBqUVFbKWU5Uj1tNSZCQGQsO04uS2VsXGo7PVAidDpaI0NISFMyQmk/JlUmdE1Yc1s1QEckcEhOJzBqSG8nWjh1U1JOOj5BSDNNMGg3YTZuWF9GOUpmN2hnJixtRl10bklhJD1YR0JsIW5cZmYlIkxuU1xraWFgNmw1N001N2ZlSlJvS1JwViNpdFFQMydFQSk4KXFeMygwZUEpJUFgLFNQNjknNjBfTDMjN2NMVlc6O3E/T0A9W1AyRCVHZT9dZnNLLjZjOFJdOmJ0W0VYblcmZidGTCZOZ1dSLUg6a0NLI2UwQ1BuQWUwMCk7LG1UWllsVkZJcmpZXmpzP1pianUvbWBcIV5pdW5SaC9DSEsvb3BiUVYyUT5wUWVlS2spcmcjOW4kXTttZkw9ZEMyQTInTyQoK14xKzVfcW83aTRqb24wTGg/ZzRdXzlwR2AmN0ZHW1FdQyZzTTBlKkxYXFctcClQbilzZlJLMy82NEhjWnFLSWBmbWFydSFAQiheWnIkJDo+Sz5STyNVQGg/Iz8oTlM4NUs0Y21sTldzOit0ZG9LYlRGVnFibFVVYy9kTzNtb0dmLGtJdVwlUjR1OyRfJCplODojWSQ6L1ZlOGljNWgqOz8zTjovRWImMUdBRiEuTC02Tz9sXHI1PXRgSTguQUtpP3MlUC1VZj5LK0M6PDlOakFiK2AuNlhEODxYJDpxNypXZTZMbWIzIXE+RlBuT0VlRScjR3U2S1IsM2JyNGk8b0YlUik6QCsxQzZycDU4dG8qXkI/VkVLJUo6bnFmPXVpKks3ZFMvJ3MpRGJVc0xzRk1Nc15MN3BRSEFsW1hCT0RHWElVR0tyJjZIM0tPRCk8QitvX3NPPEdBbVdYJChNNlc1P1l1MnA6SiRpbWo9RUY+UFQlT0xkWj9hZyE2STprM20pUj5YTjEzPUhwUGw0XE9mRmA6ZW1KQm5NWF05USg2RWI+YlMoNz1lZ0xEbHI4TSg0UzAwUD1AclRHJWpTc1Y3L0dCQ19SK0IpazU4WSoscDEoKjNeQyw4Z0VWXFFbRSQ1KSJbc1E0UktyL0QlQEVdMW1mVGdwM0YxSjRsTC9qJS40YVgqaiJMYDJRJHFETURzcUg5ay5hZFItajQjS3M+P205dW4uSiVKQGNZZTkjLGo/LyxyYzApYiFVRTcsLVNlTU9IbUchbDtBKzIxY21VOERoND8qVyRoSihRMmptJk5mbjAqRFA+WlleIk4+ZClbMUxtKHU5V1dYInBDU19EMjEvaCZISkR0MUNoXEQjS2VYXiVgXXNYKyxsOFc+YlxVVC8tSjNtVypJPGR0PFBNWmBWRG9fZWVqNXQwSUVhKWJWU1MtUFcyPCxBPDQ7ZG4jXVFQYU1oJz5QT1cmYTZnPDddPHFHJW5GaSlxL11BU3M6Mz1cI2c7M3MudWcyJWRrLVJIR1tlMSckOD91bEheJ1olNytNUm5YOF5QOVNZJypHYyJsMXFJMUdnbVwwWXQnbXFxTUFgJyFwYlNCS3RFND5AWC1ecmtcSTdvWCEvK0BoP0p1KFxjcWteYjBeNWslL2QpVCtWcjVUJGViYFk+UV5iWEtGWDEzZCglV1goKzIyWj5mYlQ/XykkKnU+Ym0iT0RsR0UvaS9mSFs8akQlT3NoRUlDcWxFaWZjZiw6bGk/aSwrOyRMKzY/ZypPZkZFblVvNSNhZyppJmxTdD9RJk0wQkZHYipCTkoiXVU0OEhldWxaTVg9OypmPilAUVxcSk1SPkRcKWxgSTBxUT4yPkpCJ1JQKUF0IWsuXDBCR3UhXmUuUlFLbTtkP1cjYkhIYltTLV44ZDZoQlZvWT9aSkgqbFMyKnNLZ01MTT1uQnRPWVwhN2MwMmZpRiohcz0yNG5HOEolIXVfT19sTGdtUVg3a0wvJUQ2OVRjcm0qSmJVZFpKYnBNcStobFJtJCg2aDpdOzFORjhSSkYoQ2owNTpCJWA8bzVWWixBL1ZZX3EnP3RjXC5PUWglUTJqSlEqLlVOc2RKW1ZjY0lFLVslbl87XUljO1QvOWgpIUshJWAiRTNUTT08UC9EWVteJiwyMThLWnEyLVpiX2xNXiFxWUNtOm5RQF5tXl86Zy1SUSs/TE0/J3I/WSpwMmV0UWxGZHAuS2ctXE9dMUpMbHEuO2wvYFRWZThfT1hldXQyY1coUCwsODw3UVQlP19EKzJLZ1dxKypiIVEqUWg/YkViP29CcCY2SE9EZDFqL1hjNEpZVzVGYnIvUll+PmVuZHN0cmVhbQplbmRvYmoKMTYgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggMjg0Mgo+PgpzdHJlYW0KR2IiLyk/JCJjLyZxME1YZlM/b2EyQS1JTCxZMVs7bEgkOTVgWk0zKzJqOVpCKztBV0hWRlp1SlM5WDBrSWYhRSQrc2Y3SDZvdTVNZ3ByVyo5XUdAPF0qREkpT1hMZT04K2dMUyNDJj1dX1wzQkFfO2tnIUBsWjUnTF02QW1oWkplSCxrL1daMlJQW2UvQlMjIVJxOSY2JDIvTClCIjxLXUovYyE2bzM7Y2EjOFJdRyVATW09aFtfOVlvLFg8MEooT0ZfIXVBYEBlQ1hYMDM5TSciVyFBcF89dT4uPGJoJERpXCQ8OiwhJTYiTTUpNFouLyY3anBBTjJzcUIzYyxrMyJDLDw9ZzBOYklJLSpBQ2N0VSM7VCIxbmxTPjQyJktDInRcOmFhaV9xMC1VOFUrJytXXC5KWVYmSlJwZVYrNkFPZDJuL0FTSm47WyxsPVtRMyw2TiFsRGI0Yl1AJGhiXzVCSmIkLUwtXDZiWEAmQmo3LF9JTy5rJVMnU0pLQ187KSFiWVRkVVtvIU0zaCNdN0c7TT5icHJLck1FJjhPRGNASFNJSXRQalVSL0YpdW9mTylmOTIzQCUoMGYjZD1USF5ecHVLJypkRDUzPTxtNzoiKGszLmgta1hFbCxpPVlZTTVGNjAzZlpTUygxP3FnNSpiR05LIVJVdSYyMkNMSz9OPFNZYEJsbScwJGpNb2Q1PGxiRzAuQklEJ3JjOSM0VCVKXTF1Lj50LUY8UyNvUUZwPko+bVw/bVh1RTxnZkIkLEQjakw4VyhFTVtnLmowPF9PJCFUUytWSytxR3VyTj9Uczc1PjIyaEtlTHEyJVApKTAyPlNDaiI9LSs6ImMvSkV0UUFsUixYXTtXOjEhMSMrUTUrKm5LJ2JWMmojSTRHT09qZC1aKysmKixmYytDODUzTmZsSWFOPXBxYihhWHFmaTc1VyVfQj5IV1w7MTpjJz8uNj9eaTx1JmRBUTRhTDNGZ1dFdTdWNTBPLkE+JFpVQTxrJU0jZjlHLnEnKEg4V29NN2tYM15YYC5TY05lUU9eSCpjakIiUFNNb0UhdU1NX0xWVmBEPmJ0Plo+KjhOOzpPNkE+K3VlWjkyXSFmJmAzdW0tQGYnamBecz83ZSQmTXI0YjpQKmEtLUI2LCw0KFJQaD1dZ2VOSzQuTWleXk9vZUI2JkplNjRMZmoyT1hLTkRAP2JaOSgvcTJsaSJwWm07aWlfWmRjWUZxSCxzOFZGaDhOU01gSD9UZSZqMS1OXE5bcjVgYDhtWW4/NFUqazxINlMhRFJqUUNFOiooNF87WkBjZEhBPzU8dEBKN0BGb0hJLWRdT14hKE0lcHNxUjlBbDlNc0VDZF4wVy1DWGtCc2ojNk4zMyJebWg9NHUrQnFSZWtHcURtUGFhYyhPVyFGO0dPUi9kSD5zSDc1MXNqaUUyVERXbV9PJWBoMUpjQEc1RjcoZ0MqJFwwMjspZ1RuIV0zZ1NKdShQMy1MLWpkZHFlSG5YU2VVRi8jais1Xy1nQTozZT03S0MoNj0+b141OStoLkNqZCxmM0UwYEAqMFxjXWMmJC8mP3BjQilXI2RTRFpIOVshSGFcRSpIMCpcJC5ydCM2WWRTTkArYGZXMURqT3IyIWdpSEdLPmRgMGFqTWYzYD5ka1NzJ3JOSFciVU9NNC9CZGVZYjk1XyU3V3EsTE4mLTloYlxOQDRyPltZUmFkWSMjPGdxITxdQEwtNGUyM3VVJSNKJiVDJ11eYi07TU5bQHNIbiRROnMvalxCZlheOkpFJEJBOEIiWlBERHNRTmdeKW1HNikvWmxQblJnWywkIkImRmddWGFcbWJZUlBlcixDKTU6J3IiX3NgTW9qXm1lTFtOKnFgTnRwT1M2V09NUTNRM15BMEArQyducTs1dVd1cys8XC5gKCg8JitrZFI3YDVzME9EJyhAUlBzMSdsQysuWmxQJVVcS1hFNSMpR2U4I0omPnQkWSVhQXQlS0JYbEhjQEElIy8tPExlVDFXPj4nckVgSmI+Py90WzZLYF84PFZqRDFGRyJWIy4pPituNFZOXVVePzJmJlkkXWNRTjRMOz08SU9oT1kuJzZwMS5LZ0cwLHAzIjZwIkwoR1AsNGtyciJmallOLGYraEZjTCthWERPMiRLazpTRWZvSmZhUS1DV2IuMTMnKiFCbG9QXVkpPkdrX0hrPHN0dSg3X2QySlozZ09gNzMoLE8xNUQ+VS8pMSZeM0haTD42dFMtNG5oPT5yTCIzN2hlNFVyaDhrP3FpOCVOZy4xaS4sVkhwKydbNS87LWVeREwzX047KFo2cCZpY0liWGBFXE5pJkc4R3U1TFBkZllQPz1KWDQraz8/dFZyIygqRmxnNUV0VztScGZLW1RoIWFvQVsnNlFRIkkrXmdDKmRJI1VTRi1PVFtpaEQzOE4laUs6NEJnJSIhSVcqIzNJPGJPYV1waVtaT0IlV1E1WTJMRCtAIWlROz9fZm1JYnIlISwnXkg5WF4qWS1vSDNFSFtATGheYGY0OThLa3RscUg8Mj1LQGsrQGdMXWchL1VWNEM8OERGUTklRT9dXGQvI3FcVjROZmM5VTU9QHRFaCQ2TzFKTV41KyJyS1goXF9Qal9GPkNKRjVQblcvcFA6TSQ6Iz84USQkQzdjRzRJWTBBPE9WU0VjTDheOXROYSRrIlg2OUg8Mj9uWEtLZXJBZk5RQCRcXU1JU2IuKFAlRzNsYDJWJVNuJS5bRWJTKE1ja2pbUkpoIl0jaHNaPFJvU3JhWWQiWDRUWFYxbVZrT2EsYUorIm4yP3VPI1JVUnBGUVcpXGJAai46WkhhVGMyXzdnWXBtLEcwY2lHIyZKZlM2I2hHKCk9UjU3VSs1NSIwSGppOi9zO2BeU0IvQTBSMnJGYkk7UyhJUTJJQXRfVjIrMSdnUUIsXnRUbVonJDRnJGBkYTklJ1RPPWg+cDZodXEmUjg+W1QjUUdIYVI3Ri9gI1hPVlttLGRVYTFiQTd1JG06QmNOUlpYYy9BajtiYVJsMkk0ZCpCPiVkLWw9Nm5KLmtvMTVqLEciKEY5TU1QbWhwQkJWW0xOR2NtIXB0QUlaV1oqa1s2NXAkK0NqKi8tPz5EWjdgayY5IkQubDs/Vl5QRiVRZCFzSjs+JTUkIm5mTms4QGxOXT1rREVIL1I7WHM3XVZsVV4vNVZTQ29uJS1mbWo4clsyL14uW19fKElxL3VfQ2YscURePixaKC9DM2AjVyJVcGFuOV1pUSZdQXVhOFA+O0g5Uz5zLVBdVWRGP3MnTksmMm1HUlozc0RoViZ0XDpPL0ZzI0g1YWxNOHMtOChaMGg7WT4tIj9OXFpVOzVENlNGSWFpcUtKKUooRCRCV21qWic3MjVfJWBQWSVAKUE1ZDgnLidJTydEOi51UjhTKFRRT1BGYUZCLF1xKENNZU9VJFddMDNwTE1tTmNrMlIxSnVSblZiRyNqVEosZHJWSUJIRlhgPzdXb1UpSWcsdSJWMVw8Vm9wNmxiOmxJKT0mSmJWWkcua0EmYjg9VjlKX2YrYUtqMXNmclRmUlxyL2JnSlZlLkZcbDRPNSFkWGkwPTRFayFjOT1qLEg5KGFaSConYkphTjc8Q0hWRWhMTVxXOHJGSFhWUVhxcEklLi5aa1RMQHRIUipzLF85cW09YjBzWDJYNkU6MyxbR05AUyQjcEtBMUhPOCFIW2MyQFFIcT1WNFQnKjhXLSZoZiU+MV9jaGZLImlWKXIlMmttM2c0QnBdYV84MVUlMlQ7InR+PmVuZHN0cmVhbQplbmRvYmoKMTcgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggMjgxNAo+PgpzdHJlYW0KR2F1SE49YGBSbiZxOVNZYUc4VV1HTUMyXTgxIU0vLERPNGpjJk41aWk4J3JbSVNpSmNCV1FpS0tcX1tAUiw6KTFcdEtfX1shKGdqVzM0QEcwPTEzdFIwKDMzUlhXUDFKPClMclx0TUEsYlQ7PyNSTFpZY2tnLlFSMzdFW0xDXlcpPi41czgjUGhBKW1NazgycT5cZl4jMU1mXGhfX3M+YCk/UTsxMi5mYnNPYkNhY0I6PF5BM2lCTEVZVWxaKDdXOkFxZGUuNj4jYFwtISJPZitfQyd1IVlXbTs6dChOVVQiQEBGRCdmTSNzOk9wNlE0SjRRVSdSQGlfKTAmdDBZcVJENyY5VHJKMGIrPWRQcjJmMC5DKXU4MDtBKSRuJz10LjtQcytgRjZFJTJqZy5PYHFxcV1OQyY8UnJJO14kIkM1XGwpc0xfT08iREEqNUNAJkBnPCJWXTFaXFtEcD9NMCpbNTlmLEtLJDhXZExhLTRvcWkzIVQ/TEpPXCNha15raGwtQi5QbFY9U2BeK2Bzc0ZOOVRdKkFHQEtIXk9hQVpPX3EnLkwvPWguNyNyRD09c25gIUFsVVAtZCpXWWI0byRjOHNcbSQ5T0FndCVAZ3RuIlEuXCssVzJRUTNtbzEtIl9ecVM6WUMyZGZQc2g3YDNgSGRLQWdzJmdyR0s3JHVSRUpoSj1rYUc0Mip1RDclUVFKdStqZ1JRKGFeN1EmWzc6VXRyQF9uRFQjZiVkZ3I+c2BIYCI4Rk9icSJCI1FJZ0xiXmlUTUhQQCxfNjpQPjJmWnM0Xi44WHBqSWBUTmxpSyg6SnFmVTo8Z1NrO10tKVo8czJOYTdaZmJMaEJiLkthWERhJFVQLGQzNmw8UV0mKGgvU0ojQVs5Zl1xI0FFYUFdYUFEVGNpKXFcZjVrMkApSzwoTV46NytscWAoTEAnPm1MQWpIQ2YwYWY5JDluWURdZG5eSC50SF9kbWBuajdRbHBFaDhtRCp0X2AiK0UxVExpJ0hMaW48dSYnUSUpQygiMDBBYCpKTUpCSll0L0QwRiQmNWorOGBXVV9ecERmaiYlMjZHI042akVNcSswOWAuXTFkZzU7QzAlJFAqR3BlL3BGPmctSF9XMTIkU0pCJVE/b2tBbGN0Tz4rQlpeTWAvYyRsUyZoIUZEQVlAKVpHVUxrZlBvUj4/PmpRUFFKKjVrYDQuLSZESltIUUcrS3VDPjo9czAnY2hdNHFDIUF0SGc4T2pFIyNgQElPZU1vWDc1LDdOUExoK0ZyOEQyL143M2cnJ0BhakQhIXE8YzsnWEFUaDxoRGQqVy44bGgjcDMpb1U1KXJSNlc4W0hVSmVYVUZiOlwxNj4nWSZmOmpQXjMmJz0jKVIpOzhoblxyISZFJzdON0g/Nik+PjAoNVUsVCRqUVw8PVszaD5WZjNaJURfUS9EXF0nVypBPDo+TTlCYDAsIl1GRz5RL1poQ2Q8UkxiQlUwY2IyM2IkTFBpKl4yNkJDYUM9M3VAaEFDT0lzYC5yUWwpTG5iKSpWS3MlYCFJMlNbIilfQl9kYVAiNEU9cGojKDFgXm5laHJSXVM9Z1RVTVE8LD1HN1pCPi0uVi9RYWlUOE9MVS5hLT5WSlxuMHJCWWJJPkNhWm1hJyMsOTlQWVE5dTspRVRfKlMvTDM1QEoqImRqLixjNEA2cV5HNUt1IkdubSJOMUItR0ZNPz9kOyhGTy4uM3FhWU5rZHJcLFs5TS4xUVRfUWUoP0grNj0oJ0o8MHMtWlhmLGFwI0cyaFYtak42Vjxlc2luczNhQDphSjs1bGs6QlwqJGgxLVorMmFYa11JU2JVUnAxZzZJXDA/MDEnbnJbcVlrKy9yJjcmTCFWZ0E2WGpxQ1QodDBFK2E3N3A0ZzZWYGNBYTI4M0xkKy11RW0iLT9aVT9sZCZkXTJwPEssUiEnP2ZHIyxvTz4iZ0Y0QSNocFVnOFhkOGRpJWRJcFooW1AwSENUQSVDPic/WGxFbU0jKEtydTdyKSNIYnEqQylKTm5BQzAvOzdgNGctWV9JMG1VZU4xL2lXZGdibVJAUGZzZEstP11TUDlNaVtMU00mQUI5UThtMnMxVmhgMSwyLnJQWTJzIzBrL24nYWtjJGM7UXJzWC5ORSslXW8objhkRV9UWS8xMTBDVTVmUzMhc09ALWFWR1o3SixRcCtCVV9eKnIhcGFER0c4c1A7dVlraVlVLlNOOGduaW00YzcxYWU/KVQuL00+SlYyQVRIVFo8JyprNlFsSkEzWW8uU19SWVVLK0FhLjNzK2VtUkJxTFVaJW9tKmRcQUQoQUtXKU4sZlohQzdhTGtbVDhwcEgrYEVAVEppVl5DM3NQKzIpM1syYD0tXllLRi0/LS5tM1pgP0tGLXFyRjY6bjhiJmFwPSFucFM1MTFgdEtnYi5vQDM0RHFcOV1fMk5lOGQwTWlsOTZeN3U7LCFONFotVWtLXVglaFFDKywkZU5zcyVQZGhYSWdXOlZqLmpQc24wM2NJVz5FUUUoaVA8Ri4rYEVQJjxjcTA5MjxSWTFBWXIsbTwzJXAva0kyZzokIllhW1VlJD1BLDxzPW5uK1kicEM9ZFBpSWVeLGBCPSIkN1Rzbyg3ZDNUJ2cyIkVHLjJDNVNsTj9cSXB0QVRBajBlR0wyJVMyVz1tOSRfZ2coWkckKXIkXDUvYU1tL1BGZF9LPSEsZGRTLj40QWZrI0xTbGRRL0FuRS0hWXVpaV8/I1c3Zy0qJExAOzJkSGJQIl1cVjdScGJFTUchTDo8YzdhVy8nU11sJidOQkdqYGFRJEowW2ZCQ05cJj4pMiU6Si8zVSYkXmhQQCRsKThtY1hCK1RRXikrTisjZW1JKkhyW1tPNFFkMS8oZylRQ0s7SklQUGBeLiEoaEdhSFpQXTsrWW5GY1BEYiRzPTRJUWMwYkU5WDFwJzxbR2hIRWRocW9ZRnNvaWs1VTNSUWdsWiYjPzpgTmc6PFYtJEQzOF90Xi4iaFNmS2tOXj05Pkg1PS1sQCU2UUBRZkFKb05OI1pHbjFdRjlpMTNMJEFadCNdSkgsUm5SYWknU28vLGRib186PVw2X0VaUlAzSiJjIk4ob0EobVIzKjNNRVpTcj08ViZMNGs6NSs2Q2xiPV9pWE5rPycnI0xWJmUyNjIxMldHQyMsRyY3KHFSPlppQz9VN2VdSmxPVklXSTNFbFYlVS1yKj04PyddRDJmSVU8YVpISSMyaE1ySGlcOU0lJStnUVc8Q2RcbGtwTFwnWXNlaS5UKExdNThgUi5xSHFTbSEuKzpLVScuVVJfPUxfKCtwWk5UJyloa3A+I1phbD1sNl8uYiRAMytMM0wiZzdjOz8tLDttMExPVT5mYGtzOUNOVj5EcV46WCheRUZqNlszTDVUWVgnQjBmQVJAJUJSZExoLCJdIlUhbmxRUT1NdT5gK0NCIzszTmAxPUBJLmM6X2g/aWpvPVI1QTVORyNCYmVWV0RJJm4yYGxXIlQpPEhJW0xxOlMyaDNJc2dzSEVNL1ZYQEknbElaXmVLZG9yTzkxMj9vK3QmRFBEMk1fKjVgUGNcPTE8OXFbcjhXWmUqZSM9NjwpcyZkOjdZWjtaLDhROGRcMXBGSm9ZQmJzM3Q4OT1dNlpGb19zLmJOXT03YGNwInEuKyV0ajM5WWgpKzBgZ0c+MyRwVSJfckhnITpwVyJAXWNWcnRKbWxcYzFWRDx0OkBqLkJAIllvN0hKY34+ZW5kc3RyZWFtCmVuZG9iagoxOCAwIG9iago8PAovRmlsdGVyIFsgL0FTQ0lJODVEZWNvZGUgL0ZsYXRlRGVjb2RlIF0gL0xlbmd0aCAxODg2Cj4+CnN0cmVhbQpHYXRtOz1gYD1VJjpXNjdmVSRjT2ZSZSspK1NmJ1c4IyIiKUE+UGpAcF1WZ0wmTVhmTVVoImhMNUpATV9VYVkhJ091Qik/QTFrK0RoQit1ZSdML1x1JVRAbiU7YEhtTl5jNSMrSk46WiJrbyQhYiNOI2M+XGhyby1FNUAyVEoxciQoXD8yLC0xPVVHMDo+RVgvXl5YUGM0XV9dTyFUPSVtOmhbQGU0ITlSSDQrYTA/bGhmSDw2O2E8TFtKaUVgOFhSQ1huOWdTLDVSKj1RQVxKa1cvMCdiOSdCci1xXDBNKUFLP01ZLmAqI2FNSmBFRGxpNSZTREhyVF0iXic8akpTW2leRFE7T1xRImEhO2A1cz1KUltDbzxKJVUsYmtkNW1SL2tdcTovISZOJyFnOVs0QF0wbTw2O1RvZ2RjTnUhKSwuWm1IYmJiXkBaX2dwLyxkTkhUJFJrUEFBMiRfZG1xUWxnM14sV1ZocjJLN2tLMkJuUiNJbWlFJj0iJyI1SWtbIUs9MC5qIm9WWGI7Vi1SIzFMJzRAZE9FQEg8RWBALEo8T0xdKV04WWByQ0ZRM2ptcS1XaTBCSiNNOF0iMjQ6SVJQcyowI1p1MmlZKkg8TGkhZjViK2RqajNrayhINVFvbihvUXB1OykwbDMralNWSm5SNipET1NAKFNgY0dIRlM/O1ElPGs1IyI4SSJsdUdTIkRQRlQ5bUtDZ1hMblU1NSxtU0JHU2NcZmxFOnMzVEkhdShVcEQ5MGdDQjllIW4zc0NQS1RoMiUvclwoQl4hai9kRiJJSjlyQyhxNClnPmw1IlFQIVU7SXBJUmp1Ql11LmRaMzg1WjE0al9mYUBqM21RK0IqKEZNVDJaN2w8YUVLPShFZz5iKUE5VSdpUkMuJEpaR1hcJCIzX1hBYj8yVGs7PUtvRCZwNDJwImJHKFFCVF4pI1EpR0JEZC9kSyhVO15Cbmg1TSlFKEAqTU0jKTUrWUpsMHA6ayorbm5STkphaklSPWY1KEc4SGk5ZVwxRVBSR1RNSWttWCk6azlhWnFxKmpbS2BYYmJgQTEvMi0jbWRONGxXcW5HSGZbSVo8KDkxTDVoZDhdWDw/Nms7QWBHbDBkKF1OTykxJTIxQipPUy8qVFU5Vi82JXA+S2MiJUNnazM/Rk8sOVVoajZCYCEpOitFJlthLDtEU2RNUDpTbSpgTl47VThAVylDUEtgQz8wbUxqXCU/ISRfIUtPTjdSRFdJU2dUNGp1Q2JdbTZDZGclKWJsNGkzPGshUjpFbkIkUSFEXzdDbFBUdC9pdSVQbjlEXjRbQUMiOV89bEtVVSU6JXVdVDglTGRTWmpNakQraGNfcmk0XjZDP25rcFUsOSp0UTldUEtJP0dFOSteWXIqLEo6cSExImtwVFAmbHNLPW1iakJudU9bMS9jX2UlY2AuZyotRyEpJTZkW2tELyQ1TmUoOU4tay1lU3RXV1M4Ny03RGgocTV0K0ZGay9BUjoscEFeXyxTYlY0ODo0Ij5iTU5mcDE3UkIrOTRwJ0llQzc1Yl4tbD1yXSs4bVkqaTppT1FkSSlSWD9qQ1dvOmQuKFxrJDc5alBQJl1RI08oTUxIYUwvSTk1OjxnIzVeM0ZKM2dbT2lFNTBDZVUrQ1cpaDtTQkZAYSVEWShnPilNJGslTDwoV1BBZjJVaDw+ITZKNkFIPy8oNTYnNUlENzltKlMwKlRaUz0rcD9jLEthOWYvWT83RGxkPltcLS8mVTI/YDMnYlI2RmY0P3JGUDphJk1ZZE5WaiQ9YUgraHIuLTMyOlk3SiQyMEIzYjFPb21ZMU9GKCdmIztqPWtATVs1QWIlPmNnc0ozLW5ua204RDNAYmxuKCFJV2J1KlY+SCswSWxHMERkPEk0P0VxaywkUVw/TidHQylqTG44bElyPVFMWHNtXk1kPyZPMylgWkolNHRCL1I9RkVJOCZTMT9EQEIlXGZtcmFOUC1vSkoxU1w0UWhWSS1NNisxPDpbSjUzPSlTLDNnJy1ROWg/I21LJFthMDFoTzxwLmZEO19mYl1gcWByVFA9OD9ALDY0TkMyXVwlU09Jblk6PV4/bEBAS2okYW8/LGZAIVAncTxiO1RHV0tDJ0RgQmpqUW5NVl1kLCxYT1c9aGkzRUQ7NW9FLFZgbkhVbmwyKkhrVzonJGoyQydrYVtxIkk0LGlDWE5wNVlxTzI8bDFdNDM8LTRoSVwzXGQlPEEvTjMoIylXaVpyPlIvYT1ZKUtnI0BPdC8lWUpUIXNtcmNBRmN1KzxpTCNvKnMucFVdTWZFITJkMElXN2ZWTipkT0w6IjEoT2coQSU/VE8zTnJLUVtBYjZjUmJfOVZKWmptRS1yLC9wVTghWT1hKTRwbkBJSENtJm9QOEVwJmFVOEhSMXEpXlxmcWk4c11cKWolWSdlV2pwTG03JmouWGxxRzYvP0M3TztPMkVKbFAhRUdmMHFPO1cvcDRHSyZRdWBbSl5oMT5LNzxwNCFSPUB+PmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDE5CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDA2MSAwMDAwMCBuIAowMDAwMDAwMTIyIDAwMDAwIG4gCjAwMDAwMDAyMjkgMDAwMDAgbiAKMDAwMDAwMDM0MSAwMDAwMCBuIAowMDAwMDAwNDYwIDAwMDAwIG4gCjAwMDAwMDA2NjUgMDAwMDAgbiAKMDAwMDAwMDc4MCAwMDAwMCBuIAowMDAwMDAwOTg1IDAwMDAwIG4gCjAwMDAwMDExOTAgMDAwMDAgbiAKMDAwMDAwMTM5NSAwMDAwMCBuIAowMDAwMDAxNjAxIDAwMDAwIG4gCjAwMDAwMDE2NzEgMDAwMDAgbiAKMDAwMDAwMTk1MiAwMDAwMCBuIAowMDAwMDAyMDM3IDAwMDAwIG4gCjAwMDAwMDQ4NzggMDAwMDAgbiAKMDAwMDAwNzk5MiAwMDAwMCBuIAowMDAwMDEwOTI2IDAwMDAwIG4gCjAwMDAwMTM4MzIgMDAwMDAgbiAKdHJhaWxlcgo8PAovSUQgCls8NjQ1NzY0M2Y3YjFmYzAyYzQ0MWM4MWVkMDY2Y2UzZjE+PDY0NTc2NDNmN2IxZmMwMmM0NDFjODFlZDA2NmNlM2YxPl0KJSBSZXBvcnRMYWIgZ2VuZXJhdGVkIFBERiBkb2N1bWVudCAtLSBkaWdlc3QgKG9wZW5zb3VyY2UpCgovSW5mbyAxMiAwIFIKL1Jvb3QgMTEgMCBSCi9TaXplIDE5Cj4+CnN0YXJ0eHJlZgoxNTgxMAolJUVPRgo=" download="KarthikSwaminathanFractionalCxORates.pdf">
+      ⬇ Download PDF
+    </a>
+  </div>
+</div>
+
+<!-- ══ PROFILE CARD ══ -->
+<div class="profile-card">
+  <div class="profile-top">
+    <div class="profile-avatar">KS</div>
+    <div class="profile-info">
+      <div class="profile-name">Karthik Swaminathan</div>
+      <div class="profile-title">Independent Fractional CxO</div>
+      <div class="profile-edu">BE Mechanical, CIT &nbsp;|&nbsp; PGDIM, IGNOU</div>
+    </div>
+  </div>
+
+  <div class="contact-grid">
+    <div class="contact-item">
+      <div class="ci-icon">✉️</div>
+      <a href="/cdn-cgi/l/email-protection#9af1e9f4aba9aba8dafdf7fbf3f6b4f9f5f7"><span class="__cf_email__" data-cfemail="84eff7eab5b7b5b6c4e3e9e5ede8aae7ebe9">[email&#160;protected]</span></a>
+    </div>
+    <div class="contact-item">
+      <div class="ci-icon">📱</div>
+      <span>+91 96000 71313</span>
+    </div>
+    <div class="contact-item">
+      <div class="ci-icon">☎️</div>
+      <span>+91 44-47410691</span>
+    </div>
+    <div class="contact-item">
+      <div class="ci-icon">🔗</div>
+      <a href="https://linkedin.com/in/ksn1312" target="_blank">linkedin.com/in/ksn1312</a>
+    </div>
+    <div class="contact-item">
+      <div class="ci-icon">📍</div>
+      <span>21 Isha Mia Villa, Dr. Abdul Kalam Rd, Pudupakkam, Chennai - 603103</span>
+    </div>
+  </div>
+
+  <!-- Credentials & Community -->
+  <div style="margin-top:20px;">
+    <div class="mini-card">
+      <h4>Credentials & Community</h4>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:2px 12px;">
+        <div class="cred-item"><span class="cred-dot green"></span> Certified Microsoft Professional</div>
+        <div class="cred-item"><span class="cred-dot gold"></span> Premium Member, Chennai Freelancers Club</div>
+        <div class="cred-item"><span class="cred-dot green"></span> Certified Independent Director</div>
+        <div class="cred-item"><span class="cred-dot gold"></span> Toastmasters International</div>
+        <div class="cred-item"><span class="cred-dot green"></span> Certified Mentor</div>
+        <div class="cred-item"><span class="cred-dot gold"></span> BNI Brilliance</div>
+        <div class="cred-item"><span class="cred-dot green"></span> Google Cloud Champion</div>
+        <div class="cred-item"><span class="cred-dot gold"></span> Alumni · CIT, Coimbatore</div>
+        <div class="cred-item"><span class="cred-dot green"></span> Gen AI Specialist</div>
+        <div class="cred-item"><span class="cred-dot gold"></span> TCS Alumni</div>
+        <div class="cred-item"><span class="cred-dot green"></span> PRINCE2 Certified</div>
+        <div class="cred-item"><span class="cred-dot gold"></span> EC Member, CITAACC</div>
+        <div class="cred-item" style="grid-column:span 2;"><span class="cred-dot gold"></span> Member, NoBroker Ambassador Club</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="motto">"Delivering Value. Building Trust. Leading with Purpose."</div>
+</div>
+
+<div class="container">
+
+  <!-- ══ KEY NUMBERS ══ -->
+  <div class="section">
+    <div class="section-label">At a Glance</div>
+    <h2>India Hourly Rate Snapshot</h2>
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div class="stat-val">₹5,000</div>
+        <div class="stat-label">Low End / Hr</div>
+        <div class="stat-sub">Mid-tier, 15–20 yrs</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">₹15,000</div>
+        <div class="stat-label">High End / Hr</div>
+        <div class="stat-sub">Premium, 25+ yrs</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">$60–$175</div>
+        <div class="stat-label">USD Equivalent</div>
+        <div class="stat-sub">@₹85/USD</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">60–80%</div>
+        <div class="stat-label">Savings</div>
+        <div class="stat-sub">vs Full-Time CXO</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ BY ROLE — HOURLY ══ -->
+  <div class="section">
+    <div class="section-label">Hourly Rates by Role</div>
+    <h2>India Market — Per Hour Billing</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>CXO Role</th><th>Per Hour (INR)</th><th>Per Hour (USD)</th><th>Typical Scope</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Fractional CFO</strong></td><td class="amt">₹4,000 – ₹10,000</td><td class="amt">$47 – $118</td><td>Financial strategy, MIS, fundraising, tax</td></tr>
+          <tr><td><strong>Fractional CTO</strong></td><td class="amt">₹5,000 – ₹12,500</td><td class="amt">$59 – $147</td><td>Tech architecture, cloud, team lead, GenAI</td></tr>
+          <tr><td><strong>Fractional CMO</strong></td><td class="amt">₹4,000 – ₹9,000</td><td class="amt">$47 – $106</td><td>GTM strategy, brand, digital growth</td></tr>
+          <tr><td><strong>Fractional CEO</strong></td><td class="amt">₹6,000 – ₹15,000</td><td class="amt">$71 – $176</td><td>Vision, governance, board advisory</td></tr>
+          <tr><td><strong>Fractional COO</strong></td><td class="amt">₹5,000 – ₹12,000</td><td class="amt">$59 – $141</td><td>Operations, process, scaling</td></tr>
+          <tr><td><strong>Fractional CHRO</strong></td><td class="amt">₹3,500 – ₹8,000</td><td class="amt">$41 – $94</td><td>Talent, org design, compliance</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">Rates for Indian SME/startup clients. ₹85 = $1 USD. Vary by complexity, industry, and credentials.</div>
+  </div>
+
+  <!-- ══ BY SENIORITY ══ -->
+  <div class="section">
+    <div class="section-label">Hourly Rates by Experience</div>
+    <h2>Seniority-Based Hourly Tiers</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Tier</th><th>Experience</th><th>Per Hour (INR)</th><th>Per Hour (USD)</th><th>Profile</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Emerging</strong></td><td>10–15 yrs</td><td class="amt">₹3,000 – ₹5,000</td><td class="amt">$35 – $59</td><td>Ex VP / Sr Director</td></tr>
+          <tr><td><strong>Mid-Tier</strong></td><td>15–20 yrs</td><td class="amt">₹5,000 – ₹8,000</td><td class="amt">$59 – $94</td><td>CXO at 2–3 companies</td></tr>
+          <tr><td><strong>Senior</strong></td><td>20–25 yrs</td><td class="amt">₹8,000 – ₹12,500</td><td class="amt">$94 – $147</td><td>Marquee firms, MNC pedigree</td></tr>
+          <tr class="highlight-row"><td><strong>Premium</strong></td><td>25+ yrs</td><td class="amt">₹10,000 – ₹15,000</td><td class="amt">$118 – $176</td><td>BFSI/GenAI/Cloud, board-level</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ GLOBAL COMPARISON ══ -->
+  <div class="section">
+    <div class="section-label">Global Context</div>
+    <h2>Hourly Rates — Regional Comparison</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Region</th><th>Per Hour (USD)</th><th>Per Hour (INR Equiv.)</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>🇺🇸 United States</td><td class="amt">$200 – $500</td><td class="amt">₹17,000 – ₹42,500</td><td>Highest globally</td></tr>
+          <tr><td>🇬🇧 United Kingdom</td><td class="amt">$175 – $400</td><td class="amt">₹14,900 – ₹34,000</td><td>London premium</td></tr>
+          <tr><td>🇩🇪 Western Europe</td><td class="amt">$150 – $350</td><td class="amt">₹12,750 – ₹29,750</td><td>Enterprise talent</td></tr>
+          <tr><td>🇵🇱 Eastern Europe</td><td class="amt">$80 – $200</td><td class="amt">₹6,800 – ₹17,000</td><td>High quality, lower COL</td></tr>
+          <tr class="highlight-row"><td><strong>🇮🇳 India / SE Asia</strong></td><td class="amt"><strong>$60 – $175</strong></td><td class="amt"><strong>₹5,000 – ₹15,000</strong></td><td><strong>Large pool, growing</strong></td></tr>
+          <tr><td>🇨🇦🇦🇺 Canada / Australia</td><td class="amt">$150 – $375</td><td class="amt">₹12,750 – ₹31,875</td><td>Close to US rates</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ HOURLY → MONTHLY ══ -->
+  <div class="section">
+    <div class="section-label">Quick Math</div>
+    <h2>Hourly to Monthly Conversion</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Hrs/Week</th><th>Hrs/Month</th><th>@₹5K/hr</th><th>@₹8K/hr</th><th>@₹10K/hr</th><th>@₹12.5K/hr</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>5 hrs</td><td>~20 hrs</td><td class="amt">₹1.0L</td><td class="amt">₹1.6L</td><td class="amt">₹2.0L</td><td class="amt">₹2.5L</td></tr>
+          <tr><td>10 hrs</td><td>~40 hrs</td><td class="amt">₹2.0L</td><td class="amt">₹3.2L</td><td class="amt">₹4.0L</td><td class="amt">₹5.0L</td></tr>
+          <tr><td>15 hrs</td><td>~60 hrs</td><td class="amt">₹3.0L</td><td class="amt">₹4.8L</td><td class="amt">₹6.0L</td><td class="amt">₹7.5L</td></tr>
+          <tr><td>20 hrs</td><td>~80 hrs</td><td class="amt">₹4.0L</td><td class="amt">₹6.4L</td><td class="amt">₹8.0L</td><td class="amt">₹10.0L</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">Most engagements are 10–15 hrs/week. 15+ hrs/month qualifies for 10–15% retainer discount.</div>
+  </div>
+
+  <!-- ══ INDUSTRY PREMIUMS ══ -->
+  <div class="section">
+    <div class="section-label">Industry Premiums</div>
+    <h2>Hourly Rate Adjustments by Sector</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Industry</th><th>Premium</th><th>Adjusted Hr (INR)</th><th>Why Higher</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>🏦 BFSI / Fintech</td><td class="amt">+15–25%</td><td class="amt">₹6K – ₹18K</td><td>Regulatory, compliance, risk</td></tr>
+          <tr><td>🤖 AI / GenAI / ML</td><td class="amt">+10–20%</td><td class="amt">₹5.5K – ₹16.5K</td><td>Niche, fast-evolving</td></tr>
+          <tr><td>🏥 Healthcare</td><td class="amt">+15–25%</td><td class="amt">₹6K – ₹18K</td><td>Compliance, data privacy</td></tr>
+          <tr><td>☁️ Cloud / SaaS</td><td class="amt">Base–+10%</td><td class="amt">₹5K – ₹14K</td><td>Scalability, multi-tenant</td></tr>
+          <tr><td>🛒 E-commerce / D2C</td><td class="amt">Baseline</td><td class="amt">₹5K – ₹12.5K</td><td>Standard complexity</td></tr>
+          <tr><td>🔐 Cybersecurity</td><td class="amt">+20–30%</td><td class="amt">₹6.5K – ₹19.5K</td><td>vCISO overlap, audits</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ RATE INFLUENCERS ══ -->
+  <div class="section">
+    <div class="section-label">Rate Influencers</div>
+    <h2>What Pushes Hourly Rates Higher</h2>
+    <div class="card card-highlight">
+      <div class="chip-row">
+        <span class="chip chip-gold">🏦 BFSI</span>
+        <span class="chip chip-gold">🤖 GenAI</span>
+        <span class="chip chip-gold">☁️ Cloud</span>
+        <span class="chip chip-gold">🌏 Global Clients</span>
+        <span class="chip chip-gold">📜 Certifications</span>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">🌐</div>
+        <div><div class="info-label">International / US Clients</div><div class="info-desc">2–3× domestic hourly rate → <strong>$100–$175/hr</strong> (₹8,500–₹15,000/hr)</div></div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">🎯</div>
+        <div><div class="info-label">Niche Domain Expertise</div><div class="info-desc">BFSI, GenAI, Cloud, regulated industries → +15–30% premium</div></div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">📜</div>
+        <div><div class="info-label">Certifications</div><div class="info-desc">Google Cloud Champion, Microsoft Certified, CID → upper-tier billing</div></div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">🏛️</div>
+        <div><div class="info-label">Board / Investor Advisory</div><div class="info-desc">Investor pitches, due diligence, governance → top-of-band or project premium</div></div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">⏳</div>
+        <div><div class="info-label">Urgency / After-Hours</div><div class="info-desc">Crisis-mode or weekend advisory → 1.5–2× standard hourly</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FULL-TIME COMPARISON ══ -->
+  <div class="section">
+    <div class="section-label">Cost Comparison</div>
+    <h2>Fractional Hourly vs Full-Time CXO</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Component</th><th>Full-Time CXO (Annual)</th><th>Fractional @ 10 hrs/wk</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Base Compensation</td><td class="amt">₹40L – ₹80L</td><td class="amt">₹20L – ₹50L</td></tr>
+          <tr><td>Benefits, Perks, ESOP</td><td class="amt">₹8L – ₹20L</td><td class="amt">₹0</td></tr>
+          <tr><td>Recruiting / Placement</td><td class="amt">₹5L – ₹12L</td><td class="amt">₹0</td></tr>
+          <tr><td>Severance Risk</td><td>Applicable</td><td>None</td></tr>
+          <tr><td>Effective Hourly Cost</td><td class="amt">₹2,500 – ₹5,300/hr*</td><td class="amt">₹5,000 – ₹12,500/hr</td></tr>
+          <tr class="highlight-row"><td><strong>Total Annual Cost</strong></td><td class="amt"><strong>₹55L – ₹1.1Cr</strong></td><td class="amt"><strong>₹20L – ₹50L</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">* Full-time effective hourly = total annual cost ÷ ~2,000 hrs. Per-hour appears lower but total outlay is 2–3× higher.</div>
+  </div>
+
+  <!-- ══ POSITIONING ══ -->
+  <div class="callout">
+    <h3>Karthik Swaminathan — Recommended Hourly Positioning</h3>
+    <p>26+ years · TCS (22 yrs) + Startups (4 yrs) · BFSI · GenAI · Cloud Architecture · Multiple Certifications</p>
+    <div style="margin-top:14px; display:flex; flex-wrap:wrap; gap:10px;">
+      <div class="rate-box">
+        <div class="lb">Indian Clients</div>
+        <div class="vl">₹8,000–₹12,000/hr</div>
+        <div class="sb">~₹3.2L–₹4.8L at 10 hrs/wk</div>
+      </div>
+      <div class="rate-box">
+        <div class="lb">International Clients</div>
+        <div class="vl">$100–$150/hr</div>
+        <div class="sb">~$4,000–$6,000 at 10 hrs/wk</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ WHEN HOURLY WORKS ══ -->
+  <div class="section">
+    <div class="section-label">Engagement Guidance</div>
+    <h2>When Hourly Billing Makes Sense</h2>
+    <div class="card card-gold">
+      <div class="info-row">
+        <div class="info-icon" style="background:#FFF9E0;">✅</div>
+        <div><div class="info-label">Best For Hourly</div><div class="info-desc">Ad-hoc advisory · Short-term projects (2–8 weeks) · Due diligence & reviews · Board / pitch prep · Under 5 hrs/week</div></div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon" style="background:#FFF0F0;">🔄</div>
+        <div><div class="info-label">Consider Retainer Instead</div><div class="info-desc">Ongoing 15+ hrs/month · Need continuity · Predictable costs · Team leadership · Strategy + execution over 3+ months</div></div>
+      </div>
+    </div>
+    <div class="note">Retainers offer 10–15% discount over equivalent hourly, with guaranteed availability and deeper immersion.</div>
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <div class="footer">
+    <div class="footer-brand">Karthik Swaminathan</div>
+    <div style="margin-bottom:6px;">Independent Fractional CxO · Karthik Associates · Chennai, India</div>
+    <div style="margin-bottom:4px;">
+      <a href="/cdn-cgi/l/email-protection#8de6fee3bcbebcbfcdeae0ece4e1a3eee2e0"><span class="__cf_email__" data-cfemail="016a726f3032303341666c60686d2f626e6c">[email&#160;protected]</span></a> · +91 96000 71313 · +91 44-47410691
+    </div>
+    <div><a href="http
