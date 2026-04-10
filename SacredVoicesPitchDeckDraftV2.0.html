@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#EAF4FB">
+<title>Sacred Voices · Pitch Deck v1.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* ── Light blue / white palette ── */
+  --sky:      #EAF4FB;   /* page background */
+  --sky2:     #F5FAFD;   /* alternate section */
+  --white:    #FFFFFF;
+  --blue:     #1A6FA8;   /* primary brand blue */
+  --blue2:    #2389CC;   /* mid blue */
+  --blueLt:   #5BAED6;   /* light accent */
+  --blueXLt:  #C8E6F5;   /* very light tint */
+  --blueGlow: rgba(26,111,168,.10);
+  --navy:     #0D3D5E;   /* headings, dark text */
+  --teal:     #0D8F8F;
+  --tealLt:   #C8EEEE;
+  --amber:    #C97A00;
+  --amberLt:  #FFF0D0;
+  --rose:     #B84060;
+  --roseLt:   #FDEAEF;
+  --green:    #1A7A42;
+  --greenLt:  #D4F0E0;
+  --ink:      #1A2A38;   /* body text */
+  --inkMid:   #2E4A60;
+  --muted:    #6B8FA8;
+  --mutedLt:  #A8C5D8;
+  --border:   #C8DCE8;
+  --border2:  #A0C0D8;
+  --shadow:   0 2px 16px rgba(26,111,168,.10);
+  --shadowMd: 0 4px 24px rgba(26,111,168,.14);
+  --serif:    'Cormorant Garamond', Georgia, serif;
+  --sans:     'Outfit', system-ui, sans-serif;
+  --r:        14px;
+  --rL:       20px;
+  --safe-t:   env(safe-area-inset-top, 0px);
+  --safe-b:   env(safe-area-inset-bottom, 0px);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--sky);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+
+/* ── STICKY NAV ── */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:calc(var(--safe-t)+10px) 18px 10px;
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  box-shadow:0 1px 12px rgba(26,111,168,.08);
+  height:54px;
+}
+.nav-brand{display:flex;align-items:center;gap:10px;}
+.nav-gem{
+  width:30px;height:30px;border-radius:8px;
+  background:linear-gradient(135deg,var(--blue),var(--blueLt));
+  display:flex;align-items:center;justify-content:center;font-size:14px;
+  box-shadow:0 2px 8px rgba(26,111,168,.3);
+}
+.nav-name{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--navy);letter-spacing:.2px;}
+.nav-badge{font-size:.58rem;font-weight:700;letter-spacing:1.2px;color:var(--blue);background:var(--blueXLt);border:1px solid rgba(26,111,168,.25);border-radius:20px;padding:.15rem .5rem;margin-left:.3rem;}
+.nav-right{display:flex;align-items:center;gap:.6rem;}
+.nav-ctr{font-size:.68rem;color:var(--muted);font-family:var(--sans);letter-spacing:.3px;}
+.hbtn{
+  width:34px;height:34px;border-radius:9px;
+  border:1px solid var(--border);background:var(--white);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;
+  box-shadow:0 1px 4px rgba(26,111,168,.08);
+}
+.hb{width:14px;height:1.5px;background:var(--blue);border-radius:1px;transition:.25s;}
+
+/* ── PROGRESS BAR ── */
+#pgbar{position:fixed;bottom:0;left:0;right:0;height:3px;background:var(--blueXLt);z-index:100;}
+#pgfill{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--blueLt));transition:width .2s;}
+
+/* ── DRAWER ── */
+#drawer{
+  position:fixed;top:54px;right:0;bottom:0;z-index:99;
+  width:min(270px,78vw);
+  background:var(--white);
+  border-left:1px solid var(--border);
+  box-shadow:-4px 0 24px rgba(26,111,168,.12);
+  transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);
+  overflow-y:auto;padding:1rem;
+}
+#drawer.open{transform:translateX(0);}
+.dr-label{font-size:.58rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:.6rem;font-weight:600;}
+.dr-item{
+  display:flex;align-items:center;gap:.65rem;padding:.55rem .7rem;
+  border-radius:9px;cursor:pointer;text-decoration:none;
+  border:1px solid transparent;transition:all .15s;margin-bottom:.2rem;
+}
+.dr-item:hover,.dr-item.cur{background:var(--blueGlow);border-color:rgba(26,111,168,.2);}
+.dr-item.cur .dr-t{color:var(--blue);font-weight:600;}
+.dr-n{font-size:.63rem;color:var(--muted);width:18px;flex-shrink:0;}
+.dr-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.dr-t{font-size:.78rem;color:var(--inkMid);font-weight:400;}
+
+/* ── SECTIONS ── */
+.sec{
+  min-height:100svh;
+  padding:70px 20px 36px;
+  position:relative;overflow:hidden;
+  background:var(--sky);
+}
+.sec-white{background:var(--white);}
+
+/* ── SECTION HEADER ── */
+.sh{margin-bottom:1.25rem;padding-bottom:.9rem;border-bottom:2px solid var(--blueXLt);}
+.sh-eye{
+  font-size:.58rem;letter-spacing:2.5px;color:var(--blue);
+  text-transform:uppercase;font-weight:700;margin-bottom:.35rem;
+  display:flex;align-items:center;gap:.4rem;
+}
+.sh-eye::before{content:'';width:18px;height:2px;background:var(--blue);border-radius:1px;}
+.sh-title{font-family:var(--serif);font-size:clamp(1.65rem,6vw,2.5rem);font-weight:700;color:var(--navy);line-height:1.1;margin-bottom:.35rem;}
+.sh-sub{font-size:.78rem;color:var(--muted);line-height:1.6;}
+
+/* ── ORB DECORATIONS ── */
+.orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(55px);}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:linear-gradient(90deg,var(--blue),var(--blueXLt));margin:1rem 0;opacity:.5;}
+
+/* ── CARD ── */
+.card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.75rem;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.card-tb{position:absolute;top:0;left:0;right:0;height:3px;}
+.card-title{font-family:var(--serif);font-size:1.02rem;font-weight:700;color:var(--navy);margin-bottom:.35rem;}
+.card-body{font-size:.77rem;color:var(--inkMid);line-height:1.68;}
+
+/* ── STAT BOXES ── */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:.9rem;}
+.stat-box{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r);padding:.9rem .75rem;text-align:center;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.stat-tb{position:absolute;top:0;left:0;right:0;height:3px;}
+.stat-val{font-family:var(--serif);font-size:1.9rem;font-weight:700;line-height:1;margin-bottom:.2rem;}
+.stat-lbl{font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;}
+
+/* ── TABLE ── */
+.tbl{width:100%;font-size:.72rem;border-collapse:collapse;margin-bottom:.75rem;}
+.tbl th{padding:.4rem .6rem;text-align:left;font-size:.6rem;font-weight:700;letter-spacing:.5px;color:var(--muted);text-transform:uppercase;border-bottom:2px solid var(--blueXLt);background:var(--sky);}
+.tbl td{padding:.42rem .6rem;color:var(--ink);border-bottom:1px solid var(--blueXLt);}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:var(--sky);}
+.tbl-hi{color:var(--navy);font-weight:700;}
+.tbl-g{color:var(--green);font-weight:600;}
+.tbl-a{color:var(--amber);}
+.tbl-r{color:var(--rose);}
+.tbl-t{color:var(--teal);}
+
+/* ── PILLS ── */
+.pill-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem;}
+.pill{font-size:.62rem;border-radius:20px;padding:.2rem .6rem;font-weight:600;border:1px solid;}
+.pb{background:var(--blueXLt);border-color:rgba(26,111,168,.3);color:var(--blue);}
+.pg{background:var(--greenLt);border-color:rgba(26,122,66,.3);color:var(--green);}
+.pt{background:var(--tealLt);border-color:rgba(13,143,143,.3);color:var(--teal);}
+.pa{background:var(--amberLt);border-color:rgba(201,122,0,.3);color:var(--amber);}
+.pr{background:var(--roseLt);border-color:rgba(184,64,96,.3);color:var(--rose);}
+
+/* ── STEP LIST ── */
+.step{display:flex;gap:.9rem;padding:.85rem 0;border-bottom:1px solid var(--blueXLt);}
+.step:last-child{border-bottom:none;}
+.step-num{
+  width:30px;height:30px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.72rem;font-weight:700;margin-top:2px;
+}
+.step-title{font-family:var(--serif);font-size:.96rem;font-weight:700;color:var(--navy);margin-bottom:.2rem;}
+.step-body{font-size:.74rem;color:var(--inkMid);line-height:1.55;}
+.step-code{font-size:.64rem;color:var(--blue);margin-top:.3rem;font-style:italic;}
+
+/* ── SPEC ROWS ── */
+.spec{display:flex;justify-content:space-between;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--blueXLt);gap:.75rem;}
+.spec:last-child{border-bottom:none;}
+.spec-k{font-size:.72rem;color:var(--muted);flex-shrink:0;min-width:82px;}
+.spec-v{font-size:.72rem;color:var(--ink);text-align:right;}
+
+/* ── PHASE CARD ── */
+.phase-card{background:var(--white);border:1px solid var(--border);border-radius:var(--rL);overflow:hidden;margin-bottom:.8rem;box-shadow:var(--shadow);}
+.pc-head{padding:.9rem 1rem;display:flex;justify-content:space-between;align-items:center;}
+.pc-num{font-size:.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.3rem;}
+.pc-dur{font-size:.68rem;font-weight:600;}
+.pc-title{font-family:var(--serif);font-size:1.05rem;font-weight:700;margin-bottom:.6rem;color:var(--navy);}
+.pc-body{padding:0 1rem 1rem;}
+.pc-point{display:flex;gap:.6rem;margin-bottom:.42rem;font-size:.76rem;color:var(--inkMid);line-height:1.5;align-items:flex-start;}
+.pc-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:6px;}
+
+/* ── TIMELINE ── */
+.timeline{position:relative;padding-left:1.4rem;}
+.timeline::before{content:'';position:absolute;left:5px;top:0;bottom:0;width:2px;background:var(--blueXLt);border-radius:1px;}
+.tl-item{position:relative;margin-bottom:1.1rem;}
+.tl-dot{position:absolute;left:-1.4rem;top:4px;width:12px;height:12px;border-radius:50%;border:2px solid;}
+.tl-phase{font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.2rem;}
+.tl-title{font-family:var(--serif);font-size:.96rem;font-weight:700;color:var(--navy);margin-bottom:.35rem;}
+.tl-pt{font-size:.72rem;color:var(--inkMid);display:flex;gap:.4rem;align-items:flex-start;line-height:1.5;margin-bottom:.18rem;}
+.tl-pt::before{content:'▸';color:var(--blueLt);flex-shrink:0;margin-top:1px;}
+
+/* ── WEEK ROW ── */
+.wk-row{display:flex;gap:.75rem;padding:.55rem 0;border-bottom:1px solid var(--blueXLt);align-items:flex-start;}
+.wk-row:last-child{border-bottom:none;}
+.wk-badge{flex-shrink:0;font-size:.6rem;font-weight:700;padding:.22rem .48rem;border-radius:6px;text-align:center;min-width:44px;margin-top:2px;border:1px solid;}
+.wk-title{font-size:.8rem;font-weight:700;color:var(--navy);margin-bottom:.12rem;}
+.wk-body{font-size:.7rem;color:var(--inkMid);line-height:1.5;}
+
+/* ── FAITH CARD ── */
+.faith-card{display:flex;gap:.8rem;padding:.8rem;border:1px solid var(--border);border-radius:var(--r);margin-bottom:.55rem;background:var(--white);box-shadow:var(--shadow);}
+.faith-ico{font-size:1.6rem;flex-shrink:0;}
+.faith-nm{font-size:.86rem;font-weight:700;color:var(--navy);margin-bottom:.08rem;}
+.faith-cnt{font-size:.7rem;margin-bottom:.12rem;}
+.faith-ex{font-size:.65rem;color:var(--muted);}
+
+/* ── RISK ROW ── */
+.risk-row{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:.9rem;margin-bottom:.6rem;box-shadow:var(--shadow);}
+.risk-top{display:flex;align-items:center;gap:.65rem;margin-bottom:.35rem;}
+.risk-ico{font-size:1.1rem;}
+.risk-nm{font-size:.82rem;font-weight:700;color:var(--navy);flex:1;}
+.risk-sev{font-size:.58rem;font-weight:700;padding:.2rem .5rem;border-radius:6px;letter-spacing:.5px;}
+.sev-h{background:var(--roseLt);color:var(--rose);border:1px solid rgba(184,64,96,.3);}
+.sev-m{background:var(--amberLt);color:var(--amber);border:1px solid rgba(201,122,0,.3);}
+.risk-mit{font-size:.7rem;color:var(--inkMid);line-height:1.6;}
+
+/* ── CONTACT CARD ── */
+.contact-card{background:var(--white);border:1px solid var(--border);border-radius:var(--rL);padding:1.2rem;box-shadow:var(--shadowMd);border-top:3px solid var(--blue);}
+.contact-name{font-family:var(--serif);font-size:1.15rem;font-weight:700;color:var(--navy);margin-bottom:.15rem;}
+.contact-role{font-size:.72rem;color:var(--muted);margin-bottom:.85rem;}
+.contact-div{height:1px;background:var(--blueXLt);margin-bottom:.75rem;}
+.contact-row{display:flex;align-items:center;gap:.6rem;font-size:.76rem;color:var(--inkMid);margin-bottom:.45rem;}
+
+/* ── COVER ── */
+.cover-kicker{
+  font-size:.62rem;letter-spacing:2px;color:var(--blue);text-transform:uppercase;font-weight:700;
+  background:var(--blueXLt);border:1px solid rgba(26,111,168,.25);border-radius:20px;
+  display:inline-block;padding:.3rem .8rem;margin-bottom:1.2rem;
+}
+.cover-title{font-family:var(--serif);font-size:clamp(2.6rem,9vw,4.5rem);font-weight:700;color:var(--navy);line-height:.95;margin-bottom:.55rem;letter-spacing:-.5px;}
+.cover-accent{color:var(--blue);}
+.cover-sub{font-family:var(--serif);font-size:.95rem;font-style:italic;color:var(--blue);margin-bottom:.9rem;}
+.cover-faith{font-size:1.8rem;letter-spacing:10px;margin-bottom:1.1rem;opacity:.85;}
+.cover-desc{font-size:.78rem;color:var(--inkMid);line-height:1.7;margin-bottom:1.3rem;max-width:380px;}
+.tag-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.2rem;}
+.tag{font-size:.62rem;color:var(--blue);background:var(--blueXLt);border:1px solid rgba(26,111,168,.25);border-radius:6px;padding:.22rem .55rem;font-weight:500;}
+
+/* ── ECOSYSTEM BOXES ── */
+.eco-box{border-radius:10px;padding:.7rem .8rem;text-align:center;}
+.eco-nm{font-size:.76rem;font-weight:700;margin-bottom:.15rem;}
+.eco-sub{font-size:.62rem;color:var(--muted);}
+
+/* ── CLOSING ── */
+.closing-hl{font-family:var(--serif);font-size:clamp(2rem,8vw,3.2rem);font-weight:700;color:var(--navy);line-height:1.05;margin-bottom:1.2rem;letter-spacing:-.5px;}
+.closing-hl em{color:var(--blue);font-style:italic;}
+
+/* ── ANIMATIONS ── */
+@keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fu .5s ease both;}
+.d1{animation-delay:.06s}.d2{animation-delay:.14s}.d3{animation-delay:.22s}
+.d4{animation-delay:.3s}.d5{animation-delay:.38s}.d6{animation-delay:.46s}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .45s ease,transform .45s ease;}
+.reveal.in{opacity:1;transform:none;}
+
+/* ── RESPONSIVE ── */
+@media(min-width:600px){
+  .stats-grid{grid-template-columns:repeat(4,1fr);}
+}
+@media(min-width:640px){.sec{padding:70px 2rem 2.5rem;}}
+@media(min-width:1024px){
+  .sec{max-width:860px;margin:0 auto;padding-left:2.5rem;padding-right:2.5rem;}
+  #nav{padding-left:calc(50% - 430px + 18px);padding-right:calc(50% - 430px + 18px);}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-brand">
+    <div class="nav-gem">🙏</div>
+    <span class="nav-name">Sacred Voices</span>
+    <span class="nav-badge">v1.0</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-ctr" id="slide-ctr">01 / 16</span>
+    <div class="hbtn" onclick="toggleDrawer()">
+      <div class="hb"></div><div class="hb"></div><div class="hb"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- DRAWER -->
+<div id="drawer">
+  <div class="dr-label">Slides</div>
+  <a class="dr-item cur" href="#s01" onclick="closeDrawer()"><span class="dr-n">01</span><span class="dr-dot" style="background:var(--blue)"></span><span class="dr-t">Cover</span></a>
+  <a class="dr-item" href="#s02" onclick="closeDrawer()"><span class="dr-n">02</span><span class="dr-dot" style="background:var(--rose)"></span><span class="dr-t">The Problem</span></a>
+  <a class="dr-item" href="#s03" onclick="closeDrawer()"><span class="dr-n">03</span><span class="dr-dot" style="background:var(--blue)"></span><span class="dr-t">The Solution</span></a>
+  <a class="dr-item" href="#s04" onclick="closeDrawer()"><span class="dr-n">04</span><span class="dr-dot" style="background:var(--teal)"></span><span class="dr-t">Market Opportunity</span></a>
+  <a class="dr-item" href="#s05" onclick="closeDrawer()"><span class="dr-n">05</span><span class="dr-dot" style="background:var(--blue)"></span><span class="dr-t">Market Ecosystem</span></a>
+  <a class="dr-item" href="#s06" onclick="closeDrawer()"><span class="dr-n">06</span><span class="dr-dot" style="background:var(--teal)"></span><span class="dr-t">Technology Stack</span></a>
+  <a class="dr-item" href="#s07" onclick="closeDrawer()"><span class="dr-n">07</span><span class="dr-dot" style="background:var(--blue)"></span><span class="dr-t">How It Works</span></a>
+  <a class="dr-item" href="#s08" onclick="closeDrawer()"><span class="dr-n">08</span><span class="dr-dot" style="background:var(--amber)"></span><span class="dr-t">Faith Verticals</span></a>
+  <a class="dr-item" href="#s09" onclick="closeDrawer()"><span class="dr-n">09</span><span class="dr-dot" style="background:var(--blue)"></span><span class="dr-t">Tech Architecture</span></a>
+  <a class="dr-item" href="#s10" onclick="closeDrawer()"><span class="dr-n">10</span><span class="dr-dot" style="background:var(--teal)"></span><span class="dr-t">MVP Timeline — CBE</span></a>
+  <a class="dr-item" href="#s11" onclick="closeDrawer()"><span class="dr-n">11</span><span class="dr-dot" style="background:var(--green)"></span><span class="dr-t">Revenue Model</span></a>
+  <a class="dr-item" href="#s12" onclick="closeDrawer()"><span class="dr-n">12</span><span class="dr-dot" style="background:var(--blue)"></span><span class="dr-t">Go-to-Market</span></a>
+  <a class="dr-item" href="#s13" onclick="closeDrawer()"><span class="dr-n">13</span><span class="dr-dot" style="background:var(--teal)"></span><span class="dr-t">Competitive Edge</span></a>
+  <a class="dr-item" href="#s14" onclick="closeDrawer()"><span class="dr-n">14</span><span class="dr-dot" style="background:var(--rose)"></span><span class="dr-t">Risks & Mitigations</span></a>
+  <a class="dr-item" href="#s15" onclick="closeDrawer()"><span class="dr-n">15</span><span class="dr-dot" style="background:var(--blue)"></span><span class="dr-t">Strategic Fit</span></a>
+  <a class="dr-item" href="#s16" onclick="closeDrawer()"><span class="dr-n">16</span><span class="dr-dot" style="background:var(--green)"></span><span class="dr-t">Bootstrapped Model</span></a>
+</div>
+
+<div id="pgbar"><div id="pgfill"></div></div>
+
+<!-- ═══════════════════════════
+  S01 COVER
+═══════════════════════════ -->
+<section class="sec" id="s01" style="background:linear-gradient(160deg,#EAF4FB 0%,#FFFFFF 55%,#EAF4FB 100%);display:flex;flex-direction:column;justify-content:center;min-height:100svh;">
+  <div class="orb" style="width:300px;height:300px;right:-80px;top:-60px;background:rgba(26,111,168,.08);"></div>
+  <div class="orb" style="width:200px;height:200px;left:-50px;bottom:80px;background:rgba(13,143,143,.06);"></div>
+
+  <div class="cover-kicker fade-up d1">✦ Pitch Deck · Draft V1.0 · April 2026</div>
+  <div class="cover-faith fade-up d1">🛕 ⛪ 🕌 ☸️</div>
+  <div class="cover-title fade-up d2">Sacred<br><span class="cover-accent">Voices</span></div>
+  <div class="cover-sub fade-up d2">India's Multilingual Audio Guide for Every Faith & Heritage Site</div>
+  <div class="cover-desc fade-up d3">A bootstrapped, all-faith platform delivering AI-powered multilingual audio narratives for India's 5 lakh+ temples, mosques, churches, gurudwaras, and heritage destinations.</div>
+
+  <div class="tag-row fade-up d3">
+    <span class="tag">GenAI + Bhashini</span>
+    <span class="tag">22+ Languages</span>
+    <span class="tag">QR + PWA</span>
+    <span class="tag">Google Sign-In</span>
+    <span class="tag">1-Day Free Trial</span>
+    <span class="tag">DPDP Compliant</span>
+    <span class="tag">Bootstrapped</span>
+  </div>
+
+  <div class="stats-grid fade-up d4">
+    <div class="stat-box"><div class="stat-tb" style="background:var(--blue);"></div><div class="stat-val" style="color:var(--blue);">5L+</div><div class="stat-lbl">Faith Sites</div></div>
+    <div class="stat-box"><div class="stat-tb" style="background:var(--teal);"></div><div class="stat-val" style="color:var(--teal);">22+</div><div class="stat-lbl">Languages</div></div>
+    <div class="stat-box"><div class="stat-tb" style="background:var(--green);"></div><div class="stat-val" style="color:var(--green);">₹2,400Cr</div><div class="stat-lbl">Audio Market</div></div>
+    <div class="stat-box"><div class="stat-tb" style="background:var(--amber);"></div><div class="stat-val" style="color:var(--amber);">200Cr+</div><div class="stat-lbl">Annual Visits</div></div>
+  </div>
+
+  <div style="font-size:.7rem;color:var(--muted);margin-top:.5rem;font-style:italic;" class="fade-up d5">Karthik Swaminathan · Independent Fractional CXO · Chennai, India</div>
+</section>
+
+<!-- ═══════════════════════════
+  S02 PROBLEM
+═══════════════════════════ -->
+<section class="sec sec-white" id="s02">
+  <div class="sh reveal">
+    <div class="sh-eye">02 / The Problem</div>
+    <h2 class="sh-title">Millions visit.<br>None are heard.</h2>
+    <p class="sh-sub">A language chasm between India's faith heritage and the people who seek it</p>
+  </div>
+
+  <div class="card reveal" style="border-left:4px solid var(--rose);">
+    <div class="card-title">The Language Gap</div>
+    <div class="card-body">India has 22 scheduled languages and 5 lakh+ faith sites — yet virtually no site offers multilingual audio guides. A Tamil Catholic visiting Velankanni, a Punjabi Muslim at Ajmer Sharif, a Bengali at a Kolkata church — none receive audio in their own language.</div>
+  </div>
+
+  <div class="card reveal" style="border-left:4px solid var(--amber);">
+    <div class="card-title">The Experience Deficit</div>
+    <div class="card-body">Existing guides are either English-only or require expensive human guides. No scalable multilingual solution exists for India's faith sites — temples, mosques, churches, gurudwaras, Buddhist viharas, Jain sites across all traditions.</div>
+  </div>
+
+  <div class="card reveal" style="border-left:4px solid var(--blue);">
+    <div class="card-title">The Missed Opportunity</div>
+    <div class="card-body">65% of Indian internet users prefer native-language content. India's audio market grows at 37% CAGR. WhatsApp audio & devotional streams grew 300%+ post-COVID. Yet no player has built a faith-specific multilingual audio layer.</div>
+  </div>
+
+  <div class="divider reveal"></div>
+  <div class="reveal" style="font-size:.78rem;color:var(--muted);line-height:1.7;font-style:italic;padding:.5rem 0;">"The richest stories in India — carved into ancient stone, whispered by priests, carried across millennia — remain inaccessible to most visitors because they arrive in the wrong language."</div>
+</section>
+
+<!-- ═══════════════════════════
+  S03 SOLUTION
+═══════════════════════════ -->
+<section class="sec" id="s03">
+  <div class="sh reveal">
+    <div class="sh-eye">03 / The Solution</div>
+    <h2 class="sh-title">Scan a QR code.<br>Hear its story.</h2>
+    <p class="sh-sub">In their language. At their pace. For every faith.</p>
+  </div>
+
+  <div class="card reveal">
+    <div class="card-tb" style="background:var(--blue);"></div>
+    <div style="font-size:1.6rem;margin-bottom:.5rem;">🔑</div>
+    <div class="card-title">Google Sign-In + 1-Day Free Trial</div>
+    <div class="card-body">Sign in with Google in one tap → 24-hour free trial begins instantly. DPDP compliant, zero PII stored. Session persists — return any time within 24 hours. Trial → paid subscription at site-level.</div>
+    <div class="pill-row"><span class="pill pb">Google OAuth</span><span class="pill pb">1-Day Trial</span><span class="pill pg">Zero PII</span><span class="pill pg">DPDP Compliant</span></div>
+  </div>
+
+  <div class="card reveal">
+    <div class="card-tb" style="background:var(--teal);"></div>
+    <div style="font-size:1.6rem;margin-bottom:.5rem;">📍</div>
+    <div class="card-title">QR at Every Site</div>
+    <div class="card-body">Scan QR at entrance → browser PWA (no install) → language select → audio in under 3 seconds. Works offline. QR-coded guide booklets at temple gift shops.</div>
+    <div class="pill-row"><span class="pill pt">QR → PWA</span><span class="pill pt">No App Install</span><span class="pill pt">Offline Ready</span><span class="pill pt">&lt;3 Seconds</span></div>
+  </div>
+
+  <div class="card reveal">
+    <div class="card-tb" style="background:var(--amber);"></div>
+    <div style="font-size:1.6rem;margin-bottom:.5rem;">🎧</div>
+    <div class="card-title">3 Content Modes</div>
+    <div class="card-body">Kids · General · Scholar — same site, three narration levels. Scholar mode locked during trial, unlocked on subscription. Each mode AI-generated and scholar-reviewed independently.</div>
+    <div class="pill-row"><span class="pill pa">🧒 Kids</span><span class="pill pa">👤 General</span><span class="pill pa">🔒 Scholar (Paid)</span></div>
+  </div>
+
+  <div class="card reveal">
+    <div class="card-tb" style="background:var(--green);"></div>
+    <div style="font-size:1.6rem;margin-bottom:.5rem;">🌏</div>
+    <div class="card-title">Tamil · English · Hindi (MVP)</div>
+    <div class="card-body">3 languages across all 10 Coimbatore MVP sites. Phase 1 adds Telugu, Kannada, Malayalam + 3 more. 22+ languages roadmap via Bhashini API (GoI, free).</div>
+    <div class="pill-row"><span class="pill pg">Tamil</span><span class="pill pg">English</span><span class="pill pg">Hindi</span><span class="pill pb">+ 19 more (Phase 1+)</span></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+  S04 MARKET
+═══════════════════════════ -->
+<section class="sec sec-white" id="s04">
+  <div class="sh reveal">
+    <div class="sh-eye">04 / Market Opportunity</div>
+    <h2 class="sh-title">A ₹2,400 Cr market<br>with no one in it.</h2>
+    <p class="sh-sub">First-mover window in a high-CAGR audio market anchored by faith tourism</p>
+  </div>
+
+  <div class="stats-grid reveal">
+    <div class="stat-box"><div class="stat-tb" style="background:var(--blue);"></div><div class="stat-val" style="color:var(--blue);">₹2,400Cr</div><div class="stat-lbl">India Audio Market</div></div>
+    <div class="stat-box"><div class="stat-tb" style="background:var(--teal);"></div><div class="stat-val" style="color:var(--teal);">5L+</div><div class="stat-lbl">Faith Sites</div></div>
+    <div class="stat-box"><div class="stat-tb" style="background:var(--green);"></div><div class="stat-val" style="color:var(--green);">200Cr+</div><div class="stat-lbl">Annual Visits</div></div>
+    <div class="stat-box"><div class="stat-tb" style="background:var(--amber);"></div><div class="stat-val" style="color:var(--amber);">37%</div><div class="stat-lbl">Audio CAGR India</div></div>
+  </div>
+
+  <div class="card reveal">
+    <div class="card-tb" style="background:var(--blue);"></div>
+    <div style="font-family:var(--serif);font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:.6rem;">TAM · SAM · SOM</div>
+    <div class="spec"><span class="spec-k">TAM</span><span class="spec-v" style="color:var(--blue);font-weight:600;">₹2,400 Cr — India audio market by 2026</span></div>
+    <div class="spec"><span class="spec-k">SAM</span><span class="spec-v">₹420 Cr — faith & heritage audio in India</span></div>
+    <div class="spec"><span class="spec-k">SOM Y1</span><span class="spec-v tbl-g">₹46L — 10 CBE sites, 3 languages</span></div>
+    <div class="spec"><span class="spec-k">SOM Y3</span><span class="spec-v tbl-g">₹6.75 Cr — 500 TN temples, 6 languages</span></div>
+  </div>
+
+  <div class="card reveal">
+    <div class="card-title">Why Now?</div>
+    <div class="step"><div class="step-num" style="background:var(--blueXLt);border:1px solid rgba(26,111,168,.3);color:var(--blue);">✦</div><div><div class="step-body">65% of Indian internet users prefer native-language content (Google/KPMG)</div></div></div>
+    <div class="step"><div class="step-num" style="background:var(--blueXLt);border:1px solid rgba(26,111,168,.3);color:var(--blue);">✦</div><div><div class="step-body">Kashi, Ajmer Sharif, Velankanni, Golden Temple — top 10 sites see 8 Cr+ visits/year</div></div></div>
+    <div class="step"><div class="step-num" style="background:var(--blueXLt);border:1px solid rgba(26,111,168,.3);color:var(--blue);">✦</div><div><div class="step-body">WhatsApp audio & devotional Spotify streams grew 300%+ post-COVID</div></div></div>
+    <div class="step"><div class="step-num" style="background:var(--blueXLt);border:1px solid rgba(26,111,168,.3);color:var(--blue);">✦</div><div><div class="step-body">Govt PRASHAD & Dekho Apna Desh schemes fund religious tourism content</div></div></div>
+    <div class="step"><div class="step-num" style="background:var(--blueXLt);border:1px solid rgba(26,111,168,.3);color:var(--blue);">✦</div><div><div class="step-body">No organised multilingual audio guide exists for Indian faith sites — zero competition</div></div></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+  S05 ECOSYSTEM
+═══════════════════════════ -->
+<section class="sec" id="s05">
+  <div class="sh reveal">
+    <div class="sh-eye">05 / Market Ecosystem</div>
+    <h2 class="sh-title">Supply chain to audience</h2>
+    <p class="sh-sub">Sacred Voices — content, platform, distribution & revenue flows</p>
+  </div>
+
+  <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:.5rem;" class="reveal">Supply Side</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.55rem;margin-bottom:.9rem;" class="reveal">
+    <div class="eco-box" style="background:var(--tealLt);border:1px solid rgba(13,143,143,.3);"><div class="eco-nm" style="color:var(--teal);">Content Creators</div><div class="eco-sub">Priests, scholars, historians</div></div>
+    <div class="eco-box" style="background:var(--blueXLt);border:2px solid var(--blue);"><div class="eco-nm" style="color:var(--blue);">AI / Tech Platform</div><div class="eco-sub">TTS, translation, GenAI</div></div>
+    <div class="eco-box" style="background:var(--roseLt);border:1px solid rgba(184,64,96,.3);"><div class="eco-nm" style="color:var(--rose);">Distribution</div><div class="eco-sub">QR, WhatsApp, Alexa</div></div>
+  </div>
+
+  <div style="background:var(--blue);color:var(--white);border-radius:12px;padding:.9rem;text-align:center;margin-bottom:.9rem;" class="reveal">
+    <div style="font-family:var(--serif);font-size:1.05rem;font-weight:700;">Sacred Voices Platform</div>
+    <div style="font-size:.7rem;opacity:.85;margin-top:.25rem;">Multilingual · 5L+ Faith Sites · All Faiths · Devotional + Tourism</div>
+  </div>
+
+  <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:.5rem;" class="reveal">Revenue Streams</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-bottom:.9rem;" class="reveal">
+    <div class="eco-box" style="background:var(--amberLt);border:1px solid rgba(201,122,0,.3);"><div class="eco-nm" style="color:var(--amber);">Subscriptions</div><div class="eco-sub">1-Day Trial → paid</div></div>
+    <div class="eco-box" style="background:var(--amberLt);border:1px solid rgba(201,122,0,.3);"><div class="eco-nm" style="color:var(--amber);">Sponsorships</div><div class="eco-sub">Temple trusts, brands</div></div>
+    <div class="eco-box" style="background:var(--amberLt);border:1px solid rgba(201,122,0,.3);"><div class="eco-nm" style="color:var(--amber);">Licensing</div><div class="eco-sub">Tourism boards, OTT</div></div>
+    <div class="eco-box" style="background:var(--amberLt);border:1px solid rgba(201,122,0,.3);"><div class="eco-nm" style="color:var(--amber);">Merchandise</div><div class="eco-sub">QR-coded guide books</div></div>
+  </div>
+
+  <div style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:.5rem;" class="reveal">Audience Segments</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem;" class="reveal">
+    <div class="eco-box" style="background:var(--blueXLt);border:1px solid rgba(26,111,168,.3);"><div class="eco-nm" style="color:var(--blue);">Devotees</div><div class="eco-sub">Daily sadhaks, pilgrims</div></div>
+    <div class="eco-box" style="background:var(--blueXLt);border:1px solid rgba(26,111,168,.3);"><div class="eco-nm" style="color:var(--blue);">Domestic Tourists</div><div class="eco-sub">Weekend pilgrims</div></div>
+    <div class="eco-box" style="background:var(--tealLt);border:1px solid rgba(13,143,143,.3);"><div class="eco-nm" style="color:var(--teal);">NRI / Diaspora</div><div class="eco-sub">Heritage reconnection</div></div>
+    <div class="eco-box" style="background:var(--roseLt);border:1px solid rgba(184,64,96,.3);"><div class="eco-nm" style="color:var(--rose);">Foreign Tourists</div><div class="eco-sub">English, French, Japanese</div></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+  S06 TECH STACK
+═══════════════════════════ -->
+<section class="sec sec-white" id="s06">
+  <div class="sh reveal">
+    <div class="sh-eye">06 / Technology Stack</div>
+    <h2 class="sh-title">GenAI + Bhashini<br>+ Neural TTS</h2>
+    <p class="sh-sub">5-layer multilingual audiobook platform architecture</p>
+  </div>
+
+  <div class="step reveal"><div class="step-num" style="background:var(--tealLt);border:1px solid var(--teal);color:var(--teal);">1</div><div><div class="step-title">Content Ingestion</div><div class="step-body">Shastric texts · Church records · Waqf docs · Gurbanis · ASI database · Field recordings</div><div class="step-code">LangChain loaders → ChromaDB vector store · text-embedding-3-small</div></div></div>
+  <div class="step reveal"><div class="step-num" style="background:var(--blueXLt);border:1px solid var(--blue);color:var(--blue);">2</div><div><div class="step-title">GenAI Engine</div><div class="step-body">Claude 3 Sonnet · GPT-4o · Gemini 1.5 Pro — scriptwriting, fact verification, Kids/General/Scholar levelling</div><div class="step-code">faith_prompt → LLMChain → structured JSON · confidence gate &gt;0.85</div></div></div>
+  <div class="step reveal"><div class="step-num" style="background:var(--roseLt);border:1px solid var(--rose);color:var(--rose);">3</div><div><div class="step-title">Translation Layer</div><div class="step-body">Bhashini API (GoI, free) · IndicTrans2 / AI4Bharat · GPT-4o for Arabic/Pali/Syriac</div><div class="step-code">BLEU 40.2 avg · near-zero marginal cost per new language</div></div></div>
+  <div class="step reveal"><div class="step-num" style="background:var(--amberLt);border:1px solid var(--amber);color:var(--amber);">4</div><div><div class="step-title">Voice Synthesis</div><div class="step-body">Sarvam AI (primary, 11 Indian langs) · ElevenLabs (premium) · Google WaveNet · SSML-aware per faith style</div><div class="step-code">MOS quality gate &gt;3.8 · 128kbps MP3 · HLS adaptive streaming</div></div></div>
+  <div class="step reveal"><div class="step-num" style="background:var(--greenLt);border:1px solid var(--green);color:var(--green);">5</div><div><div class="step-title">Delivery & UX</div><div class="step-body">QR-web PWA (no app) · iOS/Android · WhatsApp bot · Alexa skill · Offline packs · Kiosk mode</div><div class="step-code">GCS + Cloudflare CDN · React 18 + Vite + Workbox Service Worker</div></div></div>
+
+  <div class="divider reveal"></div>
+  <div class="reveal" style="font-size:.72rem;color:var(--muted);">Infrastructure: GCP Cloud Run · Vertex AI (T4 GPU) · Firestore · BigQuery · Firebase Hosting · India region</div>
+</section>
+
+<!-- ═══════════════════════════
+  S07 HOW IT WORKS
+═══════════════════════════ -->
+<section class="sec" id="s07">
+  <div class="sh reveal">
+    <div class="sh-eye">07 / How It Works</div>
+    <h2 class="sh-title">Three steps.<br>Zero friction.</h2>
+    <p class="sh-sub">Sign In · Start Trial → Scan QR · Pick Language → Listen & Explore</p>
+  </div>
+
+  <div class="phase-card reveal">
+    <div class="pc-head" style="background:var(--blueXLt);">
+      <div><div class="pc-num" style="color:var(--blue);">STEP 01</div><div class="pc-dur" style="color:var(--blue);">Google Sign-In</div></div>
+      <span style="font-size:2rem;">🔑</span>
+    </div>
+    <div class="pc-body">
+      <div class="pc-title">Sign In · Start Trial</div>
+      <div style="font-size:.77rem;color:var(--inkMid);line-height:1.65;margin-bottom:.6rem;">Google Sign-In in one tap → 24-hour free trial begins instantly. DPDP compliant, zero PII stored. Session persists across browser close — return within 24 hours and it resumes exactly where you left off.</div>
+      <div class="pill-row"><span class="pill pb">Google OAuth</span><span class="pill pb">24hr Trial</span><span class="pill pg">Zero PII</span><span class="pill pg">DPDP</span></div>
+    </div>
+  </div>
+
+  <div class="phase-card reveal">
+    <div class="pc-head" style="background:var(--tealLt);">
+      <div><div class="pc-num" style="color:var(--teal);">STEP 02</div><div class="pc-dur" style="color:var(--teal);">At the Site</div></div>
+      <span style="font-size:2rem;">📍</span>
+    </div>
+    <div class="pc-body">
+      <div class="pc-title">Scan QR · Pick Language</div>
+      <div style="font-size:.77rem;color:var(--inkMid);line-height:1.65;margin-bottom:.6rem;">Scan QR at site entrance → PWA opens in browser in under 3 seconds (no install) → choose Tamil, English or Hindi → select Kids / General / Scholar mode. Scholar shows 🔒 during trial period.</div>
+      <div class="pill-row"><span class="pill pt">QR Scan</span><span class="pill pt">Tamil</span><span class="pill pt">English</span><span class="pill pt">Hindi</span><span class="pill pa">🔒 Scholar on paid</span></div>
+    </div>
+  </div>
+
+  <div class="phase-card reveal">
+    <div class="pc-head" style="background:var(--amberLt);">
+      <div><div class="pc-num" style="color:var(--amber);">STEP 03</div><div class="pc-dur" style="color:var(--amber);">Audio Guide</div></div>
+      <span style="font-size:2rem;">🎧</span>
+    </div>
+    <div class="pc-body">
+      <div class="pc-title">Listen & Explore</div>
+      <div style="font-size:.77rem;color:var(--inkMid);line-height:1.65;margin-bottom:.6rem;">AI-narrated audio for temples and tourist sites — history, deity lore, architecture, prayer timings, visit tips. Offline audio packs downloadable over WiFi. Scholar mode unlocked on paid subscription.</div>
+      <div class="pill-row"><span class="pill pa">Kids Mode</span><span class="pill pa">General Mode</span><span class="pill pa">Scholar (Paid)</span><span class="pill pg">Offline Ready</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+  S08 FAITH VERTICALS
+═══════════════════════════ -->
+<section class="sec sec-white" id="s08">
+  <div class="sh reveal">
+    <div class="sh-eye">08 / Faith Verticals</div>
+    <h2 class="sh-title">One platform.<br>Every tradition.</h2>
+    <p class="sh-sub">Deep scholar-verified content per faith — not generic, not templated</p>
+  </div>
+
+  <div class="faith-card reveal"><div class="faith-ico">🛕</div><div><div class="faith-nm">Hindu Temples</div><div class="faith-cnt" style="color:var(--amber);">6 lakh+ temples</div><div class="faith-ex">📍 Kashi, Tirupati, Madurai Meenakshi · Hindi, Tamil, Telugu, Kannada, Malayalam</div></div></div>
+  <div class="faith-card reveal"><div class="faith-ico">🕌</div><div><div class="faith-nm">Mosques & Dargahs</div><div class="faith-cnt" style="color:var(--green);">3 lakh+ mosques</div><div class="faith-ex">📍 Ajmer Sharif, Jama Masjid, Haji Ali · Urdu, Hindi, Arabic, Bengali, English</div></div></div>
+  <div class="faith-card reveal"><div class="faith-ico">⛪</div><div><div class="faith-nm">Churches</div><div class="faith-cnt" style="color:var(--teal);">60K+ churches</div><div class="faith-ex">📍 Velankanni, Bom Jesus Goa, CSI Chennai · English, Tamil, Malayalam, Konkani</div></div></div>
+  <div class="faith-card reveal"><div class="faith-ico">🙏</div><div><div class="faith-nm">Gurudwaras</div><div class="faith-cnt" style="color:var(--rose);">30K+ gurudwaras</div><div class="faith-ex">📍 Golden Temple, Hazur Sahib, Bangla Sahib · Punjabi, Hindi, English</div></div></div>
+  <div class="faith-card reveal"><div class="faith-ico">☸️</div><div><div class="faith-nm">Buddhist Viharas</div><div class="faith-cnt" style="color:var(--blue);">8K+ sites</div><div class="faith-ex">📍 Bodh Gaya, Sarnath, Nalanda, Ajanta · Pali, Hindi, Sinhala, English</div></div></div>
+  <div class="faith-card reveal"><div class="faith-ico">🔯</div><div><div class="faith-nm">Jain & Heritage</div><div class="faith-cnt" style="color:var(--muted);">15K+ sites</div><div class="faith-ex">📍 Palitana, Ranakpur, Shravanabelagola · Gujarati, Rajasthani, Hindi</div></div></div>
+
+  <div class="divider reveal"></div>
+  <div class="reveal" style="font-size:.74rem;color:var(--muted);font-style:italic;">MVP: Hindu temples (Coimbatore) · Phase 1 adds Mosques, Churches · All faiths in Year 2</div>
+</section>
+
+<!-- ═══════════════════════════
+  S09 TECH ARCHITECTURE
+═══════════════════════════ -->
+<section class="sec" id="s09">
+  <div class="sh reveal">
+    <div class="sh-eye">09 / Technology Architecture</div>
+    <h2 class="sh-title">Built for India's scale.</h2>
+    <p class="sh-sub">GCP-native · offline-first · DPDP compliant · scholar-verified pipeline</p>
+  </div>
+
+  <div class="card reveal"><div class="card-tb" style="background:var(--teal);"></div><div class="card-title" style="color:var(--teal);">Frontend + PWA</div><div class="card-body">React 18 + Vite + Tailwind · Workbox Service Worker · HLS.js audio · IndexedDB offline · Google OAuth. QR → browser → audio in &lt;3 seconds. No app store needed.</div></div>
+  <div class="card reveal"><div class="card-tb" style="background:var(--blue);"></div><div class="card-title" style="color:var(--blue);">AI Content Pipeline</div><div class="card-body">LangChain + ChromaDB RAG · Claude 3 Sonnet (primary) + Gemini 1.5 (batch) · fact-verification loop · scholar review gate. Confidence score &gt;0.85 auto-publishes.</div></div>
+  <div class="card reveal"><div class="card-tb" style="background:var(--rose);"></div><div class="card-title" style="color:var(--rose);">Translation Layer</div><div class="card-body">Bhashini API (GoI, free) · IndicTrans2 (BLEU 40.2, AI4Bharat) · GPT-4o for Arabic/Pali/Syriac. Marginal cost: ~₹4 per 1,000 audio minutes.</div></div>
+  <div class="card reveal"><div class="card-tb" style="background:var(--amber);"></div><div class="card-title" style="color:var(--amber);">Voice Synthesis</div><div class="card-body">Sarvam AI (11 Indian languages, primary) · ElevenLabs (premium foreign) · Google WaveNet. MOS &gt;3.8 quality gate · SSML-aware narration style per faith tradition.</div></div>
+  <div class="card reveal"><div class="card-tb" style="background:var(--green);"></div><div class="card-title" style="color:var(--green);">Infrastructure</div><div class="card-body">GCP India · Cloud Run (auto-scale 0→N) · Vertex AI T4 GPU · Firestore + Cloud Storage + Cloudflare CDN · BigQuery analytics. Est. ₹6,900/month at 10K users.</div></div>
+</section>
+
+<!-- ═══════════════════════════
+  S10 MVP TIMELINE
+═══════════════════════════ -->
+<section class="sec sec-white" id="s10">
+  <div class="sh reveal">
+    <div class="sh-eye">10 / MVP Timeline — Coimbatore POC</div>
+    <h2 class="sh-title">5 Temples +<br>5 Tourist Sites</h2>
+    <p class="sh-sub">Tamil · English · Hindi · 16-week build-to-launch plan</p>
+  </div>
+
+  <div class="card reveal" style="border-left:4px solid var(--amber);">
+    <div style="font-size:.78rem;font-weight:700;color:var(--amber);margin-bottom:.5rem;">🛕 5 Temple Sites</div>
+    <div class="pc-point"><span class="pc-dot" style="background:var(--amber);"></span>Arulmigu Marudamalai — Hill temple · Lord Murugan · highest footfall in CBE</div>
+    <div class="pc-point"><span class="pc-dot" style="background:var(--amber);"></span>Perur Pateeswarar — Shiva · 2000-yr history · near city centre</div>
+    <div class="pc-point"><span class="pc-dot" style="background:var(--amber);"></span>Eachanari Vinayagar — Ganesha shrine · Ooty highway · tourist route</div>
+    <div class="pc-point"><span class="pc-dot" style="background:var(--amber);"></span>Arulmigu Koniamman — Singanallur · textile community · city devotees</div>
+    <div class="pc-point"><span class="pc-dot" style="background:var(--amber);"></span>Arulmigu Masaniamman — Ukkadam · vibrant festival culture</div>
+  </div>
+
+  <div class="card reveal" style="border-left:4px solid var(--teal);">
+    <div style="font-size:.78rem;font-weight:700;color:var(--teal);margin-bottom:.5rem;">📍 5 Tourist Destinations</div>
+    <div class="pc-point"><span class="pc-dot" style="background:var(--teal);"></span>Ooty · The Nilgiris — UNESCO Toy Train · top hill station · tea estates</div>
+    <div class="pc-point"><span class="pc-dot" style="background:var(--teal);"></span>Valparai — Scenic tea plateau · wildlife · Anamalai Hills</div>
+    <div class="pc-point"><span class="pc-dot" style="background:var(--teal);"></span>Anaimalai Tiger Reserve — Elephant safari · biodiversity hub · Pollachi</div>
+    <div class="pc-point"><span class="pc-dot" style="background:var(--teal);"></span>Black Thunder Water Park — Mettupalayam · family tourism magnet</div>
+    <div class="pc-point"><span class="pc-dot" style="background:var(--teal);"></span>Siruvani Falls — second-sweetest water · trekking · nature reserve</div>
+  </div>
+
+  <div class="card reveal" style="border-left:4px solid var(--rose);">
+    <div style="font-size:.78rem;font-weight:700;color:var(--rose);margin-bottom:.5rem;">📅 16-Week Build Plan</div>
+    <div class="wk-row"><div class="wk-badge" style="background:var(--blueXLt);border-color:rgba(26,111,168,.3);color:var(--blue);">Wk 1–2</div><div><div class="wk-title">Setup & Auth</div><div class="wk-body">GCP setup · Google Sign-In (OAuth) · 1-day trial system · DPDP compliance · temple MoUs signed</div></div></div>
+    <div class="wk-row"><div class="wk-badge" style="background:var(--blueXLt);border-color:rgba(26,111,168,.3);color:var(--blue);">Wk 3–4</div><div><div class="wk-title">Content Research</div><div class="wk-body">Priest interviews · source texts · site photography · Kids/General/Scholar script outlines per site</div></div></div>
+    <div class="wk-row"><div class="wk-badge" style="background:var(--tealLt);border-color:rgba(13,143,143,.3);color:var(--teal);">Wk 5–8</div><div><div class="wk-title">AI Script Generation</div><div class="wk-body">LLM scripts × 10 sites × 3 modes · scholar review · fact-verification · Bhashini translation</div></div></div>
+    <div class="wk-row"><div class="wk-badge" style="background:var(--tealLt);border-color:rgba(13,143,143,.3);color:var(--teal);">Wk 9–10</div><div><div class="wk-title">TTS & Audio Pipeline</div><div class="wk-body">Sarvam AI Tamil/Hindi/English · audio QA (MOS &gt;3.8) · SSML tuning · offline bundle build</div></div></div>
+    <div class="wk-row"><div class="wk-badge" style="background:var(--amberLt);border-color:rgba(201,122,0,.3);color:var(--amber);">Wk 11–12</div><div><div class="wk-title">QR + PWA Deployment</div><div class="wk-body">QR print at all 10 sites · PWA live · Scholar mode paywall · WhatsApp bot · offline packs</div></div></div>
+    <div class="wk-row"><div class="wk-badge" style="background:var(--amberLt);border-color:rgba(201,122,0,.3);color:var(--amber);">Wk 13–14</div><div><div class="wk-title">Soft Launch</div><div class="wk-body">500 users via Google Sign-In · collect feedback · fix issues · iterate content scripts</div></div></div>
+    <div class="wk-row"><div class="wk-badge" style="background:var(--greenLt);border-color:rgba(26,122,66,.3);color:var(--green);">Wk 15–16</div><div><div class="wk-title">Full Launch & Metrics</div><div class="wk-body">Public go-live · measure trial conversions, listen-time, NPS, MAU · media outreach</div></div></div>
+  </div>
+
+  <div class="card reveal" style="background:var(--blueXLt);border-color:rgba(26,111,168,.25);">
+    <div style="font-size:.72rem;font-weight:700;color:var(--blue);margin-bottom:.45rem;">🎯 Success Metrics — 16 Weeks</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.35rem;">
+      <div style="font-size:.68rem;color:var(--inkMid);">✦ 5,000 trial sign-ups</div>
+      <div style="font-size:.68rem;color:var(--inkMid);">✦ Avg listen-time &gt;8 min</div>
+      <div style="font-size:.68rem;color:var(--inkMid);">✦ Trial→paid &gt;12%</div>
+      <div style="font-size:.68rem;color:var(--inkMid);">✦ NPS &gt;50</div>
+      <div style="font-size:.68rem;color:var(--inkMid);">✦ 3 languages validated</div>
+      <div style="font-size:.68rem;color:var(--inkMid);">✦ 2 sponsorship deals</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+  S11 REVENUE
+═══════════════════════════ -->
+<section class="sec" id="s11">
+  <div class="sh reveal">
+    <div class="sh-eye">11 / Revenue Model</div>
+    <h2 class="sh-title">₹86L Year 1 →<br>₹11.07 Cr Year 3</h2>
+    <p class="sh-sub">20 monetisation streams — B2C · B2B · B2G · Emerging · Data/Platform</p>
+  </div>
+
+  <!-- Category badges -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.4rem;margin-bottom:.65rem;" class="reveal">
+    <div style="background:var(--navy);color:#fff;border-radius:8px;padding:.3rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:.5px;">B2C DIRECT</div>
+    <div style="background:var(--teal);color:#fff;border-radius:8px;padding:.3rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:.5px;">B2B LICENSING</div>
+    <div style="background:var(--green);color:#fff;border-radius:8px;padding:.3rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:.5px;">B2G / GOVT</div>
+    <div style="background:var(--rose);color:#fff;border-radius:8px;padding:.3rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:.5px;">EMERGING</div>
+    <div style="background:var(--amber);color:#fff;border-radius:8px;padding:.3rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:.5px;grid-column:span 2;">DATA / PLATFORM</div>
+  </div>
+
+  <div class="card reveal" style="padding:0;overflow:hidden;">
+    <table class="tbl">
+      <thead><tr><th>Revenue Stream</th><th>Customer / Model</th><th>Y1</th><th>Y3</th></tr></thead>
+      <tbody>
+        <!-- B2C -->
+        <tr style="border-left:3px solid var(--navy);"><td class="tbl-hi">Subscriptions (1-day trial → paid)</td><td>₹99–199/mo · Kids/General/Scholar</td><td>₹18L</td><td class="tbl-g">₹2.4 Cr</td></tr>
+        <tr style="border-left:3px solid var(--navy);"><td>NRI / Diaspora premium tier</td><td>USD $4.99/mo · GBP/AED pricing</td><td>₹3L</td><td class="tbl-g">₹70L</td></tr>
+        <tr style="border-left:3px solid var(--navy);"><td>Gift a pilgrimage audio</td><td>₹99–499 one-time · WhatsApp gifting</td><td>₹1L</td><td class="tbl-a">₹28L</td></tr>
+        <!-- B2B -->
+        <tr style="border-left:3px solid var(--teal);"><td>Faith trust annual sponsorship</td><td>Temple trusts, Waqf boards, Dioceses</td><td>₹12L</td><td class="tbl-g">₹1.8 Cr</td></tr>
+        <tr style="border-left:3px solid var(--teal);"><td>In-flight audio licensing</td><td>IndiGo, Air India, SpiceJet, Vistara</td><td>₹6L</td><td class="tbl-g">₹1.1 Cr</td></tr>
+        <tr style="border-left:3px solid var(--teal);"><td>Hotel / resort in-room audio</td><td>ITC Hotels, Taj, IHCL, OYO Rooms</td><td>₹4L</td><td class="tbl-g">₹80L</td></tr>
+        <tr style="border-left:3px solid var(--teal);"><td>OTT / podcast channel licensing</td><td>Spotify, JioSaavn, Audible, Kuku FM</td><td>₹3L</td><td class="tbl-g">₹60L</td></tr>
+        <tr style="border-left:3px solid var(--teal);"><td>White-label API (travel apps)</td><td>Yatra, MakeMyTrip, Zostel, Goibibo</td><td>₹5L</td><td class="tbl-g">₹90L</td></tr>
+        <tr style="border-left:3px solid var(--teal);"><td>Corporate pilgrim packages (CSR)</td><td>HR offsites, CSR faith tourism</td><td>₹2L</td><td class="tbl-a">₹40L</td></tr>
+        <tr style="border-left:3px solid var(--teal);"><td>Pilgrimage operator licensing</td><td>IRCTC tours, Cox & Kings, Thomas Cook</td><td>₹3L</td><td class="tbl-a">₹55L</td></tr>
+        <!-- B2G -->
+        <tr style="border-left:3px solid var(--green);"><td>State tourism board licensing</td><td>TTDC, Kerala Tourism, Rajasthan Tourism</td><td>₹8L</td><td class="tbl-g">₹1.2 Cr</td></tr>
+        <tr style="border-left:3px solid var(--green);"><td>Govt content creation grants</td><td>PRASHAD scheme, MeitY, Startup India</td><td>₹5L</td><td class="tbl-a">₹40L</td></tr>
+        <tr style="border-left:3px solid var(--green);"><td>ASI heritage site contract</td><td>Archaeology Survey of India — national</td><td>₹4L</td><td class="tbl-a">₹60L</td></tr>
+        <!-- Emerging -->
+        <tr style="border-left:3px solid var(--rose);"><td>QR-coded print guide books</td><td>Temple & tourism gift shops</td><td>₹3L</td><td class="tbl-a">₹45L</td></tr>
+        <tr style="border-left:3px solid var(--rose);"><td>Virtual darshan / remote audio</td><td>Live-streamed puja narration, festivals</td><td>₹2L</td><td class="tbl-a">₹55L</td></tr>
+        <tr style="border-left:3px solid var(--rose);"><td>Scholar / priest certification</td><td>Content reviewer badge + credentialing fee</td><td>₹1L</td><td class="tbl-a">₹20L</td></tr>
+        <tr style="border-left:3px solid var(--rose);"><td>Alexa / Google Home skill</td><td>Daily prayer notification + audio guide</td><td>₹1L</td><td class="tbl-a">₹30L</td></tr>
+        <!-- Data / Platform -->
+        <tr style="border-left:3px solid var(--amber);"><td>Anonymised pilgrimage insights</td><td>Tourism boards, urban planners, research</td><td>₹1L</td><td class="tbl-a">₹25L</td></tr>
+        <tr style="border-left:3px solid var(--amber);"><td>Devotional ad network (opt-in)</td><td>Faith brands, prasad e-commerce</td><td>₹2L</td><td class="tbl-a">₹50L</td></tr>
+        <tr style="border-left:3px solid var(--amber);"><td>Event & festival audio licensing</td><td>Kumbh Mela, Urs, Christmas, Diwali</td><td>₹2L</td><td class="tbl-a">₹45L</td></tr>
+        <!-- Total -->
+        <tr style="background:var(--blueXLt);"><td class="tbl-hi" style="font-weight:700;">Total — All 20 Streams</td><td></td><td style="color:var(--blue);font-weight:700;">₹86L</td><td style="color:var(--green);font-weight:700;">₹11.07 Cr</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Y3 mix -->
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:.4rem;margin-bottom:.65rem;" class="reveal">
+    <div style="background:var(--blueXLt);border:1px solid rgba(26,111,168,.2);border-radius:10px;padding:.5rem;text-align:center;"><div style="font-size:.6rem;color:var(--muted);margin-bottom:.2rem;">B2C</div><div style="font-size:1.1rem;font-weight:800;color:var(--navy);font-family:var(--serif);">29%</div></div>
+    <div style="background:var(--tealLt);border:1px solid rgba(13,143,143,.2);border-radius:10px;padding:.5rem;text-align:center;"><div style="font-size:.6rem;color:var(--muted);margin-bottom:.2rem;">B2B</div><div style="font-size:1.1rem;font-weight:800;color:var(--teal);font-family:var(--serif);">41%</div></div>
+    <div style="background:var(--greenLt);border:1px solid rgba(26,122,66,.2);border-radius:10px;padding:.5rem;text-align:center;"><div style="font-size:.6rem;color:var(--muted);margin-bottom:.2rem;">B2G</div><div style="font-size:1.1rem;font-weight:800;color:var(--green);font-family:var(--serif);">15%</div></div>
+    <div style="background:var(--roseLt);border:1px solid rgba(184,64,96,.2);border-radius:10px;padding:.5rem;text-align:center;"><div style="font-size:.6rem;color:var(--muted);margin-bottom:.2rem;">New</div><div style="font-size:1.1rem;font-weight:800;color:var(--rose);font-family:var(--serif);">9%</div></div>
+    <div style="background:var(--amberLt);border:1px solid rgba(201,122,0,.2);border-radius:10px;padding:.5rem;text-align:center;"><div style="font-size:.6rem;color:var(--muted);margin-bottom:.2rem;">Data</div><div style="font-size:1.1rem;font-weight:800;color:var(--amber);font-family:var(--serif);">6%</div></div>
+  </div>
+
+  <div class="card reveal"><div class="card-tb" style="background:var(--blue);"></div><div class="card-title" style="color:var(--blue);">🤖 AI Economics — Every Stream is Additive</div><div class="card-body">Content created once for subscriptions is immediately licensable to in-flight, hotels, OTT, and tour operators at near-zero marginal cost. Adding a new language ≈ ₹4 per 1,000 minutes. Each new B2B deal multiplies the value of existing content — no re-production needed.</div></div>
+
+  <div class="reveal" style="font-size:.72rem;color:var(--muted);font-style:italic;margin-top:.25rem;">New in this version: NRI gifting, ASI contract, Alexa skill, anonymised insights, devotional ad network, event licensing — all additive to core model</div>
+</section>
+
+<!-- ═══════════════════════════
+  S12 GTM
+═══════════════════════════ -->
+<section class="sec sec-white" id="s12">
+  <div class="sh reveal">
+    <div class="sh-eye">12 / Go-to-Market Strategy</div>
+    <h2 class="sh-title">POC → Phase 1<br>→ Pan India</h2>
+    <p class="sh-sub">Coimbatore validates · Tamil Nadu scales · India expands</p>
+  </div>
+
+  <div class="phase-card reveal">
+    <div class="pc-head" style="background:var(--amberLt);">
+      <div><div class="pc-num" style="color:var(--amber);">MVP POC · MONTHS 1–4</div><div class="pc-dur" style="color:var(--amber);">Coimbatore CBE</div></div>
+      <span style="font-size:1.5rem;">🛕</span>
+    </div>
+    <div class="pc-body">
+      <div class="pc-title">5 Temples + 5 Tourist Sites</div>
+      <div class="pc-point"><span class="pc-dot" style="background:var(--amber);"></span>5 Temples: Marudamalai · Perur Pateeswarar · Eachanari Vinayagar · Koniamman · Masaniamman</div>
+      <div class="pc-point"><span class="pc-dot" style="background:var(--amber);"></span>5 Tourist Sites: Ooty · Valparai · Anaimalai Tiger Reserve · Black Thunder · Siruvani Falls</div>
+      <div class="pc-point"><span class="pc-dot" style="background:var(--amber);"></span>Google Sign-In · 1-day free trial · 3 modes (Kids/General/Scholar) · Tamil, English, Hindi</div>
+      <div class="pc-point"><span class="pc-dot" style="background:var(--amber);"></span>QR at entrances · PWA (no app) · offline packs · DPDP compliant · zero PII</div>
+    </div>
+  </div>
+
+  <div class="phase-card reveal">
+    <div class="pc-head" style="background:var(--tealLt);">
+      <div><div class="pc-num" style="color:var(--teal);">PHASE 1 · MONTHS 4–15</div><div class="pc-dur" style="color:var(--teal);">Tamil Nadu</div></div>
+      <span style="font-size:1.5rem;">🌿</span>
+    </div>
+    <div class="pc-body">
+      <div class="pc-title">500 Tamil Nadu Temples</div>
+      <div class="pc-point"><span class="pc-dot" style="background:var(--teal);"></span>Madurai Meenakshi · Thanjavur Brihadeeswarar · Rameshwaram · Chidambaram + more</div>
+      <div class="pc-point"><span class="pc-dot" style="background:var(--teal);"></span>6 languages: Tamil · Telugu · Kannada · Malayalam · Hindi · English</div>
+      <div class="pc-point"><span class="pc-dot" style="background:var(--teal);"></span>TN Tourism Board co-branding · TTDC integration · temple trust partnerships</div>
+      <div class="pc-point"><span class="pc-dot" style="background:var(--teal);"></span>Scholar crowd-source — local priests record · AI handles translation & synthesis</div>
+    </div>
+  </div>
+
+  <div class="phase-card reveal">
+    <div class="pc-head" style="background:var(--blueXLt);">
+      <div><div class="pc-num" style="color:var(--blue);">PHASE 2 · YEAR 2+</div><div class="pc-dur" style="color:var(--blue);">Pan India</div></div>
+      <span style="font-size:1.5rem;">🌏</span>
+    </div>
+    <div class="pc-body">
+      <div class="pc-title">All Faiths · Pan India</div>
+      <div class="pc-point"><span class="pc-dot" style="background:var(--blue);"></span>Expand to Mosques, Churches, Gurudwaras, Buddhist Viharas across India</div>
+      <div class="pc-point"><span class="pc-dot" style="background:var(--blue);"></span>License to IndiGo, Air India, IRCTC, MMT, Yatra for embedded distribution</div>
+      <div class="pc-point"><span class="pc-dot" style="background:var(--blue);"></span>NRI / diaspora subscription — USD · GBP · AED pricing</div>
+      <div class="pc-point"><span class="pc-dot" style="background:var(--blue);"></span>International: Mecca Hajj guides · Vatican · Buddhist SE Asia</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+  S13 COMPETITIVE
+═══════════════════════════ -->
+<section class="sec" id="s13">
+  <div class="sh reveal">
+    <div class="sh-eye">13 / Competitive Advantage</div>
+    <h2 class="sh-title">No one has<br>built this. Yet.</h2>
+    <p class="sh-sub">Sacred Voices is the category creator — not a competitor</p>
+  </div>
+
+  <div class="card reveal" style="padding:0;overflow:hidden;">
+    <table class="tbl" style="min-width:320px;font-size:.68rem;">
+      <thead><tr><th>Feature</th><th>Sacred Voices</th><th>Kuku FM</th><th>Kiosks</th></tr></thead>
+      <tbody>
+        <tr><td>Multilingual faith audio</td><td class="tbl-g">✅ 22+ langs</td><td class="tbl-r">❌</td><td class="tbl-a">⚠️ 1–2</td></tr>
+        <tr><td>QR on-site access</td><td class="tbl-g">✅ Core</td><td class="tbl-r">❌</td><td class="tbl-a">⚠️</td></tr>
+        <tr><td>All faiths covered</td><td class="tbl-g">✅ 6 faiths</td><td class="tbl-r">❌</td><td class="tbl-r">❌</td></tr>
+        <tr><td>Google Sign-In + trial</td><td class="tbl-g">✅ 1-day</td><td class="tbl-r">❌</td><td class="tbl-r">❌</td></tr>
+        <tr><td>AI + scholar pipeline</td><td class="tbl-g">✅ GenAI</td><td class="tbl-r">❌</td><td class="tbl-r">❌ Manual</td></tr>
+        <tr><td>Offline rural support</td><td class="tbl-g">✅ Packs</td><td class="tbl-r">❌</td><td class="tbl-a">⚠️</td></tr>
+        <tr><td>B2B / govt licensing</td><td class="tbl-g">✅</td><td class="tbl-a">⚠️ Ads</td><td class="tbl-r">❌</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card reveal">
+    <div class="card-tb" style="background:var(--blue);"></div>
+    <div class="card-title">Our Unfair Advantages</div>
+    <div class="step"><div class="step-num" style="background:var(--blueXLt);border:1px solid rgba(26,111,168,.3);color:var(--blue);">1</div><div class="step-body">Bhashini API (GoI) — free government translation infrastructure, zero-cost language scaling</div></div>
+    <div class="step"><div class="step-num" style="background:var(--blueXLt);border:1px solid rgba(26,111,168,.3);color:var(--blue);">2</div><div class="step-body">IndicTrans2 — SOTA Indic NMT, open-source, self-hostable on GCP Vertex AI</div></div>
+    <div class="step"><div class="step-num" style="background:var(--blueXLt);border:1px solid rgba(26,111,168,.3);color:var(--blue);">3</div><div class="step-body">Scholar trust network — local priests as content validators, not paid producers</div></div>
+    <div class="step"><div class="step-num" style="background:var(--blueXLt);border:1px solid rgba(26,111,168,.3);color:var(--blue);">4</div><div class="step-body">QR-first distribution — zero CAC for site visitors, no app store gatekeeping</div></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+  S14 RISKS
+═══════════════════════════ -->
+<section class="sec sec-white" id="s14">
+  <div class="sh reveal">
+    <div class="sh-eye">14 / Risks & Mitigations</div>
+    <h2 class="sh-title">Known risks.<br>Active plans.</h2>
+    <p class="sh-sub">Faith-tech demands humility — planned for where it gets hard</p>
+  </div>
+
+  <div class="risk-row reveal"><div class="risk-top"><span class="risk-ico">🕌</span><span class="risk-nm">Religious content sensitivity</span><span class="risk-sev sev-h">HIGH</span></div><div class="risk-mit">Scholar-first review gate · faith leader advisory board · faith-specific editorial guidelines · human override on every AI output before publish</div></div>
+  <div class="risk-row reveal"><div class="risk-top"><span class="risk-ico">💰</span><span class="risk-nm">Monetisation in price-sensitive market</span><span class="risk-sev sev-h">HIGH</span></div><div class="risk-mit">1-day free trial via Google Sign-In (zero friction) · B2B/govt licensing as primary revenue · QR print as zero-cost distribution · DPDP compliant · zero PII</div></div>
+  <div class="risk-row reveal"><div class="risk-top"><span class="risk-ico">📡</span><span class="risk-nm">Connectivity at pilgrimage sites</span><span class="risk-sev sev-m">MED</span></div><div class="risk-mit">Offline audio packs downloadable over WiFi · Workbox Service Worker caching · IVR fallback via Twilio for 2G feature phones</div></div>
+  <div class="risk-row reveal"><div class="risk-top"><span class="risk-ico">🏛️</span><span class="risk-nm">Temple trust & institutional buy-in</span><span class="risk-sev sev-m">MED</span></div><div class="risk-mit">Start with 5 trusted CBE temples · revenue-share model with trusts · free QR installation for MoU partners</div></div>
+  <div class="risk-row reveal"><div class="risk-top"><span class="risk-ico">⚖️</span><span class="risk-nm">Data privacy & DPDP compliance</span><span class="risk-sev sev-m">MED</span></div><div class="risk-mit">Anonymous session IDs only — zero PII stored · Google OAuth handles identity · Firestore security rules · DPDP privacy policy at sign-in screen</div></div>
+  <div class="risk-row reveal"><div class="risk-top"><span class="risk-ico">🤖</span><span class="risk-nm">AI accuracy for sacred content</span><span class="risk-sev sev-m">MED</span></div><div class="risk-mit">RAG pipeline with curated scholar corpus · confidence score gate (0.85 threshold) · mandatory scholar sign-off · version-controlled scripts</div></div>
+</section>
+
+<!-- ═══════════════════════════
+  S15 STRATEGIC FIT
+═══════════════════════════ -->
+<section class="sec" id="s15">
+  <div class="sh reveal">
+    <div class="sh-eye">15 / Strategic Fit</div>
+    <h2 class="sh-title">26+ Years.<br>The Right Moment.</h2>
+    <p class="sh-sub">26+ years of technology leadership meets a generational platform opportunity</p>
+  </div>
+
+  <div class="card reveal">
+    <div class="card-tb" style="background:var(--blue);"></div>
+    <div class="card-title">Karthik Swaminathan</div>
+    <div class="card-body" style="margin-bottom:.6rem;">Independent Fractional CXO · Chennai · 26+ years in enterprise technology — TCS (22 yrs) + startups (4 yrs)</div>
+    <div class="pill-row">
+      <span class="pill pb">Microsoft Technology Specialist</span>
+      <span class="pill pb">GitHub Copilot Certified</span>
+      <span class="pill pt">Google Cloud Champion</span>
+      <span class="pill pg">GenAI Specialist</span>
+      <span class="pill pa">Certified Independent Director</span>
+    </div>
+  </div>
+
+  <div class="card reveal">
+    <div class="card-title">Technology Expertise</div>
+    <div class="step"><div class="step-num" style="background:var(--amberLt);border:1px solid rgba(201,122,0,.3);color:var(--amber);font-size:.62rem;">AI</div><div class="step-body">GenAI practitioner — Claude, GPT-4o, Gemini, Microsoft Copilot, GitHub Copilot — daily production use</div></div>
+    <div class="step"><div class="step-num" style="background:var(--tealLt);border:1px solid rgba(13,143,143,.3);color:var(--teal);font-size:.62rem;">GCP</div><div class="step-body">Google Cloud Champion · Cloud Run, Vertex AI, Firestore, BigQuery — the exact stack Sacred Voices uses</div></div>
+    <div class="step"><div class="step-num" style="background:var(--greenLt);border:1px solid rgba(26,122,66,.3);color:var(--green);font-size:.62rem;">BFSI</div><div class="step-body">European Insurance (Copilot) · Airline (GCP) · Canadian Bank — enterprise delivery track record</div></div>
+  </div>
+
+  <div class="card reveal">
+    <div class="card-title">Community & Network</div>
+    <div class="card-body">Growth Advisor — HighOnSwift · Executive Council — CITAACC · BNI Brilliance Member · NoBroker Ambassador Club · 10+ half marathons — Chennai, Bangalore, Kuala Lumpur</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+  S16 BOOTSTRAPPED
+═══════════════════════════ -->
+<section class="sec sec-white" id="s16">
+  <div class="sh reveal">
+    <div class="sh-eye">16 / Bootstrapped Model</div>
+    <h2 class="sh-title">Going Bootstrapped.<br><em style="color:var(--blue);font-style:italic;">Built to last.</em></h2>
+    <p class="sh-sub">₹86L Year 1 · ₹11.07 Cr Year 3 — 20 streams, zero external capital needed</p>
+  </div>
+
+  <div class="timeline reveal">
+    <div class="tl-item">
+      <div class="tl-dot" style="border-color:var(--amber);background:var(--amberLt);"></div>
+      <div class="tl-phase" style="color:var(--amber);">Phase 1 · Month 0–4</div>
+      <div class="tl-title">MVP POC — Coimbatore</div>
+      <div class="tl-pt">5 temples + 5 tourist sites × 3 languages. Google Sign-In, 1-day free trial, Kids/General/Scholar modes</div>
+      <div class="tl-pt">QR PWA delivery, offline packs. DPDP compliant. Validate full pipeline before Phase 1 rollout</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="border-color:var(--teal);background:var(--tealLt);"></div>
+      <div class="tl-phase" style="color:var(--teal);">Phase 2 · Month 4–15</div>
+      <div class="tl-title">Phase 1 — TN Temples</div>
+      <div class="tl-pt">500 Tamil Nadu temples · 6 languages · TN Tourism Board co-branding · TTDC integration</div>
+      <div class="tl-pt">Temple trust sponsorships fund each next batch — revenue-led expansion</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="border-color:var(--blue);background:var(--blueXLt);"></div>
+      <div class="tl-phase" style="color:var(--blue);">Phase 3 · Year 2+</div>
+      <div class="tl-title">Pan India · All Faiths</div>
+      <div class="tl-pt">Mosques, Churches, Gurudwaras, Viharas across India · PRASHAD & Startup India grants</div>
+      <div class="tl-pt">B2B licensing · NRI diaspora USD/GBP tier · international expansion</div>
+    </div>
+  </div>
+
+  <div class="divider reveal"></div>
+
+  <div class="card reveal"><div class="card-tb" style="background:var(--blue);"></div><div class="card-title" style="color:var(--blue);">💡 Why Bootstrapped Works</div><div class="card-body">AI + Bhashini collapses content production to near-zero cost. A solo founder with GenAI skills can produce what previously required a 20-person studio team. Capital efficiency is our unfair advantage.</div></div>
+
+  <div class="card reveal"><div class="card-tb" style="background:var(--green);"></div><div class="card-title" style="color:var(--green);">📊 Break-Even Math</div><div class="card-body">12% trial-to-paid conversion × 5,000 sign-ups = 600 subscribers × ₹99/month = ₹7.1L ARR from Coimbatore alone. One state tourism board deal covers full-year tech infrastructure.</div></div>
+
+  <div class="divider reveal"></div>
+
+  <div class="contact-card reveal">
+    <div class="contact-name">Karthik Swaminathan</div>
+    <div class="contact-role">Independent Fractional CXO · Chennai, India</div>
+    <div class="contact-div"></div>
+    <div class="contact-row">📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="563d25386765676416313b373f3a7835393b">[email&#160;protected]</a></div>
+    <div class="contact-row">📱 +91 9600 071313</div>
+    <div class="contact-row">🔗 linkedin.com/in/ksn1312</div>
+    <div class="contact-row">📍 Chennai · Coimbatore · Pan India</div>
+  </div>
+
+  <div style="text-align:center;font-size:.65rem;color:var(--muted);margin-top:1.2rem;font-style:italic;" class="reveal">Sacred Voices · Pitch Deck Draft V1.0 · April 2026 · Bootstrapped · All Faiths · India-first</div>
+</section>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const TOTAL = 16;
+const secs = document.querySelectorAll('section[id^="s"]');
+const ctr = document.getElementById('slide-ctr');
+const pgf = document.getElementById('pgfill');
+const drawer = document.getElementById('drawer');
+const drItems = document.querySelectorAll('.dr-item');
+
+// Slide counter + progress
+const navObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting && e.intersectionRatio > 0.35) {
+      const i = Array.from(secs).indexOf(e.target);
+      if(i >= 0){
+        ctr.textContent = String(i+1).padStart(2,'0') + ' / ' + String(TOTAL).padStart(2,'0');
+        pgf.style.width = ((i+1)/TOTAL*100) + '%';
+        drItems.forEach((d,j) => d.classList.toggle('cur', j===i));
+      }
+    }
+  });
+},{threshold:0.35});
+secs.forEach(s => navObs.observe(s));
+
+// Reveal on scroll
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); revObs.unobserve(e.target); } });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+// Drawer
+let open = false;
+function toggleDrawer(){ open=!open; drawer.classList.toggle('open',open); }
+function closeDrawer(){ open=false; drawer.classList.remove('open'); }
+document.addEventListener('click', e =>
