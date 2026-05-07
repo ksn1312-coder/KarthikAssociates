@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ice Cream Market Survey - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-bg: #FFF8F0;
+            --color-surface: #FFFFFF;
+            --color-primary: #D85A30;
+            --color-primary-light: #F0997B;
+            --color-secondary: #3266AD;
+            --color-accent: #1D9E75;
+            --color-text: #2C2C2A;
+            --color-text-muted: #73726C;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--color-primary) 0%, #BA7517 100%);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header h1 {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(1.75rem, 5vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.75rem;
+            margin: -2rem 1rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .metric-card {
+            background: var(--color-surface);
+            border-radius: 16px;
+            padding: 1.25rem 1rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .metric-card:active {
+            transform: scale(0.98);
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            font-family: 'Fraunces', serif;
+        }
+
+        .section {
+            background: var(--color-surface);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--color-text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--color-primary);
+            border-radius: 2px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 280px;
+            margin-top: 1rem;
+        }
+
+        .chart-container.small {
+            height: 220px;
+        }
+
+        canvas {
+            max-width: 100%;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .legend-box {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .grid-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .insight {
+            background: linear-gradient(135deg, #E6F1FB 0%, #EEEDFE 100%);
+            border-left: 4px solid var(--color-secondary);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .insight strong {
+            color: var(--color-secondary);
+            font-weight: 600;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 400px) {
+            .metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🍦 Ice Cream Market Survey</h1>
+        <p>Consumer Insights & Preferences Analysis</p>
+    </div>
+
+    <div class="container">
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-label">Responses</div>
+                <div class="metric-value">103</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Avg Age</div>
+                <div class="metric-value">41.5</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Weekly</div>
+                <div class="metric-value">30%</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Quality</div>
+                <div class="metric-value">48%</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Consumption Frequency</div>
+            <div class="legend">
+                <span class="legend-item"><span class="legend-box" style="background: #3266ad;"></span>Occasionally 38%</span>
+                <span class="legend-item"><span class="legend-box" style="background: #5d8bc5;"></span>Weekly 30%</span>
+                <span class="legend-item"><span class="legend-box" style="background: #8fb0dc;"></span>Rarely 30%</span>
+                <span class="legend-item"><span class="legend-box" style="background: #b5d4f4;"></span>Daily 2%</span>
+            </div>
+            <div class="chart-container">
+                <canvas id="freqChart"></canvas>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Preferred Ice Cream Type</div>
+            <div class="legend">
+                <span class="legend-item"><span class="legend-box" style="background: #3266ad;"></span>Cone 42%</span>
+                <span class="legend-item"><span class="legend-box" style="background: #5d8bc5;"></span>Cup 29%</span>
+                <span class="legend-item"><span class="legend-box" style="background: #8fb0dc;"></span>Family 16%</span>
+                <span class="legend-item"><span class="legend-box" style="background: #b5d4f4;"></span>Stick 14%</span>
+            </div>
+            <div class="chart-container">
+                <canvas id="typeChart"></canvas>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Top Flavors</div>
+            <div class="legend">
+                <span class="legend-item"><span class="legend-box" style="background: #639922;"></span>Butterscotch 39%</span>
+                <span class="legend-item"><span class="legend-box" style="background: #85b64d;"></span>Chocolate 27%</span>
+                <span class="legend-item"><span class="legend-box" style="background: #a8cf77;"></span>Vanilla 17%</span>
+            </div>
+            <div class="chart-container">
+                <canvas id="flavorChart"></canvas>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Brand Preferences</div>
+            <div class="legend">
+                <span class="legend-item"><span class="legend-box" style="background: #BA7517;"></span>Arun 37%</span>
+                <span class="legend-item"><span class="legend-box" style="background: #D9962C;"></span>Amul 26%</span>
+                <span class="legend-item"><span class="legend-box" style="background: #EFB85C;"></span>Kwality Walls 14%</span>
+            </div>
+            <div class="chart-container">
+                <canvas id="brandChart"></canvas>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Purchase Locations</div>
+            <div class="legend">
+                <span class="legend-item"><span class="legend-box" style="background: #1D9E75;"></span>Parlour 44%</span>
+                <span class="legend-item"><span class="legend-box" style="background: #3BB891;"></span>Supermarket 23%</span>
+                <span class="legend-item"><span class="legend-box" style="background: #5DCAA5;"></span>Local 21%</span>
+                <span class="legend-item"><span class="legend-box" style="background: #9FE1CB;"></span>Online 12%</span>
+            </div>
+            <div class="chart-container">
+                <canvas id="locationChart"></canvas>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Key Purchase Factors</div>
+            <div class="legend">
+                <span class="legend-item"><span class="legend-box" style="background: #7F77DD;"></span>Quality 48%</span>
+                <span class="legend-item"><span class="legend-box" style="background: #9D97E5;"></span>Taste 34%</span>
+                <span class="legend-item"><span class="legend-box" style="background: #BDB9ED;"></span>Brand 17%</span>
+                <span class="legend-item"><span class="legend-box" style="background: #CECBF6;"></span>Price 2%</span>
+            </div>
+            <div class="chart-container">
+                <canvas id="factorChart"></canvas>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="section">
+                <div class="section-title">Texture Preference</div>
+                <div class="chart-container small">
+                    <canvas id="textureChart"></canvas>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Try Exotic Flavors</div>
+                <div class="chart-container small">
+                    <canvas id="exoticChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Preferred Offers</div>
+            <div class="legend">
+                <span class="legend-item"><span class="legend-box" style="background: #D85A30;"></span>Discounts 37%</span>
+                <span class="legend-item"><span class="legend-box" style="background: #E8805F;"></span>Combo 33%</span>
+                <span class="legend-item"><span class="legend-box" style="background: #F0997B;"></span>BOGO 30%</span>
+            </div>
+            <div class="chart-container">
+                <canvas id="offerChart"></canvas>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Social Media Influence</div>
+            <div class="chart-container small">
+                <canvas id="socialChart"></canvas>
+            </div>
+            <div class="insight">
+                <strong>Key Insight:</strong> Social media advertising has minimal impact on purchase decisions (76% say no). Quality, taste, and traditional word-of-mouth matter far more than digital marketing for this demographic.
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Strategic Takeaways</div>
+            <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+                <div class="insight" style="border-left-color: #1D9E75;">
+                    <strong>Quality Over Price:</strong> 48% prioritize quality as the main purchase driver, while only 2% care primarily about price. Premium positioning is validated.
+                </div>
+                <div class="insight" style="border-left-color: #BA7517;">
+                    <strong>Experience Matters:</strong> Ice cream parlours (44%) dominate over convenience channels. In-store experience and ambiance are crucial differentiators.
+                </div>
+                <div class="insight" style="border-left-color: #7F77DD;">
+                    <strong>Flavor Innovation:</strong> 87% are willing to try exotic flavors. There's strong appetite for unique offerings beyond the traditional three.
+                </div>
+                <div class="insight" style="border-left-color: #D85A30;">
+                    <strong>Brand Landscape:</strong> Arun leads at 37%, but 23% buy from premium/specialty brands. Room exists for differentiated positioning.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Ice Cream Market Survey Dashboard | 103 Responses | 2026</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+    <script>
+        const commonOpts = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                    titleColor: '#2C2C2A',
+                    bodyColor: '#73726C',
+                    borderColor: '#E0E0E0',
+                    borderWidth: 1,
+                    padding: 12,
+                    displayColors: true,
+                    boxPadding: 6
+                }
+            }
+        };
+
+        new Chart(document.getElementById('freqChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Occasionally', 'Weekly', 'Rarely', 'Daily'],
+                datasets: [{
+                    data: [39, 31, 31, 2],
+                    backgroundColor: ['#3266ad', '#5d8bc5', '#8fb0dc', '#b5d4f4']
+                }]
+            },
+            options: {
+                ...commonOpts,
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('typeChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Cone', 'Cup', 'Family pack', 'Stick'],
+                datasets: [{
+                    data: [43, 30, 16, 14],
+                    backgroundColor: ['#3266ad', '#5d8bc5', '#8fb0dc', '#b5d4f4']
+                }]
+            },
+            options: {
+                ...commonOpts,
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('flavorChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Butterscotch', 'Chocolate', 'Vanilla'],
+                datasets: [{
+                    data: [40, 28, 17],
+                    backgroundColor: ['#639922', '#85b64d', '#a8cf77']
+                }]
+            },
+            options: {
+                ...commonOpts,
+                indexAxis: 'y',
+                scales: {
+                    x: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+                    y: { grid: { display: false } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('brandChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Arun', 'Amul', 'Kwality Walls'],
+                datasets: [{
+                    data: [38, 27, 14],
+                    backgroundColor: ['#BA7517', '#D9962C', '#EFB85C']
+                }]
+            },
+            options: {
+                ...commonOpts,
+                indexAxis: 'y',
+                scales: {
+                    x: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+                    y: { grid: { display: false } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('locationChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Ice cream parlour', 'Supermarket', 'Local shop', 'Online'],
+                datasets: [{
+                    data: [45, 24, 22, 12],
+                    backgroundColor: ['#1D9E75', '#3BB891', '#5DCAA5', '#9FE1CB']
+                }]
+            },
+            options: {
+                ...commonOpts,
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('factorChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Quality', 'Taste', 'Brand', 'Price'],
+                datasets: [{
+                    data: [49, 35, 17, 2],
+                    backgroundColor: ['#7F77DD', '#9D97E5', '#BDB9ED', '#CECBF6']
+                }]
+            },
+            options: {
+                ...commonOpts,
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('textureChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Creamy 54%', 'Soft serve 33%', 'Icy 12%'],
+                datasets: [{
+                    data: [56, 34, 12],
+                    backgroundColor: ['#D85A30', '#E8805F', '#F0997B']
+                }]
+            },
+            options: commonOpts
+        });
+
+        new Chart(document.getElementById('exoticChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Sometimes 44%', 'Yes 44%', 'No 13%'],
+                datasets: [{
+                    data: [45, 45, 13],
+                    backgroundColor: ['#1D9E75', '#5DCAA5', '#C0E9DB']
+                }]
+            },
+            options: commonOpts
+        });
+
+        new Chart(document.getElementById('offerChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Discounts', 'Combo packs', 'Buy 1 Get 1'],
+                datasets: [{
+                    data: [36, 32, 29],
+                    backgroundColor: ['#D85A30', '#E8805F', '#F0997B']
+                }]
+            },
+            options: {
+                ...commonOpts,
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('socialChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['No 76%', 'Yes 22%', 'Maybe 2%'],
+                datasets: [{
+                    data: [78, 23, 2],
+                    backgroundColor: ['#73726c', '#a8a8a3', '#d3d1c7']
+                }]
+            },
+            options: commonOpts
+        });
+    </script>
+</body>
+</html>
